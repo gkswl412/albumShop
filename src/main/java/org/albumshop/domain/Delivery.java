@@ -2,6 +2,7 @@ package org.albumshop.domain;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -23,6 +27,9 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name="delivery")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Delivery implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
