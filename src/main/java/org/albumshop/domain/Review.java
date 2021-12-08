@@ -1,6 +1,7 @@
 package org.albumshop.domain;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -10,7 +11,10 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -19,6 +23,9 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name="review")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Review {
 	
 	@EmbeddedId
