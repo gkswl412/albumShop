@@ -9,7 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -18,6 +21,9 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name="artistGroup")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ArtistGroup {
 	
 	@Id
