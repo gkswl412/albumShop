@@ -1,5 +1,5 @@
 package org.albumshop.test;
 
-public class ParkeuihyunTest3 {
+public class test3 {
 
 }
