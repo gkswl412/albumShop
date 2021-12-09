@@ -1,10 +1,19 @@
 package org.albumshop;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.albumshop.domain.Album;
+import org.albumshop.domain.AlbumArtist;
+import org.albumshop.domain.Artist;
+import org.albumshop.domain.ArtistGroup;
 import org.albumshop.domain.Song;
 import org.albumshop.domain.User;
+import org.albumshop.persistence.AlbumArtistRepository;
 import org.albumshop.persistence.AlbumRepository;
+import org.albumshop.persistence.ArtistGroupRepository;
+import org.albumshop.persistence.ArtistRepository;
 import org.albumshop.persistence.SongRepository;
 import org.albumshop.persistence.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -16,12 +25,81 @@ public class DataInsert {
 	
 	@Autowired
 	UserRepository userRepo;
-	
 	@Autowired
 	AlbumRepository albumRepo;
-	
 	@Autowired
 	SongRepository songRepo;
+	@Autowired
+	ArtistRepository artistRepo;
+	@Autowired
+	ArtistGroupRepository artistGroupRepo;
+	@Autowired
+	AlbumArtistRepository albumArtistRepo;
+	
+	@Test
+	public void insertAlbumArtist() {
+		for(long i=0;i<3;i++) {
+			Album album = Album.builder().id(i*2 + 1).build();
+			Album album2 = Album.builder().id(i*2 + 2).build();
+			Artist artist = Artist.builder().id(i+5).build();
+			AlbumArtist albumArtist = AlbumArtist.builder().album(album).artist(artist).build();
+			AlbumArtist albumArtist2 = AlbumArtist.builder().album(album2).artist(artist).build();
+			albumArtistRepo.save(albumArtist);
+			albumArtistRepo.save(albumArtist2);
+		}
+		Album album = Album.builder().id(7L).build();
+		Album album2 = Album.builder().id(8L).build();
+		ArtistGroup artistGroup = ArtistGroup.builder().Id(4L).build();
+		AlbumArtist albumArtist = AlbumArtist.builder().album(album).artistGroup(artistGroup).build();
+		AlbumArtist albumArtist2 = AlbumArtist.builder().album(album2).artistGroup(artistGroup).build(); 
+		albumArtistRepo.save(albumArtist);
+		albumArtistRepo.save(albumArtist2);
+		
+		Album album3 = Album.builder().id(9L).build();
+		Artist artist = Artist.builder().id(5L).build();
+		Artist artist2 = Artist.builder().id(6L).build();
+		AlbumArtist albumArtist3 = AlbumArtist.builder().album(album3).artist(artist).build();
+		AlbumArtist albumArtist4 = AlbumArtist.builder().album(album3).artist(artist2).build();
+		albumArtistRepo.save(albumArtist3);
+		albumArtistRepo.save(albumArtist4);
+		
+		Album album4 = Album.builder().id(10L).build();
+		Artist artist3 = Artist.builder().id(7L).build();
+		AlbumArtist albumArtist5 = AlbumArtist.builder().album(album4).artist(artist3).build();
+		AlbumArtist albumArtist6 = AlbumArtist.builder().album(album4).artistGroup(artistGroup).build();
+		albumArtistRepo.save(albumArtist5);
+		albumArtistRepo.save(albumArtist6);
+	}
+	
+	//@Test
+	public void insertArtist() {
+		for(int i=0;i<7;i++) {
+			LocalDate birth = LocalDate.of(1980+i, 1+i, 1+i);
+			LocalDate debutDate = LocalDate.of(2000+i, 1+i, 1+i);
+			Artist artist = Artist.builder()
+					.birth(birth)
+					.debutDate(debutDate)
+					.gender(i%2==0?"남자":"여자")
+					.name("김지수"+i)
+					.photo("images/testImage.jpg")
+					.build();
+			if(i<4) {
+				ArtistGroup artistGroup = new ArtistGroup();
+				artistGroup.setId(4L);
+				artist.setArtistGroup(artistGroup);
+			}
+			artistRepo.save(artist);
+		}
+	}
+	
+	//@Test
+	public void insertArtistGroup() {
+		for(int i=0;i<1;i++) {
+			LocalDate debutDate = LocalDate.of(2000+i, 1+i, 1+i);
+			ArtistGroup artistGroup = ArtistGroup.builder().name("포맨"+i).photo("images/testImage.jpg").debutDate(debutDate).build();
+			artistGroupRepo.save(artistGroup);
+		}
+	}
 	
 	//@Test
 	public void insertSong() {
