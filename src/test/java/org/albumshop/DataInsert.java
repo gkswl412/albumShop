@@ -2,7 +2,10 @@ package org.albumshop;
 
 import java.time.LocalDate;
 
+import org.albumshop.domain.Song;
 import org.albumshop.domain.User;
+import org.albumshop.persistence.AlbumRepository;
+import org.albumshop.persistence.SongRepository;
 import org.albumshop.persistence.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,23 @@ public class DataInsert {
 	@Autowired
 	UserRepository userRepo;
 	
+	@Autowired
+	AlbumRepository albumRepo;
+	
+	@Autowired
+	SongRepository songRepo;
+	
 	@Test
+	public void insertSong() {
+		albumRepo.findAll().forEach(album->{
+			for(int i=0;i<5;i++) {
+				Song song = new Song();
+				song.builder().album(album).trackNum(i+1).playTime(200+i).build();
+			}
+		});
+	}
+	
+	//@Test
 	public void inserUser() {
 		for(int i=0;i<10;i++) {
 			User user = new User();
