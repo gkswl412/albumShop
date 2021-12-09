@@ -2,17 +2,11 @@ package org.albumshop.domain;
 
 import java.time.LocalDate;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
@@ -20,14 +14,15 @@ import lombok.ToString;
 @Entity
 @Table(name="cart")
 @Builder
+@EqualsAndHashCode(of = "Id")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Cart {
-	
-	@EmbeddedId
-	MultiIdUserAlbum multiId;
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long Id;
+
+	@OneToOne
 	@NotNull
-	private Integer quantity;
-	
+	private User user;
 }
