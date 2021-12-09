@@ -23,12 +23,12 @@ public class DataInsert {
 	@Autowired
 	SongRepository songRepo;
 	
-	@Test
+	//@Test
 	public void insertSong() {
 		albumRepo.findAll().forEach(album->{
 			for(int i=0;i<5;i++) {
-				Song song = new Song();
-				song.builder().album(album).trackNum(i+1).playTime(200+i).build();
+				Song song = Song.builder().album(album).trackNum(i+1).playTime(200+i).title("붉은 노을" + i).isThisSongTitle(i==0?1:0).build();
+				songRepo.save(song);
 			}
 		});
 	}
