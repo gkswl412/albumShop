@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -18,7 +19,11 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name="user")
+@Table(name="user", uniqueConstraints = {
+		@UniqueConstraint(
+				columnNames = {"nickName", "email", "phone"}
+		)
+})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
