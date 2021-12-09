@@ -25,4 +25,11 @@ public class Cart {
 	@OneToOne
 	@NotNull
 	private User user;
+
+	public static Cart createCart(User user) {
+		Cart cart = Cart.builder()
+				.user(user)
+				.build();
+		return cart;
+	}
 }
