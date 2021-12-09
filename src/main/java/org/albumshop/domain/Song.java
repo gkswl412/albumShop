@@ -1,7 +1,5 @@
 package org.albumshop.domain;
 
-import java.time.LocalDate;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,5 +33,7 @@ public class Song {
 	private Album album;
 	private Integer trackNum;
 	private Integer playTime;
-	private Integer title;
+	private Integer isThisSongTitle;
+	@NotNull
+	private String title;
 }

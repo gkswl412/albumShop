@@ -31,7 +31,7 @@ class AlbumShopApplicationTests {
 	ReviewRepository rRepo;
 	
 	
-	// @Test
+	//@Test
 	public void albuminsert() {
 		for (int i=0;i<10;i++) {
 		Album album = new Album();
