@@ -29,7 +29,7 @@ public class Artist {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long Id;
+	private Long id;
 	@ManyToOne
 	private ArtistGroup artistGroup;
 	private LocalDate debutDate;
