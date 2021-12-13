@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<head>
+<meta charset="utf-8">
+<title>albumDetail</title>
+</head>
+<body>
+	<div class="panel panel-default myform">
+		<div class="form-group">
+	      	<label for="title">albumTitle</label>
+	      	<input type="text" class="form-control" id="title" name="title" th:value="${album.title}">
+	    </div>
+	</div>
+</body>
+</html>
