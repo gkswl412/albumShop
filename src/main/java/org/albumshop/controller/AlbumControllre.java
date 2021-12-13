@@ -28,17 +28,10 @@ public class AlbumControllre {
 	@RequestMapping("/albumlist")
 	public String test(Long id, Model model){
 		System.out.println("앨범리스트 출력");
-		//List<Album> albumlist = (List<Album>) abRepo.findAll();
-		model.addAttribute("albumlist", abRepo.findAll());
+		List<Album> albumlist = (List<Album>) abRepo.findAll();
+		System.out.println(albumlist);
+		model.addAttribute("albumlist",albumlist);
 		return "albumlist";
 	}
 	
-//	@RequestMapping("/albumlist")
-//	public List<Album> test(){
-//		System.out.println("앨범리스트 출력");
-//		List<Album> albumlist = (List<Album>) abRepo.findAll();
-//		//model.addAttribute("albumlist", abRepo.findAll());
-//		return albumlist;
-//	}
-//	
 }
