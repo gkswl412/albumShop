@@ -1,8 +1,6 @@
 package org.albumshop;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.albumshop.domain.*;
 import org.albumshop.persistence.*;
