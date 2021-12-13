@@ -3,33 +3,35 @@ package org.albumshop.controller;
 import java.util.List;
 
 import org.albumshop.domain.Album;
+import org.albumshop.persistence.AlbumArtistRepository;
 import org.albumshop.persistence.AlbumRepository;
-import org.albumshop.service.AlbumService;
+import org.albumshop.persistence.ArtistGroupRepository;
+import org.albumshop.persistence.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AlbumController {
-	
+
 	@Autowired
-	AlbumRepository albumRepo;
+	AlbumRepository abRepo;
 	@Autowired
-	AlbumService albumService;
+	AlbumArtistRepository aaRepo;
+	@Autowired
+	ArtistGroupRepository agRepo;
+	@Autowired
+	ArtistRepository aRepo;
 	
-	@GetMapping(value="/albumDetail")
-	public void albumDetail(Model model, Long albumId) {
-		Album album = albumService.getAlbumById(albumId);
-		List<String> albumArtists = albumService.getAlbumArtist(albumId);
-		model.addAttribute("album", album);
-		model.addAttribute("albumArtists", albumArtists);
-	}
 	
-	@GetMapping(value="/albumListTest")
-	public void albumList(Model model) {
-		List<Album> albumList = albumService.getAlbumList();
-		model.addAttribute("albumList",albumList);
+	@RequestMapping("/albumlist")
+	public String test(Long id, Model model){
+		System.out.println("앨범리스트 출력");
+		List<Album> albumlist = (List<Album>) abRepo.findAll();
+		System.out.println(albumlist);
+		model.addAttribute("albumlist",albumlist);
+		return "albumlist";
 	}
 	
 }
