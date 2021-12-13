@@ -1,8 +1,8 @@
 package org.albumshop.persistence;
 
 import org.albumshop.domain.AlbumArtist;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface AlbumArtistRepository extends CrudRepository<AlbumArtist, Long> {
-
+public interface AlbumArtistRepository extends PagingAndSortingRepository<AlbumArtist, Long> {
+	
 }
