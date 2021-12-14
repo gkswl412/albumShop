@@ -35,10 +35,10 @@ public class DataInsert {
 		}
 	}
 
-	@Test
+	//@Test
 	public void insertAlbumArtist() {
 		for(long i=0;i<3;i++) {
-			Album album = Album.builder().id(i*2 + 1).build();
+			Album album = Album.builder().id(i	*2 + 1).build();
 			Album album2 = Album.builder().id(i*2 + 2).build();
 			Artist artist = Artist.builder().id(i+5).build();
 			AlbumArtist albumArtist = AlbumArtist.builder().album(album).artist(artist).build();
@@ -110,7 +110,7 @@ public class DataInsert {
 		});
 	}
 	
-	//@Test
+	@Test
 	public void inserUser() {
 		for(int i=0;i<10;i++) {
 			User user = new User();
