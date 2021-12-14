@@ -17,7 +17,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "album")
 @Entity
 @Table(name="song")
 @Builder
