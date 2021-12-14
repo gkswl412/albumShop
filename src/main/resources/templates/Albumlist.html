@@ -8,21 +8,29 @@
 <body>
 	<h1>앨범 리스트</h1>
 <center>
-	<table border="1" th:each="albumlist:${albumlist}">
+	<table border="1" th:each="album:${albumlist}">
 		<tr>
-			<td rowspan="4"><a th:href="@{/albumdetail(id=${albumlist.id})}"><img alt="${albumlist.cover}" th:src="@{${albumlist.cover}}" width="90px" height="90px"></a></td>
+			<td rowspan="4"><a th:href="@{/albumdetail}"><img alt="${album.cover}" th:src="@{${album.cover}}" width="90px" height="90px"></a></td>
 		</tr>
 		<tr>
-			<td><a th:href="@{/albumdetail(id=${albumlist.id})}">[[${albumlist.title}]]</a> / [[${albumlist.releaseDate}]]</td>
+			<td><a th:href="@{/albumdetail}">[[${album.title}]]</a> / [[${album.releaseDate}]]</td>
 			<td>리뷰수</td>
-			<td colspan="2">공감수 : [[${albumlist.remaining}]]</td>
+			<td colspan="2">공감수 : [[${album.remaining}]]</td>
 		</tr>
 		<tr>
-			<td colspan="4"><a th:href="@{/artistdetail}">가수 [[${albumlist.id}]]</a> / [[${albumlist.genre}]]</td>
+			<td colspan="4">
+			<span th:each="albumartist:${album.albumartist}">
+			<a th:href="@{/artistdetail}" >
+			  <span th:if=${albumartist.artist!=null} >[[${albumartist.artist.name}]]</span>
+			  <span th:if=${albumartist.artistGroup!=null} > [[${albumartist.artistGroup.name}]]</span>
+			</a>
+			</span>
+			/ [[${album.genre}]]
+			</td>
 		</tr>
 		<tr>
-			<td>[[${albumlist.description}]]</td>
-			<td>가격 : [[${albumlist.price}]]</td>
+			<td>[[${album.description}]]</td>
+			<td>가격 : [[${album.price}]]</td>
 			<td><button>구매</button></td>
 			<td><button>담기</button></td>
 		</tr>

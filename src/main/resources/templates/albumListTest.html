@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<head>
+<meta charset="utf-8">
+<title>albumListTest</title>
+</head>
+<body>
+	<div class="panel panel-default">
+		<table class="table table-striped table-bordered table-hover">
+			<tr>
+				<th>cover</th>
+				<th>title</th>
+				<th>artist</th>
+				<th>releaseDate</th>
+				<th>genre</th>
+				<th>score</th>
+			</tr>
+			<tr th:each="album:${albumList}">
+				<td th:text="${album.cover}"></td>
+				<td><a th:href='${album.Id}' class='albumLink'>[[${album.title}]]</a></td>
+				<td th:text="${album.releaseDate}"></td>
+				<td th:text="${album.genre}"></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>
