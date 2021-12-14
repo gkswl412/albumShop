@@ -15,15 +15,21 @@
 		<tr>
 			<td><a th:href="@{/albumdetail}">[[${album.title}]]</a> / [[${album.releaseDate}]]</td>
 			<td>리뷰수</td>
-			<td colspan="2">공감수 : [[${album.remaining}]]</td>
+			<td colspan="2">재고 수 : [[${album.remaining}]]</td>
 		</tr>
 		<tr>
 			<td colspan="4">
 			<span th:each="albumartist:${album.albumartist}">
-			<a th:href="@{/artistdetail}" >
-			  <span th:if=${albumartist.artist!=null} >[[${albumartist.artist.name}]]</span>
-			  <span th:if=${albumartist.artistGroup!=null} > [[${albumartist.artistGroup.name}]]</span>
-			</a>
+			  <span th:if=${albumartist.artist!=null} >
+			  <a th:href="@{/ArtistDetail(Id=${albumartist.artist.Id})}">
+			  [[${albumartist.artist.name}]]
+			  </a>
+			  </span>
+			  <span th:if=${albumartist.artistGroup!=null}>
+			  <a th:href="@{/ArtistGroupDetail(Id=${albumartist.artistGroup.Id})}"> 
+			  [[${albumartist.artistGroup.name}]]
+			  </a>
+			  </span>
 			</span>
 			/ [[${album.genre}]]
 			</td>

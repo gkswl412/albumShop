@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class AlbumControllre {
+public class AlbumController {
 
 	@Autowired
 	AlbumRepository abRepo;
@@ -27,7 +27,6 @@ public class AlbumControllre {
 	
 	@RequestMapping("/albumlist")
 	public String test(Long id, Model model){
-		System.out.println("앨범리스트 출력");
 		List<Album> albumlist = (List<Album>) abRepo.findAll();
 		System.out.println(albumlist);
 		model.addAttribute("albumlist",albumlist);
