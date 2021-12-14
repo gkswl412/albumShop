@@ -40,10 +40,8 @@ public class QuestionReply {
 	@NotNull
 	private String content;
 	@CreationTimestamp
-	@NotNull
 	private Timestamp regDate;
 	@UpdateTimestamp
-	@NotNull
 	private Timestamp updateDate;
 	
 }

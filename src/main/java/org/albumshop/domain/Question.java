@@ -42,10 +42,8 @@ public class Question {
 	@NotNull
 	private String content;
 	@CreationTimestamp
-	@NotNull
 	private Timestamp regDate;
 	@UpdateTimestamp
-	@NotNull
 	private Timestamp updateDate;
 	
 }

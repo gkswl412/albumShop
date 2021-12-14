@@ -14,6 +14,14 @@
 	  		ul li span:nth-child(1){display:inline-block; color:#666; width:20px}
 	  		ul li span:nth-child(2){display:inline-block; width:7em}
 	  		ul li span:nth-child(3){color:#666; font-size:13px}
+	  		#totalPlayTime{background-color:#F7F7F7}
+	  		#cover{background-color:#F7F7F7; width:400px; height:400px}
+	  		.row div:nth-child(4){width:400px; background-color:#F7F7F7}
+	  		.row div:nth-child(5){height:1500px; padding:0; border-top:1px solid #EEEEEE}
+	  		.row div:nth-child(5) div{border-bottom:1px solid #EEEEEE}
+	  		.row div{padding:25px;  text-align:center;}
+	  		h1{font-size:30px}
+	  		h2{color:#555555; font-size:18px; text-align:left}
 	  	</style>
 	</th:block>
 </head>
@@ -22,11 +30,12 @@
 	<!-- content -->
 	<div class="container mt-5" layout:fragment="content">
 	  	<div class="row">
-	    	<div class="col-sm-4">
-	      		<img alt="${album.cover}" th:src="@{${album.cover}}" width=400px height=400px>
+	    	<div class="col-sm-4" id="cover">
+	      		<img alt="${album.cover}" th:src="@{${album.cover}}" width=350px height=350px>
 	    	</div>
 	    	<div class="col-sm-4">
-	      		<h3>[[${album.title}]]</h3>
+	      		<h1>[[${album.title}]]</h1>
+	      		<hr>
 		      	<table class="table">
 		    		<tr>
 		    			<th width=120>Artist</th>
@@ -55,8 +64,8 @@
 	    	</div>
 		    <div class="col-sm-4">
 		    	<h3>Track</h3>
-		      	<ul class="list-group">
-		      		<li class="list-group-item" th:each="song:${songs}">
+		      	<ul id="track" class="list-group">
+		      		<li class="list-group-item" th:each="song:${songs}" th:value="${song.playTime}">
 		      			<span th:text="${song.trackNum}"></span>
 		    			<span th:if=${song.isThisSongTitle==1}><b>[[${song.title}]]</b></span>
 		    			<span th:if=${song.isThisSongTitle!=1}>[[${song.title}]]</span>
@@ -66,10 +75,35 @@
 		    </div>
 	    
 		    <!-- Review Page -->
-		    <div class="reviewPage">
-				<h1>Review Page</h1>
+		    <div class="col-sm-4">
+				<h4>Review Page</h4>
+			</div>
+			<div class="col-sm-8">
+				<div>
+					<h2>Catalog</h2>
+				</div>
+				<div>
+					<h2>Reviews</h2>
+				</div>
 			</div>
 	  	</div>
 	</div>
+	
+	<!-- custom javaScript -->
+	<th:block layout:fragment="script">
+		<script>
+			$(function(){
+				var second=0;
+				$("#track li").each(function (index, item){
+					second += item.value;
+				});
+				var totalPlayTime = parseInt(second/60) + ":" + second%60;
+				$("#track").append('<li class="list-group-item" id="totalPlayTime">' 
+						+ '<span></span>'
+						+ '<span>' + '총 재생 시간:' + '</span>' 
+						+ '<span>' + totalPlayTime + '</span>' + '</li>');
+			});
+		</script>
+	</th:block>
 </body>
 </html>
