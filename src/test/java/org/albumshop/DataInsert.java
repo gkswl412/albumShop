@@ -2,18 +2,8 @@ package org.albumshop;
 
 import java.time.LocalDate;
 
-import org.albumshop.domain.Album;
-import org.albumshop.domain.AlbumArtist;
-import org.albumshop.domain.Artist;
-import org.albumshop.domain.ArtistGroup;
-import org.albumshop.domain.Song;
-import org.albumshop.domain.User;
-import org.albumshop.persistence.AlbumArtistRepository;
-import org.albumshop.persistence.AlbumRepository;
-import org.albumshop.persistence.ArtistGroupRepository;
-import org.albumshop.persistence.ArtistRepository;
-import org.albumshop.persistence.SongRepository;
-import org.albumshop.persistence.UserRepository;
+import org.albumshop.domain.*;
+import org.albumshop.persistence.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,7 +23,18 @@ public class DataInsert {
 	ArtistGroupRepository artistGroupRepo;
 	@Autowired
 	AlbumArtistRepository albumArtistRepo;
-	
+	@Autowired
+	DeliveryRepository deliveryRepo;
+	@Autowired
+	PurchaseReviewRepository purchaseReviewRepo;
+
+	//@Test
+	public void deliveryTest(){
+		for(long i = 0; i < 3; i++){
+			Delivery delivery = Delivery.builder().id(i * 10 + 1).build();
+		}
+	}
+
 	@Test
 	public void insertAlbumArtist() {
 		for(long i=0;i<3;i++) {
