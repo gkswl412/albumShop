@@ -34,7 +34,7 @@ public class DataInsert {
 	@Autowired
 	AlbumArtistRepository albumArtistRepo;
 	
-	@Test
+	//@Test
 	public void insertAlbumArtist() {
 		for(long i=0;i<3;i++) {
 			Album album = Album.builder().id(i*2 + 1).build();
