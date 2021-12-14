@@ -23,14 +23,13 @@ public class AlbumController {
 	ArtistGroupRepository agRepo;
 	@Autowired
 	ArtistRepository aRepo;
-	
-	
+
 	@RequestMapping("/albumlist")
-	public String test(Long id, Model model){
+	public String test(Long id, Model model) {
 		List<Album> albumlist = (List<Album>) abRepo.findAll();
 		System.out.println(albumlist);
-		model.addAttribute("albumlist",albumlist);
+		model.addAttribute("albumlist", albumlist);
 		return "albumlist";
 	}
-	
+
 }
