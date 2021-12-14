@@ -1,41 +1,73 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/commonLayout}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>AlbumList</title>
+	
+	<!-- style -->
+	<th:block layout:frgment="style">
+		<style>
+			a{text-decoration:none}
+		</style>
+	</th:block>
 </head>
+
 <body>
-	<h1>앨범 리스트</h1>
-<center>
-	<table border="1" th:each="album:${albumlist}">
-		<tr>
-			<td rowspan="4"><a th:href="@{/albumdetail}"><img alt="${album.cover}" th:src="@{${album.cover}}" width="90px" height="90px"></a></td>
-		</tr>
-		<tr>
-			<td><a th:href="@{/albumdetail}">[[${album.title}]]</a> / [[${album.releaseDate}]]</td>
-			<td>리뷰수</td>
-			<td colspan="2">공감수 : [[${album.remaining}]]</td>
-		</tr>
-		<tr>
-			<td colspan="4">
-			<span th:each="albumartist:${album.albumartist}">
-			<a th:href="@{/artistdetail}" >
-			  <span th:if=${albumartist.artist!=null} >[[${albumartist.artist.name}]]</span>
-			  <span th:if=${albumartist.artistGroup!=null} > [[${albumartist.artistGroup.name}]]</span>
-			</a>
-			</span>
-			/ [[${album.genre}]]
-			</td>
-		</tr>
-		<tr>
-			<td>[[${album.description}]]</td>
-			<td>가격 : [[${album.price}]]</td>
-			<td><button>구매</button></td>
-			<td><button>담기</button></td>
-		</tr>
-		<p></p>
-	</table>
-	</center>
+	<!-- content -->
+	<div class="container mt-5" layout:fragment="content">
+		<h4>전체 앨범</h4>
+		<table class="table table-hover" th:each="album:${albumlist}">
+			<tr>
+				<td rowspan="4" width=150px height=150px><a class="detailButton" th:href="${album.id}"><img alt="${album.cover}" th:src="@{${album.cover}}" width="150px" height="150px"></a></td>
+			</tr>
+			<tr>
+				<td><a class="detailButton" th:href="${album.id}">[[${album.title}]]</a> / [[${album.releaseDate}]]</td>
+				<td>리뷰수</td>
+				<td colspan="2">공감수 : [[${album.remaining}]]</td>
+			</tr>
+			<tr>
+				<td colspan="4">
+				<span th:each="albumartist:${album.albumartist}">
+				<a th:href="@{/artistdetail}" >
+					 <span th:if=${albumartist.artist!=null} >[[${albumartist.artist.name}]]</span>
+					 <span th:if=${albumartist.artistGroup!=null} > [[${albumartist.artistGroup.name}]]</span>
+				</a>
+				</span>
+				/ [[${album.genre}]]
+				</td>
+			</tr>
+			<tr>
+				<td>[[${album.description}]]</td>
+				<td>가격 : [[${album.price}]]</td>
+				<td><button>구매</button></td>
+				<td><button>담기</button></td>
+			</tr>
+		</table>
+		
+		<!-- Form : goto AlbumDetail Page -->
+		<form id="gotoDetail" th:action="@{albumdetail}" method="get">
+			
+		</form>
+	</div>
+
+<!-- 커버사진, 타이틀 클릭시 albumDetail로 이동 구현 -->
+<!-- custom javaScript -->
+	<th:block layout:fragment="script">
+		<script>
+			$(function(){
+				var form = $("#gotoDetail");
+				
+				$(".detailButton").click(function(e){
+					var albumId = $(this).attr("href");
+					e.preventDefault();
+					form.find($("input")).remove();
+					form.append("<input type='hidden' name='albumId' value='" + albumId + "'>" );
+					form.submit();
+				});
+			});
+		</script>
+	</th:block>
 </body>
 </html>
