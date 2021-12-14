@@ -4,10 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,9 +28,12 @@ import lombok.ToString;
 public class PurchaseReview implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
+	Long id;
+	@MapsId
 	@OneToOne
+	@JoinColumn(name = "delivery_id")
 	private Delivery delivery;
 	@NotNull
 	private String title;
