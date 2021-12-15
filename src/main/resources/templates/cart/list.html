@@ -1,12 +1,55 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{/layout/commonLayout}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>장바구니</title>
+	<link rel="stylesheet"
+		  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<th:block layout:frgment="style">
+		<style>
+			a{text-decoration:none}
+		</style>
+	</th:block>
 </head>
 <body>
-	<h1>장바구니</h1>
-	<p>사용자 장바구니에 담긴 앨범 조회, 수량에 대한 수정, 삭제 기능 구현중</p>
+	<div class="container mt-5" layout:fragment="content">
+		<h1>장바구니</h1>
+		<p>사용자 장바구니에 담긴 앨범 조회, 수량에 대한 수정, 삭제 기능 구현중</p>
+
+		<table class="table table-hover">
+			<tr>
+				<th>#</th>
+				<th>커버</th>
+				<th>앨범명</th>
+				<th>아티스트</th>
+				<th>가격</th>
+				<th>수량</th>
+				<th>삭제</th>
+			</tr>
+			<tr th:each="cartDetail:${cartlist}">
+				<td th:text="${cartlist.indexOf(cartDetail)+1}"></td>
+				<td>
+					<img th:src="${cartDetail.getCover()}" th:width="60px" th:height="60px">
+				</td>
+				<td th:text="${cartDetail.getAlbumTitle()}"></td>
+				<td th:text="${cartDetail.getArtistName()}"></td>
+				<td th:text="${cartDetail.getPrice()}"></td>
+				<td th:text="${cartDetail.getQuantity()}"></td>
+				<td>
+
+				</td>
+			</tr>
+			<tr>
+
+			</tr>
+		</table>
+
+	</div>
 </body>
 </html>
