@@ -11,7 +11,7 @@
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 	<script
 			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script src="/templates/layout/common.js"></script>
+	<script src="/static/js/common.js"></script>
 	<th:block layout:frgment="style">
 		<style>
 			a{text-decoration:none}
@@ -20,9 +20,12 @@
 	<th:block layout:frgment="script">
 		<script th:inline="javascript">
 			$(function () {
+				$("#itemCheckAll").prop("checked", true);
+				$("input[name=itemChk]").prop("checked", true);
 				$("input[name=itemChk]").change(function () {
 					getOrderTotalPrice();
 				});
+				getTotalPrice();
 			});
 
 			function checkAll(){
@@ -47,9 +50,29 @@
 					console.log(price);
 					console.log(quantity);
 					console.log(orderTotalPrice);
-				})
+				});
 				$("#orderTotalPrice").html(orderTotalPrice + '원');
 			};
+
+			function getTotalPrice() {
+				var totalPrice = 0;
+				var totalQuantity = 0;
+				$("input[name=itemChk]").each(function (){
+					var itemId = $(this).val();
+					var price = $('#price_' + itemId).attr("data-price");
+					var quantity = parseInt($('#quantity_' + itemId).val());
+
+					totalPrice += price * quantity;
+					totalQuantity += quantity;
+
+					console.log(itemId);
+					console.log(price);
+					console.log(quantity);
+					console.log(totalPrice);
+				});
+				$("#totalPrice").html(totalPrice + '원');
+				$("#totalQuantity").html(totalQuantity + '장');
+			}
 		</script>
 	</th:block>
 
@@ -77,7 +100,7 @@
 				<td class="align-middle" th:text="${cartDetail.getAlbumTitle()}"></td>
 				<td class="align-middle" th:text="${cartDetail.getArtistName()}"></td>
 				<td class="align-middle text-right" th:id="'price_' + ${cartDetail.getAlbumId()}" th:data-price="${cartDetail.getPrice()}" th:text="${cartDetail.getPrice()} + '원'"></td>
-				<td><input type="number" class="align-middle" th:id="'quantity_' + ${cartDetail.getAlbumId()}" th:data-quantity="${cartDetail.getQuantity()}" th:value="${cartDetail.getQuantity()}" min="1" th:max="${cartDetail.getRemaining()}"></td>
+				<td><input type="number" class="form-control align-middle" th:id="'quantity_' + ${cartDetail.getAlbumId()}" th:data-quantity="${cartDetail.getQuantity()}" th:value="${cartDetail.getQuantity()}" min="1" th:max="${cartDetail.getRemaining()}"></td>
 			</tr>
 			<tr>
 				<td colspan="4">
@@ -86,8 +109,8 @@
 					<button type="button" class="btn btn-default btn-xs">마이리스트에 담기</button>
 				</td>
 				<td><b>총금액 / 총수량</b></td>
-				<td><b>000,000</b></td>
-				<td><b>0</b></td>
+				<td><div id="totalPrice"></div></td>
+				<td><div id="totalQuantity"></div></td>
 			</tr>
 		</table>
 			<div align="center">
@@ -98,7 +121,7 @@
 						<th>총 결제금액</th>
 					</tr>
 					<tr>
-						<td id="orderTotalPrice">0원</td>
+						<td><div id="orderTotalPrice">0원</div></td>
 						<td>2,500원</td>
 						<td>000,000원</td>
 					</tr>
