@@ -29,6 +29,7 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 	
+	//리뷰 리스트 요청
 	@GetMapping("/{albumId}")
 	public ResponseEntity<List<Review>> getReviewList(@PathVariable("albumId") Long albumId) {
 		

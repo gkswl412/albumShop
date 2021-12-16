@@ -28,6 +28,7 @@
 	  		.rating{float:right; margin-right:20px; margin-top:5.5px}
 	  		.smallFont{font-size:12px}
 	  		.review_body{padding:10px 36px 10px 36px !important}
+	  		.btnType1{background-color:#DBDBDB; color:#444444; border-radius:4px; padding:5px; font-size:12px; border:1px solid white}
 	  	</style>
 	</th:block>
 </head>
@@ -57,7 +58,7 @@
 		    			<th>Released</th><td>[[${album.releaseDate}]]</td>
 		    		</tr>
 		    		<tr>
-		    			<th>Rating</th><td>0</td>
+		    			<th>Rating</th><td class="averageRating">0</td>
 		    		</tr>
 		    		<tr>
 		    			<th>Genres</th><td>[[${album.genre}]]</td>
@@ -86,6 +87,9 @@
 			<div class="col-sm-8" id="reviewAndCatalog">
 				<div>
 					<h2>Catalog</h2>
+					<br>
+					<button class="btnType1" id="addReviewBtn"><img src="/images/icon/write.png" width=30px height=30px>Add Review</button>
+					<button class="btnType1" id="updateReviewBtn"><img src="/images/icon/update.png" width=30px height=30px>Update Review</button>
 				</div>
 				<div class="reviews">
 					<h2>Reviews</h2>
@@ -101,7 +105,7 @@
 		<script th:inline="javascript" th:src="@{'/js/review.js'}"></script>
 		<script th:inline="javascript">
 			$(document).ready(function(e){
-				
+				var averageRating = 0;
 				(function(){
 					
 					//load reviews
@@ -113,7 +117,8 @@
 					var reviewObj;
 					for(var i = 0; i < list.length; i++){
 						reviewObj = list[i];
-						
+						averageRating += reviewObj.rating;
+						console.log(averageRating);
 						header +=  "<div class='review_header'><a href='/userDetail/" + reviewObj.multiId.user.id + "'><img src='" 
 									+ reviewObj.multiId.user.photo + "'></a><span class='user_id'><a href='/userDetail'>" 
 									+ reviewObj.multiId.user.id + "</a></span><span class='update_date'>"  
@@ -124,8 +129,10 @@
 									+ "<div class='review_body'>" + reviewObj.content + "</div><br>";
 						$(".reviews").html(header);
 					}
-					
+					averageRating = averageRating / list.length;
+					$(".averageRating").html(averageRating.toFixed(1));
 				}
+				
 			});
 		</script>
 

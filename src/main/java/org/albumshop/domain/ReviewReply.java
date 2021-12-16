@@ -47,5 +47,6 @@ public class ReviewReply {
 	@UpdateTimestamp
 	private Timestamp updateDate;
 	private Integer likeCount;
+	private Integer disLikeCount;
 	
 }
