@@ -4,7 +4,8 @@
 // 추가
 // ex) <input type="text" id="price" onkeyup="inputNumberFormat(this)"/>
 function inputNumberFormat(obj) {
-    obj.value = comma(uncomma(obj.value));
+    var result = comma(uncomma(obj.value));
+    return result;
 }
 
 function comma(str) {
