@@ -27,6 +27,7 @@ public class AtAndAtGController {
 	public String selecteArtistById(Long Id, Model model) {
 		Artist a = aRepo.findById(Id).orElse(null);
 		model.addAttribute("Artist", a);
+		System.out.println(a.getAlbumartist().size());
 		return "ArtistDetail";		
 	}
 	
