@@ -11,22 +11,48 @@
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 	<script
 			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script>
-		$(function () {
-			$("#itemCheckAll").click(function () {
-				if($("checkall").prop("checked")) {
-					$("input[name='itemCheck']").prop("checked", true)
-				} else {
-					$("input[name='itemCheck']").prop("checked", false)
-				}
-			})
-		})
-	</script>
+	<script src="/templates/layout/common.js"></script>
 	<th:block layout:frgment="style">
 		<style>
 			a{text-decoration:none}
 		</style>
 	</th:block>
+	<th:block layout:frgment="script">
+		<script th:inline="javascript">
+			$(function () {
+				$("input[name=itemChk]").change(function () {
+					getOrderTotalPrice();
+				});
+			});
+
+			function checkAll(){
+				if($("#itemCheckAll").prop("checked")){
+					$("input[name=itemChk]").prop("checked",true);
+				}else{
+					$("input[name=itemChk]").prop("checked",false);
+				}
+				getOrderTotalPrice();
+			}
+
+			function getOrderTotalPrice() {
+				var orderTotalPrice = 0;
+				$("input[name=itemChk]:checked").each(function (){
+					var checkedItemId = $(this).val();
+					var price = $('#price_' + checkedItemId).attr("data-price");
+					var quantity = $('#quantity_' + checkedItemId).val();
+
+					orderTotalPrice += price * quantity;
+
+					console.log(checkedItemId);
+					console.log(price);
+					console.log(quantity);
+					console.log(orderTotalPrice);
+				})
+				$("#orderTotalPrice").html(orderTotalPrice + '원');
+			};
+		</script>
+	</th:block>
+
 </head>
 <body>
 	<div class="container mt-5" layout:fragment="content">
@@ -36,7 +62,7 @@
 		<div>
 		<table class="table table-hover">
 			<tr>
-				<th th:width="10px"><input type="checkbox" id="itemCheckAll"></th>
+				<th th:width="10px"><input type="checkbox" id="itemCheckAll" onclick="checkAll()"></th>
 				<th th:width="15px">#</th>
 				<th th:width="80px">커버</th>
 				<th>앨범명</th>
@@ -45,23 +71,22 @@
 				<th th:width="70px">수량</th>
 			</tr>
 			<tr th:each="cartDetail:${cartlist}">
-				<td><input type="checkbox" name="itemCheck"></td>
-				<td th:text="${cartlist.indexOf(cartDetail)+1}"></td>
-				<td>
-					<img th:src="${cartDetail.getCover()}" th:width="60px" th:height="60px">
-				</td>
-				<td th:text="${cartDetail.getAlbumTitle()}"></td>
-				<td th:text="${cartDetail.getArtistName()}"></td>
-				<td th:text="${cartDetail.getPrice()}" align="right"></td>
-				<td><input type="number" class="input-group" th:value="${cartDetail.getQuantity()}" min="1" th:max="${cartDetail.getRemaining()}"></td>
+				<td class="text-center align-middle"><input type="checkbox" name="itemChk" th:value="${cartDetail.getAlbumId()}"> </td>
+				<td class="text-center align-middle" th:text="${cartlist.indexOf(cartDetail)+1}"></td>
+				<td><img th:src="${cartDetail.getCover()}" th:width="60px" th:height="60px"></td>
+				<td class="align-middle" th:text="${cartDetail.getAlbumTitle()}"></td>
+				<td class="align-middle" th:text="${cartDetail.getArtistName()}"></td>
+				<td class="align-middle text-right" th:id="'price_' + ${cartDetail.getAlbumId()}" th:data-price="${cartDetail.getPrice()}" th:text="${cartDetail.getPrice()} + '원'"></td>
+				<td><input type="number" class="align-middle" th:id="'quantity_' + ${cartDetail.getAlbumId()}" th:data-quantity="${cartDetail.getQuantity()}" th:value="${cartDetail.getQuantity()}" min="1" th:max="${cartDetail.getRemaining()}"></td>
 			</tr>
 			<tr>
 				<td colspan="4">
 					<button type="button" class="btn btn-warning btn-xs">선택삭제</button>
 					<button type="button" class="btn btn-danger btn-xs">전체삭제</button>
+					<button type="button" class="btn btn-default btn-xs">마이리스트에 담기</button>
 				</td>
 				<td><b>총금액 / 총수량</b></td>
-				<td align="right"><b>000,000</b></td>
+				<td><b>000,000</b></td>
 				<td><b>0</b></td>
 			</tr>
 		</table>
@@ -73,7 +98,7 @@
 						<th>총 결제금액</th>
 					</tr>
 					<tr>
-						<td>000,000원</td>
+						<td id="orderTotalPrice">0원</td>
 						<td>2,500원</td>
 						<td>000,000원</td>
 					</tr>
