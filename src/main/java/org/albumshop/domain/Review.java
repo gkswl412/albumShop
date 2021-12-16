@@ -20,7 +20,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude="multiId")
 @Entity
 @Table(name="review")
 @Builder
@@ -34,11 +34,14 @@ public class Review {
 	@NotNull
 	private float rating;
 	private String content;
+	
+	
 	@CreationTimestamp
-	@NotNull
 	private Timestamp regDate;
+	
 	private Integer likeCount;
+	
+	
 	@UpdateTimestamp
-	@NotNull
 	private Timestamp updateDate;
 }

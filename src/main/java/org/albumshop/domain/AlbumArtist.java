@@ -1,7 +1,5 @@
 package org.albumshop.domain;
 
-import java.time.LocalDate;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +17,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString(exclude = "album")
+@ToString(exclude = {"artistGroup", "artist"})
 @Entity
 @Table(name="albumArtist")
 @Builder

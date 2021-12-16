@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>그룹 detail</h1>
+	<table border="1">
+		<tr>
+			<td rowspan="2"><img alt="${ArtistGroup.photo}"
+				th:src="@{${ArtistGroup.photo}}" width="200px" height="200px"></td>
+			<td>그룹이름 : [[${ArtistGroup.name}]]</td>
+			<td>데뷔 : [[${ArtistGroup.debutDate}]]</td>
+		</tr>
+		<tr>
+			<td colspan="2">멤버 : <span th:each="art:${ArtistGroup.artist}">
+					<a th:href=@{/ArtistDetail(Id=${art.Id})}> [[${art.name}]] </a>
+			</span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">[[${ArtistGroup.name}]]의 앨범 리스트</td>
+		</tr>
+		<span th:each="artistalbum:${ArtistGroup.albumartist}">
+		<tr>
+			<td rowspan="2"><img alt="${artistalbum.Album.cover}"
+				th:src="@{${artistalbum.Album.cover}}" width="100px" height="100px"></td>
+			<td>제목 : [[${artistalbum.Album.title}]]</td>
+			<td>데뷔 : [[${artistalbum.Album.releaseDate}]]</td>
+		</tr>
+		<tr>
+			<td colspan="2">앨범 설명 ( [[${artistalbum.Album.genre}]] )<br>
+				[[${artistalbum.Album.description}]]
+			</td>
+		</tr>
+		</span>
+	</table>
+</body>
+</html>

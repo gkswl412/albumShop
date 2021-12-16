@@ -1,21 +1,109 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/commonLayout}">
 <head>
-<meta charset="utf-8">
-<title>albumDetail</title>
+	<meta charset="utf-8">
+  	<title>AlbumDetail</title>
+  	
+  	<!-- style -->
+	<th:block layout:frgment="style">
+		<style>
+	  		.table{border:1px solid white}
+	  		.table th{color:gray}
+	  		ul li span:nth-child(1){display:inline-block; color:#666; width:20px}
+	  		ul li span:nth-child(2){display:inline-block; width:7em}
+	  		ul li span:nth-child(3){color:#666; font-size:13px}
+	  		#totalPlayTime{background-color:#F7F7F7}
+	  		#cover{background-color:#F7F7F7; width:400px; height:400px}
+	  		.row div:nth-child(4){width:400px; background-color:#F7F7F7}
+	  		.row div:nth-child(5){height:1500px; padding:0; border-top:1px solid #EEEEEE}
+	  		.row div:nth-child(5) div{border-bottom:1px solid #EEEEEE}
+	  		.row div{padding:25px;  text-align:center;}
+	  		h1{font-size:30px}
+	  		h2{color:#555555; font-size:18px; text-align:left}
+	  	</style>
+	</th:block>
 </head>
+
 <body>
-	<div class="panel panel-default myform">
-		<div class="form-group">
-	      	<label for="title">albumTitle</label>
-	      	<input type="text" class="form-control" id="title" name="title" th:value="${album.title}">
-	    </div>
+	<!-- content -->
+	<div class="container mt-5" layout:fragment="content">
+	  	<div class="row">
+	    	<div class="col-sm-4" id="cover">
+	      		<img alt="${album.cover}" th:src="@{${album.cover}}" width=350px height=350px>
+	    	</div>
+	    	<div class="col-sm-4">
+	      		<h1>[[${album.title}]]</h1>
+	      		<hr>
+		      	<table class="table">
+		    		<tr>
+		    			<th width=120>Artist</th>
+		    			<td>
+		    				<span th:each="albumartist:${album.albumartist}">
+							<a th:href="@{/artistdetail}" >
+					  		<span th:if=${albumartist.artist!=null} >[[${albumartist.artist.name}]]</span>
+					  		<span th:if=${albumartist.artistGroup!=null} > [[${albumartist.artistGroup.name}]]</span>
+							</a>
+							</span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<th>Released</th><td>[[${album.releaseDate}]]</td>
+		    		</tr>
+		    		<tr>
+		    			<th>Rating</th><td>0</td>
+		    		</tr>
+		    		<tr>
+		    			<th>Genres</th><td>[[${album.genre}]]</td>
+		    		</tr>
+		    		<tr>
+		    			<th>Description</th><td>[[${album.description}]]</td>
+		    		</tr>
+		    	</table>
+	    	</div>
+		    <div class="col-sm-4">
+		    	<h3>Track</h3>
+		      	<ul id="track" class="list-group">
+		      		<li class="list-group-item" th:each="song:${songs}" th:value="${song.playTime}">
+		      			<span th:text="${song.trackNum}"></span>
+		    			<span th:if=${song.isThisSongTitle==1}><b>[[${song.title}]]</b></span>
+		    			<span th:if=${song.isThisSongTitle!=1}>[[${song.title}]]</span>
+		    			<span th:text="${song.playTime/60} + ':' + ${song.playTime%60}"></span>
+		    		</li>
+		      	</ul>        
+		    </div>
+	    
+		    <!-- Review Page -->
+		    <div class="col-sm-4">
+				<h4>Review Page</h4>
+			</div>
+			<div class="col-sm-8">
+				<div>
+					<h2>Catalog</h2>
+				</div>
+				<div>
+					<h2>Reviews</h2>
+				</div>
+			</div>
+	  	</div>
 	</div>
+	
+	<!-- custom javaScript -->
+	<th:block layout:fragment="script">
+		<script>
+			$(function(){
+				var second=0;
+				$("#track li").each(function (index, item){
+					second += item.value;
+				});
+				var totalPlayTime = parseInt(second/60) + ":" + second%60;
+				$("#track").append('<li class="list-group-item" id="totalPlayTime">' 
+						+ '<span></span>'
+						+ '<span>' + '총 재생 시간:' + '</span>' 
+						+ '<span>' + totalPlayTime + '</span>' + '</li>');
+			});
+		</script>
+	</th:block>
 </body>
 </html>

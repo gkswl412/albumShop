@@ -1,11 +1,12 @@
 package org.albumshop.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.albumshop.domain.Album;
+import org.albumshop.domain.Song;
 import org.albumshop.persistence.AlbumArtistRepository;
 import org.albumshop.persistence.AlbumRepository;
+import org.albumshop.persistence.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,23 +17,16 @@ public class AlbumService {
 	AlbumRepository albumRepo;
 	@Autowired
 	AlbumArtistRepository albumArtistRepo;
+	@Autowired
+	SongRepository songRepo;
 	
-	public Album getAlbumById(Long albumId) {
-		System.out.println("service : albumId-->" + albumId);
+	public Album getAlbumDetailInfo(Long albumId) {
 		Album album = albumRepo.findById(albumId).orElse(null);
 		return album;
 	}
 	
-	public List<Album> getAlbumList(){
-		List<Album> albumList = new ArrayList<>();
-		albumRepo.findAll().forEach(album->{
-			albumList.add(album);
-		});
-		return albumList;
-	}
-	
-	public List<String> getAlbumArtist(Long albumId){
-		List<String> albumArtists = albumArtistRepo.findAlbumArtistByAlbumId(albumId);
-		return albumArtists;
+	public List<Song> getSongsOfAlbum(Album album) {
+		List<Song> songs = songRepo.findByAlbum(album);
+		return songs;
 	}
 }

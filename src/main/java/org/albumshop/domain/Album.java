@@ -23,7 +23,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude="albumartist")
 @Entity
 @Table(name="album")
 @Builder
