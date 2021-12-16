@@ -26,7 +26,7 @@ public class ReviewTest {
 	@Autowired
 	AlbumRepository albumRepo;
 	
-	@Test
+	//@Test
 	public void deleteReviewById() {
 		User user = User.builder().id("kosta0").build();
 		Album album = Album.builder().id(1L).build();
@@ -59,7 +59,7 @@ public class ReviewTest {
 			System.out.println(i.getAlbum().getId());
 		});*/
 		multiIds.forEach(multiId->{
-			Review review = Review.builder().multiId(multiId).rating(multiId.getAlbum().getId()<6L?multiId.getAlbum().getId():3).likeCount(10).build();
+			Review review = Review.builder().multiId(multiId).rating(multiId.getAlbum().getId()<6L?multiId.getAlbum().getId():3).build();
 			review.setContent(review.getRating()>3?"정말 좋아요!":"나쁘지 않아요");
 			System.out.println(review);
 			reviewRepo.save(review);

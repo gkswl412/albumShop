@@ -42,9 +42,6 @@ public class Review {
 	@Column(updatable = false)
 	private Timestamp regDate;
 	
-	private Integer likeCount;
-	private Integer disLikeCount;
-	
 	@UpdateTimestamp
 	private Timestamp updateDate;
 }
