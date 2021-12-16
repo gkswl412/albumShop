@@ -69,14 +69,14 @@
 	    	</div>
 		    <div class="col-sm-4">
 		    	<h3>Track</h3>
-		      	<ul id="track" class="list-group">
-		      		<li class="list-group-item" th:each="song:${songs}" th:value="${song.playTime}">
-		      			<span th:text="${song.trackNum}"></span>
-		    			<span th:if=${song.isThisSongTitle==1}><b>[[${song.title}]]</b></span>
-		    			<span th:if=${song.isThisSongTitle!=1}>[[${song.title}]]</span>
-		    			<span th:text="${song.playTime/60} + ':' + ${song.playTime%60}"></span>
-		    		</li>
-		      	</ul>        
+			      	<ul id="track" class="list-group" style="position:relative; z-index:1">
+			      		<li class="list-group-item" th:each="song:${songs}" th:value="${song.playTime}">
+			      			<span th:text="${song.trackNum}"></span>
+			    			<span th:if=${song.isThisSongTitle==1}><b>[[${song.title}]]</b></span>
+			    			<span th:if=${song.isThisSongTitle!=1}>[[${song.title}]]</span>
+			    			<span th:text="${song.playTime/60} + ':' + ${song.playTime%60}"></span>
+			    		</li>
+			      	</ul>
 		    </div>
 	    
 		    <!-- Review Page -->
