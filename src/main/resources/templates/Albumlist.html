@@ -5,15 +5,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>AlbumList</title>
-	
 	<!-- style -->
 	<th:block layout:frgment="style">
-		<style>
-			a{text-decoration:none}
-		</style>
 	</th:block>
 </head>
-
 <body>
 	<!-- content -->
 	<div class="container mt-5" layout:fragment="content">
@@ -25,7 +20,7 @@
 			<tr>
 				<td><a class="detailButton" th:href="${album.id}">[[${album.title}]]</a> / [[${album.releaseDate}]]</td>
 				<td>리뷰수</td>
-				<td colspan="2">공감수 : [[${album.remaining}]]</td>
+				<td colspan="2">재고 수 : [[${album.remaining}]]</td>
 			</tr>
 			<tr>
 				<td colspan="4">
@@ -34,7 +29,7 @@
 					<a th:href="@{/ArtistDetail(Id=${albumartist.artist.Id})}">
 					[[${albumartist.artist.name}]] 
 					</a>
-					</span> 
+					</span>
 					<span th:if=${albumartist.artistGroup!=null}> 
 					<a th:href="@{/ArtistGroupDetail(Id=${albumartist.artistGroup.Id})}">
 					[[${albumartist.artistGroup.name}]] 
@@ -50,13 +45,10 @@
 				<td><button>담기</button></td>
 			</tr>
 		</table>
-		
 		<!-- Form : goto AlbumDetail Page -->
 		<form id="gotoDetail" th:action="@{albumdetail}" method="get">
-			
 		</form>
 	</div>
-
 <!-- 커버사진, 타이틀 클릭시 albumDetail로 이동 구현 -->
 <!-- custom javaScript -->
 	<th:block layout:fragment="script">
