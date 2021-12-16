@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,6 +46,7 @@ public class Album {
 	private String genre;
 	private String cover;
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="album_id")
 	List<AlbumArtist> albumartist;
