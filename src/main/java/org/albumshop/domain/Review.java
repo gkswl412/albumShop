@@ -1,8 +1,8 @@
 package org.albumshop.domain;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -10,6 +10,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +39,7 @@ public class Review {
 	
 	
 	@CreationTimestamp
+	@Column(updatable = false)
 	private Timestamp regDate;
 	
 	private Integer likeCount;
