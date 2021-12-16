@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AlbumDetailController {
 	
 	@Autowired
-	AlbumService albumService;
+	private AlbumService albumService;
 	
 	@GetMapping(value="albumdetail")
 	public String albumDetail(Model model, Long albumId) {
