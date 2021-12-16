@@ -43,7 +43,7 @@ public class Review {
 	private Timestamp regDate;
 	
 	private Integer likeCount;
-	
+	private Integer disLikeCount;
 	
 	@UpdateTimestamp
 	private Timestamp updateDate;
