@@ -44,10 +44,8 @@ public class Delivery implements Serializable{
 	private String destinationAddress;
 	private String deliveryRequest;
 	@CreationTimestamp
-	@NotNull
 	private Timestamp deliveryRegDate;
 	@UpdateTimestamp
-	@NotNull
 	private Timestamp deliveryUpdateDate;
 	@NotNull
 	private String orderState;
