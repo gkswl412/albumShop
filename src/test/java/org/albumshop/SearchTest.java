@@ -14,11 +14,13 @@ public class SearchTest {
 	@Autowired
 	AlbumRepository abRepo;
 	
-	@Test
+	// @Test
 	public void TestFindByTitle() {
-		
 		List<Album> ablist = abRepo.findByTitleContaining("앨");
 		System.out.println(ablist);
+	}
+	@Test
+	public void SongUpdateLyrics() {
 		
 	}
 }

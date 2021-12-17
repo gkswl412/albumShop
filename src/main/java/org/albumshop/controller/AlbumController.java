@@ -54,7 +54,10 @@ public class AlbumController {
 		} else if (searchType.equals("SongTitle")) {
 			List<Song> song1 = sRepo.findByTitleContaining(searchKeyword);
 			model.addAttribute("Song", song1);
-		} else{
+		} else if (searchType.equals("Lyrics")) {
+			List<Song> song3 = sRepo.findByLyricsContaining(searchKeyword);
+			model.addAttribute("Song", song3);
+		}else{
 			List<Album> album2 = abRepo.findByTitleContaining(searchKeyword);
 			model.addAttribute("Album", album2);
 
@@ -71,4 +74,14 @@ public class AlbumController {
 		return "/SearchResult";
 	}
 
+	@RequestMapping("/Genre")
+	public String test3() {
+		
+		return "/Genre";
+	}
+	@RequestMapping("/test")
+	public String test4() {
+		
+		return "/test";
+	}
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>KeyWord Highlights</title>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+    </head>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            fnKeyWordHighlights(".a","감기");
+        });
+  
+        function fnKeyWordHighlights(obj,keyword)
+        {
+            $(obj).each(function(){ 
+                $(this).html($(this).html().replace(eval("/"+keyword+"/gi"), "<span style='color:red;font-weight:bold;'>"+keyword+"</span>"));
+            });
+        }
+    //-->
+    </script>
+</head>
+<body >
+    <p class="a">나는 오늘 감기에 걸렸다. 지겨운 감기.. 너무 싫다.</p>
+    <p class="a">나는 감기가 걸려서 외롭다.</p>
+</body>
+</html>
