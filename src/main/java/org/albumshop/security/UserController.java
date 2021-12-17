@@ -79,21 +79,21 @@ public class UserController {
 	
 	
 	
-	/*@RequestMapping(value = "/IdCheck", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/IdCheck", method = RequestMethod.POST)
 	@ResponseBody
 	 public String IdCheck (String id) throws Exception { 
-		 
-			int result = urepo.findById(id);
-
-			if(result != 0) {
+		    System.out.println(id);
+		    User user = urepo.findById(id).orElse(null);
+			System.out.println(user);
+			if(user != null) {
 				
 				return "fail";	
-				
+				 
 			} else {
 				
 				return "success";	
 				
 			}	
 	
-	 }*/
+	 } 
 }
