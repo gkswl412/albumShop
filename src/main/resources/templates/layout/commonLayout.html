@@ -16,7 +16,32 @@
 		a{text-decoration:none; font-weight:bolder}
 		a:hover{color:#1e5399}
 		#scroll{background-color:white;
-		width:100%;}
+		width:100%;
+		float:left;}
+		#searchBtn{
+		border-top-left-radius:10px;
+		border-top-right-radius:10px;
+		border-bottom-left-radius:10px;
+		border-bottom-right-radius:10px;
+		}
+		#text{
+		border-top-left-radius:5px;
+		border-top-right-radius:5px;
+		border-bottom-left-radius:5px;
+		border-bottom-right-radius:5px;
+		border:1px solid black;
+		text-align:right;
+		width:300px;
+		font-size:16px;
+		}
+		#table1{
+		float:left;
+		margin-left:2%;
+		border-left:2px solid lightgray; 
+		border-right:2px solid lightgray;
+		}
+		#table2{
+		float:right;}
 	</style>
 </head>
 <body>
@@ -27,26 +52,35 @@ function scroll_follow( id ){
 	       $("#scroll").css('top',  position );});}
  scroll_follow( "#scroll" ); 
 </script> 
-<div id="scroll" style="position:absolute;left:0;top:0;z-index:2">
+<div id="scroll" style="position:absolute;top:0;z-index:2;">
 <form th:action="@{SearchResult}" method="get">
-<table style="float:right"> 
+<table id="table1">
 <tr>
-<td><a href="/albumlist">메인페이지</a></td>
-<td><a href="/cart">장바구니</a></td>
-<td>
-<select id="searchType" name="searchType">
-	<option id="SelectAll">Select All</option>
-	<option id="Artist" >Artist</option>
-	<option id="ArtistGroup">ArtistGroup</option>
-	<option id="AlbumTitle" >AlbumTitle</option>
-	<option id="SongTitle" >SongTitle</option>
-</select>
-<input type="text" name="searchKeyword" th:value="${searchKeyword}">
-<button id="searchBtn">Search</button> 
-</td>
+<td><a href="/albumlist">Main</a>&nbsp;</td>
+<td>Shop&nbsp;</td>
+<td><a href="/Genre">Genre</a>&nbsp;</td>
 </tr>
-</table> 
+</table>
+<table id="table2"><tr><td>
+		<select id="searchType" name="searchType">
+			<option id="SelectAll">Select All</option>
+			<option id="Artist" >Artist</option>
+			<option id="ArtistGroup">ArtistGroup</option>
+			<option id="AlbumTitle" >AlbumTitle</option>
+			<option id="SongTitle" >SongTitle</option>
+			<option id="Lyrics">Lyrics</option>
+		</select>
+		<input id="text" type="text" name="searchKeyword" th:value="${searchKeyword}">
+		<button id="searchBtn">Search</button> 
+</td>
+<td>
+<a href="/user/login">Login</a>
+<a href="">JoinClub</a>
+</td>
+
+</tr></table>
 </form>
+
 </div>
 	
 	
