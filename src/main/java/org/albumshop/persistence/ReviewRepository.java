@@ -5,6 +5,7 @@ import java.util.List;
 import org.albumshop.domain.Album;
 import org.albumshop.domain.MultiIdUserAlbum;
 import org.albumshop.domain.Review;
+import org.albumshop.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ReviewRepository extends CrudRepository<Review, MultiIdUserAlbum>{
