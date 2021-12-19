@@ -1,3 +1,4 @@
+/*
 package org.albumshop.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	 
-	/*
+	*/
+/*
 	 
 	@Bean
 	public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
@@ -104,6 +106,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public CustomAuthenticationProvider customAuthenticationProvider() {
 		return new CustomAuthenticationProvider(memberService, (BCryptPasswordEncoder) passwordEncoder());
 	}
-    */
+    *//*
+
     
 }
+*/

@@ -11,7 +11,7 @@
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 	<script
 			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script src="/static/js/common.js"></script>
+	<script src="/js/common.js"></script>
 	<th:block layout:frgment="style">
 		<style>
 			a{text-decoration:none}
@@ -19,26 +19,32 @@
 	</th:block>
 	<th:block layout:frgment="script">
 		<script th:inline="javascript">
+			var orderTotalPrice = 0;
+
 			$(function () {
-				$("#itemCheckAll").prop("checked", true);
-				$("input[name=itemChk]").prop("checked", true);
+				$("input[name^=item]").prop("checked", true);
+				getOrderTotalPrice();
 				$("input[name=itemChk]").change(function () {
-					getOrderTotalPrice();
+					getOrderTotalPrice(); // Cart 안에 사용자가 선택한 앨범의 총수량 / 총금액
+					getMileage();
 				});
-				getTotalPrice();
+				getCartTotalPrice(); // Cart 안에 담겨 있는 앨범의 총수량 / 총금액
 			});
 
 			function checkAll(){
-				if($("#itemCheckAll").prop("checked")){
+				if($("input[name=itemCheckAll]").prop("checked")){
 					$("input[name=itemChk]").prop("checked",true);
 				}else{
 					$("input[name=itemChk]").prop("checked",false);
 				}
 				getOrderTotalPrice();
+				getMileage();
 			}
 
 			function getOrderTotalPrice() {
-				var orderTotalPrice = 0;
+				orderTotalPrice = 0;
+				var deliveryFeeString = $("#deliveryFee").text();
+				var deliveryFee = Number(deliveryFeeString.substring(0, deliveryFeeString.length-1));
 				$("input[name=itemChk]:checked").each(function (){
 					var checkedItemId = $(this).val();
 					var price = $('#price_' + checkedItemId).attr("data-price");
@@ -46,15 +52,12 @@
 
 					orderTotalPrice += price * quantity;
 
-					console.log(checkedItemId);
-					console.log(price);
-					console.log(quantity);
-					console.log(orderTotalPrice);
 				});
 				$("#orderTotalPrice").html(orderTotalPrice + '원');
+				$("#finalOrderTotalPrice").html(orderTotalPrice + deliveryFee + '원');
 			};
 
-			function getTotalPrice() {
+			function getCartTotalPrice() {
 				var totalPrice = 0;
 				var totalQuantity = 0;
 				$("input[name=itemChk]").each(function (){
@@ -65,13 +68,29 @@
 					totalPrice += price * quantity;
 					totalQuantity += quantity;
 
-					console.log(itemId);
-					console.log(price);
-					console.log(quantity);
-					console.log(totalPrice);
 				});
 				$("#totalPrice").html(totalPrice + '원');
 				$("#totalQuantity").html(totalQuantity + '장');
+			}
+			function changeQuantity(obj) {
+				var quantity = obj.value;
+				var itemId = obj.id.split('_')[1];
+				var price = $("#price_" + itemId).data("price");
+				var totalPrice = price * quantity;
+				$("#price_" + itemId).html(totalPrice + '원');
+				getCartTotalPrice();
+				getOrderTotalPrice();
+				getMileage();
+			}
+			function getMileage() {
+				var orderTotalPriceStr = $("#orderTotalPrice").text();
+				var orderTotalPrice = Number(orderTotalPriceStr.substring(0, orderTotalPriceStr-1));
+				console.log(orderTotalPrice);
+				console.log(typeof orderTotalPrice);
+				var mileagePercent = 0.05;
+				var mileage = orderTotalPrice * mileagePercent;
+				console.log(mileage);
+				$("#mileage").html("적립 예정 마일리지 : " + mileage + "점 (5%)");
 			}
 		</script>
 	</th:block>
@@ -85,7 +104,7 @@
 		<div>
 		<table class="table table-hover">
 			<tr>
-				<th th:width="10px"><input type="checkbox" id="itemCheckAll" onclick="checkAll()"></th>
+				<th th:width="10px"><input type="checkbox" name="itemCheckAll" onclick="checkAll()"></th>
 				<th th:width="15px">#</th>
 				<th th:width="80px">커버</th>
 				<th>앨범명</th>
@@ -100,7 +119,7 @@
 				<td class="align-middle" th:text="${cartDetail.getAlbumTitle()}"></td>
 				<td class="align-middle" th:text="${cartDetail.getArtistName()}"></td>
 				<td class="align-middle text-right" th:id="'price_' + ${cartDetail.getAlbumId()}" th:data-price="${cartDetail.getPrice()}" th:text="${cartDetail.getPrice()} + '원'"></td>
-				<td><input type="number" class="form-control align-middle" th:id="'quantity_' + ${cartDetail.getAlbumId()}" th:data-quantity="${cartDetail.getQuantity()}" th:value="${cartDetail.getQuantity()}" min="1" th:max="${cartDetail.getRemaining()}"></td>
+				<td><input type="number" class="form-control align-middle" onchange="changeQuantity(this)" th:id="'quantity_' + ${cartDetail.getAlbumId()}" th:data-quantity="${cartDetail.getQuantity()}" th:value="${cartDetail.getQuantity()}" min="1" th:max="${cartDetail.getRemaining()}"></td>
 			</tr>
 			<tr>
 				<td colspan="4">
@@ -122,11 +141,11 @@
 					</tr>
 					<tr>
 						<td><div id="orderTotalPrice">0원</div></td>
-						<td>2,500원</td>
-						<td>000,000원</td>
+						<td><div id="deliveryFee">3000원</div></td>
+						<td><div id="finalOrderTotalPrice"></div></td>
 					</tr>
 					<tr>
-						<td colspan="3">적립 예정 마일리지 : 000점(0%)</td>
+						<td colspan="3"><div id="mileage">적립 예정 마일리지 : 0점(5%)</div></td>
 					</tr>
 				</table>
 				<form action="" method="post">
