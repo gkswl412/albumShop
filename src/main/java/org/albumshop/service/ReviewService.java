@@ -7,6 +7,7 @@ import org.albumshop.domain.MultiIdUserAlbum;
 import org.albumshop.domain.Review;
 import org.albumshop.domain.User;
 import org.albumshop.persistence.ReviewRepository;
+import org.albumshop.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ public class ReviewService {
 	
 	@Autowired
 	private ReviewRepository reviewRepo;
+	@Autowired
+	private UserRepository userRepo;
 	
 	//리뷰 목록
 	public List<Review> getReviewListByAlbum(Album album) throws RuntimeException {
@@ -50,6 +53,17 @@ public class ReviewService {
 			return true;
 		}
 		return false;
+	}
+	
+	//유저 정보 얻기
+	public User getUserInfo(String userId) {
+		return userRepo.findById(userId).get();
+	}
+	
+	//특정 유저의 리뷰 정보 얻기
+	public Review getReviewByUser(User user, Album album) {
+		MultiIdUserAlbum id = MultiIdUserAlbum.builder().user(user).album(album).build();
+		return reviewRepo.findById(id).get();
 	}
 	
 }

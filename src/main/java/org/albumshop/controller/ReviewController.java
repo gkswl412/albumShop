@@ -42,10 +42,9 @@ public class ReviewController {
 	@Transactional
 	@PostMapping("/{albumId}")
 	public ResponseEntity<List<Review>> createReview(@PathVariable("albumId") Long albumId, @RequestBody Review review){
-		
+		System.out.println(review);
 		reviewService.createReview(review);
 		List<Review> reviews = reviewService.getReviewListByAlbum(Album.builder().id(albumId).build());
-		
 		return new ResponseEntity<>(reviews, HttpStatus.CREATED);
 	}
 	
@@ -70,4 +69,6 @@ public class ReviewController {
 		
 		return new ResponseEntity<>(reviews, HttpStatus.CREATED);
 	}
+	
+	
 }

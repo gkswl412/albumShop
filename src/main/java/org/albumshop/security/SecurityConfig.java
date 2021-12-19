@@ -99,7 +99,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return customAuthenticationFilter;
 	}
  
-
 	@Bean
 	public CustomAuthenticationProvider customAuthenticationProvider() {
 		return new CustomAuthenticationProvider(memberService, (BCryptPasswordEncoder) passwordEncoder());
