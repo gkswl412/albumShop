@@ -43,8 +43,24 @@ var btnManager = (function(){
 		}
 	};
 	
-	var clickDelete = function(){
-		
+	var clickDelete = function(userId,albumId){
+		if($("#deleteReviewBtn").val()=="off"){
+			$.ajax({
+				url: "/writeReviewForm",
+				type: "GET",
+				data:{
+					"albumId":albumId,
+					"userId":userId,
+					"job":"delete"
+				}
+			}).done(function(form){
+				$("#btnClickResult").html(form);
+			});
+			$("#deleteReviewBtn").attr("value","on");
+		}else{
+			$("#btnClickResult").html("");
+			$("#deleteReviewBtn").attr("value","off");
+		}
 	};
 	
 	return {

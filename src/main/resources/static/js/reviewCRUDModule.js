@@ -36,6 +36,11 @@ var reviewManager = (function(){
 	
 	var remove = function(obj, callback){
 		console.log("delete........");
+		$.ajax({
+			type:"delete",
+			url:'review/' + obj.multiId.album.id + '/' + obj.multiId.user.id,
+			success:callback
+		});
 	};
 	
 	return {

@@ -26,7 +26,7 @@ public class WriteReviewFormController {
 		User user = reviewService.getUserInfo(userId);
 		Album album = Album.builder().id(albumId).build();
 		Review review = new Review();
-		if(job.equals("update")) {
+		if(job.equals("update") || job.equals("delete")) {
 			review = reviewService.getReviewByUser(user, album);
 		}
 		model.addAttribute("albumId",albumId);
