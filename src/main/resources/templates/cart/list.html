@@ -3,8 +3,12 @@
 	  xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{/layout/commonLayout}">
+
 <head>
+
 <meta charset="UTF-8">
+<!--	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
 <title>장바구니</title>
 	<link rel="stylesheet"
 		  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
@@ -19,11 +23,11 @@
 	</th:block>
 	<th:block layout:frgment="script">
 		<script th:inline="javascript">
-			var orderTotalPrice = 0;
 
 			$(function () {
 				$("input[name^=item]").prop("checked", true);
 				getOrderTotalPrice();
+				getMileage();
 				$("input[name=itemChk]").change(function () {
 					getOrderTotalPrice(); // Cart 안에 사용자가 선택한 앨범의 총수량 / 총금액
 					getMileage();
@@ -42,7 +46,7 @@
 			}
 
 			function getOrderTotalPrice() {
-				orderTotalPrice = 0;
+				var orderTotalPrice = 0;
 				var deliveryFeeString = $("#deliveryFee").text();
 				var deliveryFee = Number(deliveryFeeString.substring(0, deliveryFeeString.length-1));
 				$("input[name=itemChk]:checked").each(function (){
@@ -81,16 +85,56 @@
 				getCartTotalPrice();
 				getOrderTotalPrice();
 				getMileage();
+				updateCartAlbumCount(itemId, quantity);
 			}
 			function getMileage() {
-				var orderTotalPriceStr = $("#orderTotalPrice").text();
-				var orderTotalPrice = Number(orderTotalPriceStr.substring(0, orderTotalPriceStr-1));
-				console.log(orderTotalPrice);
-				console.log(typeof orderTotalPrice);
-				var mileagePercent = 0.05;
-				var mileage = orderTotalPrice * mileagePercent;
-				console.log(mileage);
+				var orderTotalPrice = 0;
+				var mileage = 0;
+				$("input[name=itemChk]:checked").each(function (){
+					var checkedItemId = $(this).val();
+					var price = $('#price_' + checkedItemId).attr("data-price");
+					var quantity = $('#quantity_' + checkedItemId).val();
+					console.log('price : ' + price);
+					console.log('quantity : ' + quantity);
+					orderTotalPrice += price * quantity;
+					mileage = Math.floor(price * 0.05);
+				});
+				console.log('orderTotalPrice : ' + orderTotalPrice);
+				console.log('mileage : ' + mileage);
+
 				$("#mileage").html("적립 예정 마일리지 : " + mileage + "점 (5%)");
+			}
+			function deleteFromCart () {
+
+			}
+			function updateCartAlbumCount(cartDetailId, count) {
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+
+				var url = "/cartdetail/" + cartDetailId+"?count=" + count;
+
+				$.ajax({
+					url      : url,
+					type     : "PATCH",
+/*					beforeSend : function(xhr){
+						/!* 데이터를 전송하기 전에 헤더에 csrf값을 설정 *!/
+						xhr.setRequestHeader(header, token);
+					},*/
+					dataType : "json",
+					cache   : false,
+					success  : function(result, status){
+						console.log("cartItem count update success");
+					},
+					error : function(jqXHR, status, error){
+
+						if(jqXHR.status == '401'){
+							alert('로그인 후 이용해주세요');
+							//location.href='/user/';
+						} else{
+							alert(jqXHR.responseJSON.message);
+						}
+					}
+				});
 			}
 		</script>
 	</th:block>
