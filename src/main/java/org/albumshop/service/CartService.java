@@ -72,4 +72,13 @@ public class CartService {
         CartDetail cartDetail = cartDetailRepository.findById(multiIdCartAlbum).orElse(null);
         cartDetail.updateQuantity(count);
     }
+
+    public void deleteCartDetail(Long cartId, Long albumId) {
+        Cart cart = cartRepository.findById(cartId).orElse(null);
+        Album album = albumRepository.findById(albumId).orElse(null);
+        MultiIdCartAlbum multiIdCartAlbum = MultiIdCartAlbum.builder()
+                .cart(cart).album(album).build();
+        CartDetail cartDetail = cartDetailRepository.findById(multiIdCartAlbum).orElse(null);
+        cartDetailRepository.delete(cartDetail);
+    }
 }
