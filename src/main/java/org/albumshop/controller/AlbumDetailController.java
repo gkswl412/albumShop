@@ -1,6 +1,7 @@
 package org.albumshop.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.albumshop.domain.Album;
 import org.albumshop.domain.Song;
@@ -34,6 +35,7 @@ public class AlbumDetailController {
 		//노래정보 저장
 		List<Song> songs = albumService.getSongsOfAlbum(album);
 		model.addAttribute("songs",songs);
+	
 		
 		return "albumDetail";
 	}
