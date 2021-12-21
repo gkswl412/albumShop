@@ -1,6 +1,5 @@
-/**
- * 
- */
+
+/* review CRUD ajax Module */
 var reviewManager = (function(){
 	
 	var getAll = function(obj, callback){
