@@ -46,7 +46,7 @@ public class CartInsertTest {
         });
 
         userRepository.findById("kosta0").ifPresent(user -> {
-            Cart cart = Cart.createCart(user);
+            Cart cart = cartRepository.findByUserId("kosta0");
             cartRepository.save(cart);
             IntStream.range(0, 4).forEach(j -> {
                 CartDetail cartDetail = CartDetail.createCartDetail(cart, albumList.get(j), j+1);

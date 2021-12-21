@@ -105,8 +105,34 @@
 
 				$("#mileage").html("적립 예정 마일리지 : " + mileage + "점 (5%)");
 			}
-			function deleteFromCart () {
+			function deleteCartAlbum (obj) {
+				var albumId = parseInt(obj.id);
+				console.log("delete id : " + albumId);
+				var url = "/cart/delete/" + cartId + "/" + albumId;
 
+				$.ajax({
+					url      : url,
+					type     : "DELETE",
+					/*					beforeSend : function(xhr){
+                                            /!* 데이터를 전송하기 전에 헤더에 csrf값을 설정 *!/
+                                            xhr.setRequestHeader(header, token);
+                                        },*/
+					dataType : "json",
+					cache   : false,
+					success  : function(result, status){
+						//location.href = '/cart';
+						showDeleteAlert();
+					},
+					error : function(jqXHR, status, error){
+
+						if(jqXHR.status == '401'){
+							alert('로그인 후 이용해주세요');
+							//location.href='/user/';
+						} else{
+							alert(jqXHR.responseJSON.message);
+						}
+					}
+				});
 			}
 			function updateCartAlbumCount(cartId, albumId, count) {
 				/*var token = $("meta[name='_csrf']").attr("content");
@@ -125,6 +151,7 @@
 					cache   : false,
 					success  : function(result, status){
 						console.log("cartItem count update success");
+						showQuantityUpdateAlert();
 					},
 					error : function(jqXHR, status, error){
 
@@ -137,15 +164,26 @@
 					}
 				});
 			}
+			function showQuantityUpdateAlert() {
+				$("#myAlert").show();
+			}
+			function showDeleteAlert() {
+				$("#myDeleteAlert").show();
+			}
 		</script>
 	</th:block>
 
 </head>
 <body>
 	<div class="container mt-5" layout:fragment="content">
+		<div id="myAlert" class="alert alert-success" style="display: none"><button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>장바구니에 담긴 앨범의 수량이 수정되었습니다. </div>
+		<div id="myDeleteAlert" class="alert alert-warning" style="display: none"><button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>장바구니에 담긴 앨범을 삭제했습니다.</div>
 		<h1>장바구니</h1>
-		<p th:text="${cartlist.get(0).getUserId()} + '님의 장바구니입니다.'"></p>
-		<input type="hidden" th:value="${cartlist.get(0).getCartId()}" id="cartId">
+		<!--<p th:text="${cartlist.get(0).getUserId()} + '님의 장바구니입니다.'"></p>-->
+		<div th:if="${msg != null}" th:text="${msg}"></div>
+		<div th:if="${cartlist != null}">
+			<input type="hidden" th:value="${cartlist.get(0).getCartId()}" id="cartId">
+		</div>
 		<p>사용자 장바구니에 담긴 앨범 조회, 수량에 대한 수정, 삭제 기능 구현중</p>
 		<div>
 		<table class="table table-hover">
@@ -159,6 +197,10 @@
 				<th th:width="70px">수량</th>
 				<th th:width="50px">삭제</th>
 			</tr>
+			<tr th:if="${cartlist == null}">
+				<td><div id="listIsEmpty">장바구니가 비어있습니다.</div></td>
+			</tr>
+			<div th:unless="${cartlist == null}">
 			<tr th:each="cartDetail:${cartlist}">
 				<td class="text-center align-middle"><input type="checkbox" name="itemChk" th:value="${cartDetail.getAlbumId()}"> </td>
 				<td class="text-center align-middle" th:text="${cartlist.indexOf(cartDetail)+1}"></td>
@@ -167,12 +209,13 @@
 				<td class="align-middle" th:text="${cartDetail.getArtistName()}"></td>
 				<td class="align-middle text-right" th:id="'price_' + ${cartDetail.getAlbumId()}" th:data-price="${cartDetail.getPrice()}" th:text="${cartDetail.getPrice()} + '원'"></td>
 				<td><input type="number" class="form-control align-middle" onchange="changeQuantity(this)" th:id="'quantity_' + ${cartDetail.getAlbumId()}" th:data-quantity="${cartDetail.getQuantity()}" th:value="${cartDetail.getQuantity()}" min="1" th:max="${cartDetail.getRemaining()}"></td>
-				<td class="text-center align-middle"><button type="button" class="close" aria-label="Close"><span aria-hidden="true" th:data-id="${cartDetail.getCartId()}/${cartDetail.getAlbumId()}" onclick="deleteFromCart(this)">&times;</span></button></td>
+				<td class="text-center align-middle"><button type="button" th:id="${cartDetail.getAlbumId()}" class="close" aria-label="Close"><span aria-hidden="true" th:id="${cartDetail.getAlbumId()}" th:data-albumId="${cartDetail.getAlbumId()}" onclick="deleteCartAlbum(this)">&times;</span></button></td>
 			</tr>
+			</div>
 			<tr>
 				<td colspan="5">
 					<!--<button type="button" class="btn btn-warning btn-xs">선택삭제</button>-->
-					<button type="button" class="btn btn-danger btn-xs">전체삭제</button>
+					<button type="button" class="btn btn-danger btn-xs" id="deleteAll">전체삭제</button>
 					<button type="button" class="btn btn-default btn-xs">마이리스트에 담기</button>
 				</td>
 				<td><b>총금액 / 총수량</b></td>

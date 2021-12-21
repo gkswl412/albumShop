@@ -41,10 +41,14 @@ public class CartController {
         User user = userRepository.findById("kosta0").orElse(null);
 
         List<CartDetailVO> cartDetailList = cartDetailService.getCartList(user);
-        IntStream.rangeClosed(0, cartDetailList.size()-1).forEach(i -> {
+/*        IntStream.rangeClosed(0, cartDetailList.size()-1).forEach(i -> {
             System.out.println(cartDetailList.get(i));
-        });
-        model.addAttribute("cartlist", cartDetailList);
+        });*/
+        if (cartDetailList != null) {
+            model.addAttribute("cartlist", cartDetailList);
+        } else {
+            model.addAttribute("msg", "장바구니가 비어있습니다.");
+        }
         return "cart/list";
     }
 
@@ -60,16 +64,15 @@ public class CartController {
         return new ResponseEntity<Long>(cartId, HttpStatus.OK);
     }
 
-/*
     @RequestMapping(value = "/cart/delete/{cartId}/{albumId}", method = RequestMethod.DELETE)
-    public @ResponseBody deleteCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, Principal principal) {
-        if(!cartService.validateCartItem(cartId, albumId, principal.getName())) {
+    public @ResponseBody ResponseEntity deleteCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId /*Principal principal*/) {
+        if(!cartService.validateCartItem(cartId, albumId, "kosta0" /*principal.getName()*/)) {
             return new ResponseEntity<String>("삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
 
         cartService.deleteCartDetail(cartId, albumId);
         return new ResponseEntity<Long>(albumId, HttpStatus.OK);
     }
-*/
+
 
 }
