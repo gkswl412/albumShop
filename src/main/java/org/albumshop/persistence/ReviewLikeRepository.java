@@ -21,5 +21,6 @@ public interface ReviewLikeRepository extends CrudRepository<ReviewLike, MultiId
 			+ "group by rl.multiId.review.multiId.user.id")
 	public List<Object[]> getLikeCount(Long albumId);
 	
-	
+	@Query("select rl.multiId.review.multiId.user.id from ReviewLike rl where rl.multiId.user.id  = ?1 and rl.multiId.review.multiId.album.id = ?2")
+	public List<String> getLikedReviewList(String userId, Long albumId);
 }

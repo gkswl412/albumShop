@@ -1,7 +1,8 @@
 package org.albumshop.controller;
 
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.albumshop.domain.Album;
 import org.albumshop.domain.Song;
@@ -20,13 +21,16 @@ public class AlbumDetailController {
 	private AlbumService albumService;
 	@Autowired
 	private ReviewService reviewService;
+	@Autowired
+	private HttpSession session;
 	
 	@GetMapping(value="albumdetail")
 	public String albumDetail(Model model, Long albumId) {
 		
-		//임시 유저 정보 가져오기
+		//임시 유저 정보 생성
 		User user = reviewService.getUserInfo("kosta5");
-		model.addAttribute("user",user);
+		session.setAttribute("user", user);
+		//model.addAttribute("user",user);
 		
 		//앨범정보 저장
 		Album album = albumService.getAlbumDetailInfo(albumId);

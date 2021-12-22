@@ -25,11 +25,17 @@
 		    		<tr>
 		    			<th width=120>Artist</th>
 		    			<td>
-		    				<span th:each="albumartist:${album.albumartist}">
-							<a th:href="@{/ArtistDetail(Id=${albumartist.artist.Id})}" >
-					  		<span th:if=${albumartist.artist!=null} >[[${albumartist.artist.name}]]</span>
-					  		<span th:if=${albumartist.artistGroup!=null} > [[${albumartist.artistGroup.name}]]</span>
-							</a>
+		    				<span th:each="albumartist:${album.albumartist}"> 
+								<span th:if=${albumartist.artist!=null}> 
+									<a th:href="@{/ArtistDetail(Id=${albumartist.artist.Id})}">
+									[[${albumartist.artist.name}]] 
+									</a>
+								</span>
+								<span th:if=${albumartist.artistGroup!=null}> 
+									<a th:href="@{/ArtistGroupDetail(Id=${albumartist.artistGroup.Id})}">
+									[[${albumartist.artistGroup.name}]] 
+									</a>
+								</span>
 							</span>
 		    			</td>
 		    		</tr>
@@ -101,19 +107,21 @@
 				})();
 				/* add Review btn 클릭시 작성폼 Ajax로 불러오기 */
 				$("#addReviewBtn").on('click',function(){
-					btnManager.clickAdd([[${user.id}]],[[${album.id}]]);
+					btnManager.clickAdd([[${session.user.id}]],[[${album.id}]]);
 				});
 				/* update Review btn 클릭시 기존 리뷰 작성폼으로 불러오기 */
 				$("#updateReviewBtn").on('click', function(){
-					btnManager.clickUpdate([[${user.id}]],[[${album.id}]]);
+					btnManager.clickUpdate([[${session.user.id}]],[[${album.id}]]);
 				});
 				/* delete Review btn 클릭시 기존 리뷰 작성폼으로 불러오기 */
 				$("#deleteReviewBtn").on('click', function(){
-					btnManager.clickDelete([[${user.id}]],[[${album.id}]]);
+					btnManager.clickDelete([[${session.user.id}]],[[${album.id}]]);
 				});
-				$(document).on('click',".like",function(){
-					alert($(this).parent().parent().attr("id"));
-				});
+				var callback = function(){
+					reviewManager.clickThumb($(this).parent().parent().attr("id"),[[${album.id}]],$(this).attr("class"),onOff);
+				}
+				$(document).on('click',".like",callback);
+				
 
 			});
 		</script>
