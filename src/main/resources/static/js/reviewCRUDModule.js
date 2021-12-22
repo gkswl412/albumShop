@@ -25,7 +25,7 @@ var reviewManager = (function(){
 		console.log(review);
 		$.ajax({
 			type:"put",
-			url:'review/'+ obj.multiId.album.id ,
+		url:'review/'+ obj.multiId.album.id ,
 			data: JSON.stringify(review),
 			dataType:'json',
 			contentType: "application/json",
