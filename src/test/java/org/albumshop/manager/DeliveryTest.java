@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Commit
+@Transactional
 public class DeliveryTest {
 
     @Autowired
@@ -36,7 +37,7 @@ public class DeliveryTest {
     Pageable paging = PageRequest.of(0, 10, Sort.Direction.ASC, "id");
 
     //@Test
-    public void insertDeliverytest() throws IllegalArgumentException {
+    public void createDeliverytest() throws IllegalArgumentException {
         for(int i = 0; i < 10; i++) {
             long ii = i;
             User user = User.builder()
@@ -70,23 +71,32 @@ public class DeliveryTest {
     }
 
     //@Test
-    public void findDeliveryByIdTest() {
-        Optional<Delivery> result = deliRepo.findById(1l);
+    public void readDeliveryByIdTest() {
+        Optional<Delivery> result = deliRepo.findById(11l);
         result.ifPresent(object -> {
             System.out.println("size : " + object);
         });
     }
 
     //@Test
-    public void findAllDeliveryTest() {
+    public void readAllDeliveryTest() {
         Page<Delivery> result = deliRepo.findAll(paging);
         List<Delivery> list = result.getContent();
 
         list.forEach(delivery2 -> System.out.println(delivery2));
     }
 
+    @Test
+    public void readDeliveryByUserIdTest() {
+        User testUser = userRepo.findById("asdf1111").get();
+        Page<Delivery> result = deliRepo.findByUser(testUser, paging);
+        List<Delivery> list = result.getContent();
+
+        list.forEach(delivery2 -> System.out.println(delivery2));
+    }
+
     //@Test
-    public void findDeliveriesByOrderStateTest(){
+    public void readDeliveriesByOrderStateTest(){
         Page<Delivery> result = deliRepo.findByOrderState("started", paging);
         List<Delivery> list = result.getContent();
 
@@ -102,42 +112,28 @@ public class DeliveryTest {
 //    }
 
 
-//    @Transactional
-//    @Test
-//    public void updateOrderStateTest() {
-//        LocalDate date = LocalDate.now();
-//        Long id = 1l;
-//        deliRepo.updateDelivery(id, date, "changed");
-//    }
 
     //@Test
-    public void update(){
+    public void updateDeliveryTest(){
         Optional<Delivery> deli = deliRepo.findById(1L);
-        DateTimeFormatter formatDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         deli.ifPresent(deliObject ->{
-            LocalDateTime from_localDate = LocalDateTime.parse("2021-12-12 00:00:00",formatDateTime);
-            deliObject.setDeliveryUpdateDate(Timestamp.valueOf(from_localDate));
+            deliObject.setDeliveryUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
             deliObject.setOrderState("changed");
             Delivery deliDone = deliRepo.save(deliObject);
             System.out.println("changedObject : " + deliDone);
         });
     }
 
-    //@Transactional
     //@Test
-    public void update2(){
-        deliRepo.updateDelivery(11l, "changed");
+    public void updateDeliveryTest2(){
+        deliRepo.updateDeliveryOrderState(11l, "changed");
     }
 
     //@Test
-    public void selectAll(){
-       deliRepo.findAll().forEach(deli -> System.out.println(deli));
+    public void deleteDeliveryTest(){
+        deliRepo.deleteById(11l);
     }
 
-    @Test
-    public void select(){
-        System.out.println(deliRepo.findById(11l).get()); // Optional.get()
-    }
 
 
 

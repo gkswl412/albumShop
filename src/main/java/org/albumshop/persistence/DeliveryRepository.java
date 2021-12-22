@@ -22,16 +22,9 @@ public interface DeliveryRepository extends CrudRepository<Delivery, Long> {
     @Query("UPDATE #{#entityName} d " +
             "SET d.orderState = :state " +
             "WHERE d.id = :id")
-    void updateDelivery(@Param("id") Long id,
+    void updateDeliveryOrderState(@Param("id") Long id,
                         @Param("state") String orderState);
 
-    void deleteDeliveryById(Long id);
-
-
-
-
-
-
-
+    void deleteById(Long id);
 
 }
