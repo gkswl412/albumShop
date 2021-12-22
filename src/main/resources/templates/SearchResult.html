@@ -81,6 +81,7 @@
 			<tr>
 				<th>AlbumCover</th>
 				<th>AlbumTitle</th>
+				<th>Genre</th>
 				<th>AlbumArtist</th>
 				<th>Description</th>
 				<th>ReleaseDate</th>
@@ -93,6 +94,9 @@
 				</th>
 				<th>
 				<a class="detailButton" th:href="${album.id}">[[${album.title}]]</a>
+				</th>
+				<th>
+				[[${album.genre}]]
 				</th>
 				<th>
 				<span th:each="albuma:${album.albumartist}"> 
@@ -169,6 +173,8 @@
 		
 		  $(function(){		  
 			  var searchType = "[[${searchType}]]";
+			  var a = "[[${song}]]";
+			  console.log(a);
 			  if(searchType == "Select All"){
 					$('#SelectAll').attr('selected','selected');
 				}else if(searchType=="Artist"){
@@ -179,6 +185,8 @@
 					$('#AlbumTitle').attr('selected','selected');
 				}else if(searchType=="SongTitle"){
 					$('#SongTitle').attr('selected','selected');
+				}else if(searchType=="Genre"){
+					$('#Genre').attr('selected','selected');
 				}else if(searchType=="Lyrics"){
 					$('#Lyrics').attr('selected','selected');
 					$(document).ready(function(){

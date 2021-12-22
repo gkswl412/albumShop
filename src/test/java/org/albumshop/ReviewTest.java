@@ -32,6 +32,13 @@ public class ReviewTest {
 	ReviewLikeRepository reviewLikeRepo;
 	
 	//@Test
+	public void test2() {
+		reviewLikeRepo.getLikedReviewList("kosta5", 1L).forEach(i->{
+			System.out.println(i);
+		});
+	}
+	
+	//@Test
 	public void test1() {
 		Map<String, Long> result = new HashMap<>();
 		reviewLikeRepo.getLikeCount(1L).forEach(i->{

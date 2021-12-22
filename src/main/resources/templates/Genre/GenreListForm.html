@@ -1,0 +1,51 @@
+
+<meta charset="UTF-8">
+<table class="table table-hover" >
+	<tr>
+		<th>Cover</th>
+		<th>Title</th>
+		<th>Artist</th>
+		<th>Description</th>
+		<th>ReleaseDate</th>
+	</tr>
+	<tr th:each="l:${g}">
+		<td width="90px" height="90px"> <a class="detailButton" th:href="${l.id}"><img alt="${l.cover}" th:src="@{${l.cover}}" width="90px" height="90px"></a></td>
+		<td><a class="detailButton" th:href="${l.id}">[[${l.title}]]</a></td>
+		<td>
+			<span th:each="albumartist:${l.albumartist}">
+				<span th:if=${albumartist.artist!=null}> 
+					<a th:href="@{/ArtistDetail(Id=${albumartist.artist.Id})}">
+					[[${albumartist.artist.name}]]
+					&nbsp; 
+					</a>
+				</span>
+				<span th:if=${albumartist.artistGroup!=null}> 
+					<a th:href="@{/ArtistGroupDetail(Id=${albumartist.artistGroup.Id})}">
+					[[${albumartist.artistGroup.name}]] 
+					</a>
+				</span>
+			</span>
+		</td>
+		<td>[[${l.description}]]</td>
+		<td>[[${l.releaseDate}]]</td>
+	</tr>
+</table>
+<body>
+<form id="gotoDetail" th:action="@{albumdetail}" method="get">
+</form>
+<th:block layout:fragment="script">
+		<script>
+			$(function(){
+				var form = $("#gotoDetail");
+				$(".detailButton").click(function(e){
+					var albumId = $(this).attr("href");
+					e.preventDefault();
+					form.find($("input")).remove();
+					form.append("<input type='hidden' name='albumId' value='" + albumId + "'>" );
+					form.submit();
+				});
+			});
+		</script>
+	</th:block>
+</body>
+</html>

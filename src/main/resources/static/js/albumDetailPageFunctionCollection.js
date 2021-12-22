@@ -19,6 +19,34 @@ function printList(output) {
 	var reviewObj;
 	for (var i = 0; i < output.reviews.length; i++) {
 		reviewObj = output.reviews[i];
+		var likeCnt;
+		var disLikeCnt;
+		var thumbUpImgUrl = "images/icon/thumbsUp.png";
+		var thumbDownImgUrl = "images/icon/thumbsDown.png";
+		var likeOnOff = "off";
+		var disLikeOnOff = "off";
+		for(const key in output.likedReviewList){
+			if(output.likedReviewList[key]==reviewObj.multiId.user.id){
+				thumbUpImgUrl = "images/icon/thumbsUpFilled.png";
+				likeOnOff = "on";
+			}
+		}
+		for(const key in output.disLikedReviewList){
+			if(output.disLikedReviewList[key]==reviewObj.multiId.user.id){
+				thumbDownImgUrl = "images/icon/thumbsDownFilled.png";
+				disLikeOnOff = "on";
+			}
+		}
+		if(output.likeCount[reviewObj.multiId.user.id]==undefined){
+			likeCnt = 0;
+		}else{
+			likeCnt = output.likeCount[reviewObj.multiId.user.id];
+		}
+		if(output.disLikeCount[reviewObj.multiId.user.id]==undefined){
+			disLikeCnt = 0;
+		}else{
+			disLikeCnt = output.disLikeCount[reviewObj.multiId.user.id];
+		}
 		header += "<div id='" + reviewObj.multiId.user.id + "'>"
 			+ "<div class='review_header'><a href='/userDetail/" + reviewObj.multiId.user.id + "'><img src='"
 			+ reviewObj.multiId.user.photo + "'></a><span class='user_id'><a href='/userDetail'>"
@@ -29,17 +57,24 @@ function printList(output) {
 			+ "</span><span class='rating'><span class='smallFont'>평점: </span>" + reviewObj.rating.toFixed(1) + "</span></div>"
 			+ "<div class='review_body'><pre>" + reviewObj.content + "</pre></div>"
 			+ "<div class='review_footer'>" 
-				+ "<button class='like'>" 
-					+ "<img src='images/icon/thumbsUp.png' width=16px; height=16px>" 
+				+ "<button class='like' value='" + likeOnOff + "'>"
+					+ "<img src='" + thumbUpImgUrl + "' width=16px; height=16px>" 
 				+ "</button>" 
-				+ "<div class='likeCount'>" + output.likeCount[reviewObj.multiId.user.id] + "</div>" 
-				+ "<button class='dislike'>" 
-					+ "<img src='images/icon/thumbsDown.png' width=16px; height=16px>" 
+				+ "<div class='likeCount'>" + likeCnt + "</div>" 
+				+ "<button class='dislike' value='" + disLikeOnOff + "'>" 
+					+ "<img src='" + thumbDownImgUrl + "' width=16px; height=16px>" 
 				+ "</button>" 
-				+ "<div class='disLikeCount'></div>" 
+				+ "<div class='disLikeCount'>" + disLikeCnt + "</div>" 
 				+ "<button class='reply'>답글</button>" 
 			+ "</div>"
 			+ "</div>"
 		$(".reviews").html(header);
 	}
 }
+
+
+function onOff(job){
+	console.log(job);
+}
+
+

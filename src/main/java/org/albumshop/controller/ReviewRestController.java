@@ -71,15 +71,18 @@ public class ReviewRestController {
 		return new ResponseEntity<>(output, HttpStatus.CREATED);
 	}
 	
-	/*
-	 * //리뷰 좋아요 개수 요청
-	 * 
-	 * @GetMapping("/{userId}/{albumId}") public ResponseEntity<Map<String,Long>>
-	 * getReviewLikeCount(@PathVariable("userId") String
-	 * userId, @PathVariable("albumId") Long albumId) { Map<String,Long>
-	 * reviewLikeCountList = reviewService.getReviewLikeCount(userId, albumId);
-	 * return new ResponseEntity<>(reviewLikeCountList, HttpStatus.CREATED); }
-	 */
+	//
+	@Transactional
+	@PostMapping("/thumb/{userId}/{albumId}/{job}")
+	public String createEmpathy(
+			@PathVariable("userId") String userId,
+			@PathVariable("albumId") Long albumId,
+			@PathVariable("job") String job){
+		System.out.println(userId);
+		System.out.println(albumId);
+		System.out.println(job);
+		return reviewService.checkEmpathyTable(userId, albumId, job);
+	}
 	
 	
 }
