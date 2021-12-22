@@ -21,4 +21,7 @@ public interface CartDetailRepository extends CrudRepository<CartDetail, MultiId
             "    on vc.album_id = va.id\n" +
             "where cart_id = ?1", nativeQuery = true)
     List<Object[]> findByCartDetailVOList(Long cartId);
+
+    @Query(value = "delete from cart_detail where cart_id = ?1", nativeQuery = true)
+    void deleteByCartId(Long cartId);
 }

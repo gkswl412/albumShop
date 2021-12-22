@@ -55,5 +55,8 @@ public class CartDetailService {
         return cartDetailVOList;
     }
 
-
+    public void deleteCartDetailAll(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElse(null);
+        cartDetailRepository.deleteByCartId(cart.getId());
+    }
 }

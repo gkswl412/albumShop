@@ -74,5 +74,9 @@ public class CartController {
         return new ResponseEntity<Long>(albumId, HttpStatus.OK);
     }
 
-
+    @RequestMapping(value = "/cart/delete/{cartId}/all", method = RequestMethod.DELETE)
+    public @ResponseBody ResponseEntity deleteCartDetailAll(@PathVariable("cartId") Long cartId) {
+        cartDetailService.deleteCartDetailAll(cartId);
+        return new ResponseEntity<Long>(cartId, HttpStatus.OK);
+    }
 }
