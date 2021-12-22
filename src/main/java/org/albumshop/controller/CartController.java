@@ -53,7 +53,7 @@ public class CartController {
     }
 
     @PatchMapping(value = "/cart/update/{cartId}/{albumId}")
-    public @ResponseBody ResponseEntity updateCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, int count, String userId/*Principal principal*/) {
+    public @ResponseBody ResponseEntity updateCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, int count/*, Principal principal*/) {
         if (count <= 0) {
             return new ResponseEntity<String>("최소 1개 이상 담아주세요.", HttpStatus.BAD_REQUEST);
         } else if (!cartService.validateCartItem(cartId, albumId, "kosta0"/*principal.getName()*/)) {
@@ -65,7 +65,7 @@ public class CartController {
     }
 
     @RequestMapping(value = "/cart/delete/{cartId}/{albumId}", method = RequestMethod.DELETE)
-    public @ResponseBody ResponseEntity deleteCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId /*Principal principal*/) {
+    public @ResponseBody ResponseEntity deleteCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId/*, Principal principal*/) {
         if(!cartService.validateCartItem(cartId, albumId, "kosta0" /*principal.getName()*/)) {
             return new ResponseEntity<String>("삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
