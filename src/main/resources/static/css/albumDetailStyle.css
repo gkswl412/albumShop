@@ -126,3 +126,9 @@ h2, .table th {
 .reviews > div {
 	padding:0 !important;
 }
+
+.likeCount, .disLikeCount {
+	display:inline-block;
+	padding:0 !important
+}
+

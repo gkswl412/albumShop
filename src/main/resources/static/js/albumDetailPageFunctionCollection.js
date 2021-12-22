@@ -14,11 +14,11 @@ function calcTotalPlayTime() {
 }
 
 /* albumDetailPage 리뷰 목록 출력 method */
-function printList(list) {
-	var header = "<h2>" + list.length + " Reviews</h2><br>";
+function printList(output) {
+	var header = "<h2>" + output.reviews.length + " Reviews</h2><br>";
 	var reviewObj;
-	for (var i = 0; i < list.length; i++) {
-		reviewObj = list[i];
+	for (var i = 0; i < output.reviews.length; i++) {
+		reviewObj = output.reviews[i];
 		header += "<div id='" + reviewObj.multiId.user.id + "'>"
 			+ "<div class='review_header'><a href='/userDetail/" + reviewObj.multiId.user.id + "'><img src='"
 			+ reviewObj.multiId.user.photo + "'></a><span class='user_id'><a href='/userDetail'>"
@@ -28,7 +28,17 @@ function printList(list) {
 			+ new Date(reviewObj.updateDate).getDate()
 			+ "</span><span class='rating'><span class='smallFont'>평점: </span>" + reviewObj.rating.toFixed(1) + "</span></div>"
 			+ "<div class='review_body'><pre>" + reviewObj.content + "</pre></div>"
-			+ "<div class='review_footer'><button class='like'><img src='images/icon/thumbsUp.png' width=16px; height=16px></button><button class='dislike'><img src='images/icon/thumbsDown.png' width=16px; height=16px></button><button class='reply'>답글</button></div>"
+			+ "<div class='review_footer'>" 
+				+ "<button class='like'>" 
+					+ "<img src='images/icon/thumbsUp.png' width=16px; height=16px>" 
+				+ "</button>" 
+				+ "<div class='likeCount'>" + output.likeCount[reviewObj.multiId.user.id] + "</div>" 
+				+ "<button class='dislike'>" 
+					+ "<img src='images/icon/thumbsDown.png' width=16px; height=16px>" 
+				+ "</button>" 
+				+ "<div class='disLikeCount'></div>" 
+				+ "<button class='reply'>답글</button>" 
+			+ "</div>"
 			+ "</div>"
 		$(".reviews").html(header);
 	}
