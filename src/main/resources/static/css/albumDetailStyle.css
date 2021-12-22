@@ -99,7 +99,15 @@ h2, .table th {
 }
 
 .review_body {
-	padding: 10px 36px 10px 36px !important
+	padding: 10px 36px 0px 36px !important
+}
+
+.review_body pre{
+	margin-bottom:10px
+}
+
+.review_footer {
+	padding: 0px 36px 25px 36px !important
 }
 
 .btnType1 {
@@ -111,6 +119,16 @@ h2, .table th {
 	border: 1px solid white
 }
 
-#btnClickResult{
+#btnClickResult {
 	padding:0 !important;
 }
+
+.reviews > div {
+	padding:0 !important;
+}
+
+.likeCount, .disLikeCount {
+	display:inline-block;
+	padding:0 !important
+}
+
