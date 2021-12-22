@@ -4,7 +4,7 @@ var reviewManager = (function(){
 	
 	var getAll = function(obj, callback){
 		console.log("get all...");
-		$.getJSON('/review/'+obj,callback);
+		$.getJSON('/review/' + obj, callback);
 	};
 	
 	var create = function(obj, callback){
@@ -42,11 +42,20 @@ var reviewManager = (function(){
 		});
 	};
 	
+	var clickThumb = function(userId, albumId, job, callback){
+		$.ajax({
+			type:"post",
+			url:'review/thumb/' + userId + '/' + albumId + '/' + job,
+			success:callback
+		});
+	};
+	
 	return {
 		getAll: getAll,
 		create: create,
 		update: update,
-		remove: remove
+		remove: remove,
+		clickThumb: clickThumb
 	}
 	
 })();
