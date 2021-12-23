@@ -1,4 +1,3 @@
-/*
 package org.albumshop.security;
 
 
@@ -70,7 +69,9 @@ public class UserController {
 		
 	}
 	
-	@RequestMapping(value = "/user/IdCheck", method = RequestMethod.POST
+	
+	
+	@RequestMapping(value = "/user/IdCheck", method = RequestMethod.POST)
 	@ResponseBody
 	 public String IdCheck (String id) throws Exception { 
 		   // System.out.println(id);
@@ -125,7 +126,12 @@ public class UserController {
 				
 			}	
 	
-	 }*//*
-
+	 } 
+	
+	
+	
+	
+	
+	
+	
 }
-*/
