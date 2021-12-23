@@ -8,7 +8,10 @@ import javax.servlet.http.HttpSession;
 
 import org.albumshop.domain.Album;
 import org.albumshop.domain.MultiIdUserAlbum;
+import org.albumshop.domain.MultiIdUserReview;
 import org.albumshop.domain.Review;
+import org.albumshop.domain.ReviewDisLike;
+import org.albumshop.domain.ReviewLike;
 import org.albumshop.domain.User;
 import org.albumshop.persistence.AlbumRepository;
 import org.albumshop.persistence.ReviewDisLikeRepository;
@@ -120,15 +123,40 @@ public class ReviewService {
 		return reviewDisLikeRepo.getDisLikedReviewList(userId, albumId);
 	}
 	
-	public String checkEmpathyTable(String userId, Long albumId, String job) {
+	public Map<String,Object> checkEmpathyTable(String userId, Long albumId, String job) {
+		MultiIdUserAlbum reviewId = new MultiIdUserAlbum();
+		reviewId.setId(userId, albumId);
+		Review review = Review.builder().multiId(reviewId).build();
 		User user = (User) session.getAttribute("user");
-		if(reviewLikeRepo.getLikedReviewList(userId, albumId).contains(user.getId())) {
-			System.out.println("공감했던 리뷰");
-		}else if(reviewDisLikeRepo.getDisLikedReviewList(userId, albumId).contains(user.getId())) {
-			System.out.println("비공감했던 리뷰");
+		MultiIdUserReview reviewEmpathyId = new MultiIdUserReview();
+		reviewEmpathyId.setId(user.getId(), userId, albumId);
+		if(job.equals("like")) {
+			reviewLikeRepo.findById(reviewEmpathyId).ifPresentOrElse(reviewLike->{
+				reviewLikeRepo.delete(reviewLike);
+			}, ()->{
+				reviewDisLikeRepo.findById(reviewEmpathyId).ifPresentOrElse(reviewDisLike->{
+					reviewDisLikeRepo.delete(reviewDisLike);
+					reviewLikeRepo.save(ReviewLike.builder().multiId(reviewEmpathyId).build());
+				}, ()->{
+					reviewLikeRepo.save(ReviewLike.builder().multiId(reviewEmpathyId).build());
+				});
+			});
 		}else {
-			System.out.println("어떤 감정표현도 하지않았던 리뷰");
+			reviewLikeRepo.findById(reviewEmpathyId).ifPresentOrElse(reviewLike->{
+				reviewLikeRepo.delete(reviewLike);
+				reviewDisLikeRepo.save(ReviewDisLike.builder().multiId(reviewEmpathyId).build());
+			}, ()->{
+				reviewDisLikeRepo.findById(reviewEmpathyId).ifPresentOrElse(reviewDisLike->{
+					reviewDisLikeRepo.delete(reviewDisLike);
+				}, ()->{
+					reviewDisLikeRepo.save(ReviewDisLike.builder().multiId(reviewEmpathyId).build());
+				});
+			});
 		}
-		return job;
+		Map<String,Object> output = new HashMap<>();
+		output.put("job", job);
+		output.put("likeCount", reviewLikeRepo.countByMultiIdReview(review));
+		output.put("disLikeCount", reviewDisLikeRepo.countByMultiIdReview(review));
+		return output;
 	}
 }

@@ -1,10 +1,9 @@
 package org.albumshop.persistence;
 
 import java.util.List;
-import java.util.Map;
 
-import org.albumshop.domain.Album;
 import org.albumshop.domain.MultiIdUserReview;
+import org.albumshop.domain.Review;
 import org.albumshop.domain.ReviewLike;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -23,4 +22,6 @@ public interface ReviewLikeRepository extends CrudRepository<ReviewLike, MultiId
 	
 	@Query("select rl.multiId.review.multiId.user.id from ReviewLike rl where rl.multiId.user.id  = ?1 and rl.multiId.review.multiId.album.id = ?2")
 	public List<String> getLikedReviewList(String userId, Long albumId);
+	
+	public Integer countByMultiIdReview(Review review);
 }
