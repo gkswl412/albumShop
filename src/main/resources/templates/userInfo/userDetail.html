@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>개인정보 확인 및 수정 페이지</title>
+</head>
+<body>
+
+	<div class="detailFrame">
+		<div class="detailLine1">
+			<div class="detailLName">사용자아이디</div>
+			<div class="detailLName">사용자이름</div>
+			<div class="detailLName">사용자별명</div>
+			<div class="detailLName">사용자주소</div>
+			<div class="detailLName">사용자메일</div>
+			<div class="detailLName">사용자번호</div>
+			<div class="detailLName">생년월일</div>
+			<div class="detailLName">사용자등급</div>
+			<div class="detailLName">마일리지</div>
+		</div>
+		<div class="detailLine2">
+			<div class="detailLInfo" th:text="userDedatil.id"></div>
+			<div class="detailLInfo" th:text="userDedatil.name"></div>
+			<div class="detailLInfo" th:text="userDedatil.nickName"></div>
+			<div class="detailLInfo" th:text="userDedatil.address"></div>
+			<div class="detailLInfo" th:text="userDedatil.email"></div>
+			<div class="detailLInfo" th:text="userDedatil.phone"></div>
+			<div class="detailLInfo" th:text="userDedatil.birth"></div>
+			<div class="detailLInfo" th:text="userDedatil.grade"></div>
+			<div class="detailLInfo" th:text="userDedatil.score"></div>
+		</div>
+
+	</div>
+
+</body>
+</html>
