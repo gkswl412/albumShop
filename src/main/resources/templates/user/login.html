@@ -4,17 +4,38 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout1}">
 <head>
-<title>회원가입</title>
+<th:block layout:fragment="style1">
+<style>
+html {
+    position: relative;
+    min-height: 100%;
+    margin: 0;
+}
+body {
+    min-height: 100%;
+}
+
+#content{
+    margin-bottom:100px;
+    margin-top: 50px;
+    margin-left: 450px;
+    margin-right: 450px;
+}
+</style>
+</th:block>
+
+<title>로그인</title>
 <meta charset="utf-8" />
 </head>
 <body>
 	<div class="panel panel-default" layout:fragment="content1">
+	 <div id="content">
 		<div class="panel-body">
 			<h2>LOGIN</h2>
 			
 			 
 			<div th:if="${param.error != null}">
-			    <h3>아이디와 비밀번호 틀림</h3>
+			    <h3>아이디 또는 비밀번호가 틀립니다.</h3>
 			    <h2 th:value="${param.error}"></h2>
 			</div>
 			<div th:if="${param.logout!= null}">
@@ -26,20 +47,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   <div class="form-group">
     <label class="control-label col-sm-2" for="username">ID:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="username" name="username" value="">
+      <input type="text" class="form-control" id="username" name="username" value="" required>
     </div>
   </div>
   <div class="form-group">
     <label class="control-label col-sm-2" for="password">Password:</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" id="password" name="password" value="" >
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <div class="checkbox">
-        <label><input type="checkbox"> Remember me</label>
-      </div>
+      <input type="password" class="form-control" id="password" name="password" value="" required>
     </div>
   </div>
   <div class="form-group">
@@ -54,7 +68,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 			 
 			 
 			 
-			
+			</div>
 		
 		</div>
 	</div>
