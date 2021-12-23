@@ -36,8 +36,8 @@ public class UserDetailService {
 		return myList;
 	}
 
-	public Page<Delivery> findDeliveryById(Long id, Pageable pageble) {
-		Page<Delivery> delivertList = deliveryRepository.findDeliveryById(id, pageble);
+	public List<Delivery> findDelivertByUserId(String id, Pageable pageble) {
+		List<Delivery> delivertList = deliveryRepository.findDelivertByUserId(id, pageble);
 		return delivertList;
 	}
 

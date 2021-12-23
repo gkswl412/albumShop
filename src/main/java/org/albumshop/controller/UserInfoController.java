@@ -30,8 +30,8 @@ public class UserInfoController {
 
 	// 주문내역
 	@GetMapping("/userMyListDetail/{userId}")
-	public String userDeliveryList(@PathVariable("userId") Long userId, Model model, Pageable pageble) {
-		model.addAttribute("myListList", userDetailService.findDeliveryById(userId, pageble));
+	public String userDeliveryList(@PathVariable("userId") String userId, Model model, Pageable pageble) {
+		model.addAttribute("myListList", userDetailService.findDelivertByUserId(userId, pageble));
 		return "userDeliveryList";
 	}
 
