@@ -1,6 +1,7 @@
 package org.albumshop.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,12 +44,18 @@ public class AlbumController {
 		
 		List<Album> albumlist = (List<Album>) abRepo.findAll();		
 		model.addAttribute("albumlist", albumlist);
+		Map<Long, List<Object>> m = new HashMap<>();
+
 		
-		Map<Long, Long> m = new HashMap<>();
 		for(Album album: albumlist) {
-			Long rcount = reRepo.countByMultiIdAlbum(album.getId());
-			m.put(album.getId(), rcount);	
+			Long rcount = reRepo.countRatingByAlbumId(album.getId());
+			Double ravg = reRepo.avgRatingByAlbumId(album.getId());
+			List<Object> a = new ArrayList<>();
+			a.add(rcount);
+			a.add(ravg);
+			m.put(album.getId(), a);	
 		}
+		
 		model.addAttribute("rlist", m);
 		
 		Long albumcount = abRepo.countAllById();
