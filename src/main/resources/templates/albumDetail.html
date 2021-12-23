@@ -15,6 +15,7 @@
 <body>
 	<!-- content -->
 	<div class="container mt-5" layout:fragment="content">
+		<span id="hidden"></span>
 	  	<div class="row">
 	    	<div class="col-sm-4" id="cover">
 	      		<img alt="${album.cover}" th:src="@{${album.cover}}" width=350px height=350px>
@@ -118,10 +119,10 @@
 					btnManager.clickDelete([[${session.user.id}]],[[${album.id}]]);
 				});
 				var callback = function(){
-					reviewManager.clickThumb($(this).parent().parent().attr("id"),[[${album.id}]],$(this).attr("class"),onOff);
+					reviewManager.clickThumb($(this).parent().parent().attr("id"),[[${album.id}]],$(this).attr("class"),onOff,$(this));
 				}
 				$(document).on('click',".like",callback);
-				
+				$(document).on('click',".disLike",callback);
 
 			});
 		</script>

@@ -42,12 +42,48 @@ var reviewManager = (function(){
 		});
 	};
 	
-	var clickThumb = function(userId, albumId, job, callback){
+	var clickThumb = function(userId, albumId, job, callback, self){
 		$.ajax({
 			type:"post",
 			url:'review/thumb/' + userId + '/' + albumId + '/' + job,
-			success:callback
-		});
+			success:function(data){
+				if(data.job=="like"){
+					if(self.attr("value")=="off"){
+						self.attr("value","on");
+						self.children('img').attr("src","images/icon/thumbsUpFilled.png");
+						self.parent().children('.disLike').children('img').attr("src","images/icon/thumbsDown.png");
+						self.parent().children('.disLike').attr("value","off");
+						self.parent().children('.likeCount').html(data.likeCount);
+						self.parent().children('.disLikeCount').html(data.disLikeCount);
+					}else{
+						self.attr("value","off");
+						self.children('img').attr("src","images/icon/thumbsUp.png");
+						self.parent().children('.likeCount').html(data.likeCount);
+						self.parent().children('.disLikeCount').html(data.disLikeCount);
+					}
+				}else{
+					if(self.attr("value")=="off"){
+						self.attr("value","on");
+						self.children('img').attr("src","images/icon/thumbsDownFilled.png");
+						self.parent().children('.like').children('img').attr("src","images/icon/thumbsUp.png");
+						self.parent().children('.like').attr("value","off");
+						self.parent().children('.likeCount').html(data.likeCount);
+						self.parent().children('.disLikeCount').html(data.disLikeCount);
+					}else{
+						self.attr("value","off");
+						self.children('img').attr("src","images/icon/thumbsDown.png");
+						self.parent().children('.likeCount').html(data.likeCount);
+						self.parent().children('.disLikeCount').html(data.disLikeCount);
+					}
+				}
+				
+				console.log(data.job);
+				console.log(data.likeCount);
+				console.log(data.disLikeCount);
+				console.log(self);
+				
+				}
+			});
 	};
 	
 	return {

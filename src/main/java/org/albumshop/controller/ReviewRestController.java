@@ -74,13 +74,10 @@ public class ReviewRestController {
 	//
 	@Transactional
 	@PostMapping("/thumb/{userId}/{albumId}/{job}")
-	public String createEmpathy(
+	public Map<String,Object> createEmpathy(
 			@PathVariable("userId") String userId,
 			@PathVariable("albumId") Long albumId,
 			@PathVariable("job") String job){
-		System.out.println(userId);
-		System.out.println(albumId);
-		System.out.println(job);
 		return reviewService.checkEmpathyTable(userId, albumId, job);
 	}
 	
