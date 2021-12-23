@@ -1,6 +1,6 @@
 package org.albumshop.persistence;
 
-
+import java.util.Optional;
 import org.albumshop.domain.Delivery;
 import org.albumshop.domain.User;
 import org.springframework.data.domain.Page;
@@ -11,6 +11,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface DeliveryRepository extends CrudRepository<Delivery, Long> {
+
+    //Pageable paging = Pageable.
+
+    Optional<Delivery> findById(Long l);
 
     Page<Delivery> findAll(Pageable paging);
 
