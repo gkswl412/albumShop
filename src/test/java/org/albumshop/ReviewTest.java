@@ -32,8 +32,16 @@ public class ReviewTest {
 	ReviewLikeRepository reviewLikeRepo;
 	
 	//@Test
+	public void test3() {
+		MultiIdUserAlbum multiId = new MultiIdUserAlbum();
+		multiId.setId("kosta0", 1L);
+		Review review = Review.builder().multiId(multiId).build();
+		System.out.println(reviewLikeRepo.countByMultiIdReview(review));
+	}
+	
+	//@Test
 	public void test2() {
-		reviewLikeRepo.getLikedReviewList("kosta5", 1L).forEach(i->{
+		reviewLikeRepo.getLikedReviewList("kosta0", 1L).forEach(i->{
 			System.out.println(i);
 		});
 	}

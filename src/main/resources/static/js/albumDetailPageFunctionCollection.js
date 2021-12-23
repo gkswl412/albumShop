@@ -58,11 +58,11 @@ function printList(output) {
 			+ "<div class='review_body'><pre>" + reviewObj.content + "</pre></div>"
 			+ "<div class='review_footer'>" 
 				+ "<button class='like' value='" + likeOnOff + "'>"
-					+ "<img src='" + thumbUpImgUrl + "' width=16px; height=16px>" 
+					+ "<img src='" + thumbUpImgUrl + "' width=15px; height=15px>" 
 				+ "</button>" 
 				+ "<div class='likeCount'>" + likeCnt + "</div>" 
-				+ "<button class='dislike' value='" + disLikeOnOff + "'>" 
-					+ "<img src='" + thumbDownImgUrl + "' width=16px; height=16px>" 
+				+ "<button class='disLike' value='" + disLikeOnOff + "'>" 
+					+ "<img src='" + thumbDownImgUrl + "' width=15px; height=15px>" 
 				+ "</button>" 
 				+ "<div class='disLikeCount'>" + disLikeCnt + "</div>" 
 				+ "<button class='reply'>답글</button>" 
@@ -73,8 +73,13 @@ function printList(output) {
 }
 
 
-function onOff(job){
-	console.log(job);
+function onOff(output){
+	
+	$("#hidden").html("<input type='hidden' name='job' value='" + output.job + "'><input type='hidden' name='likeCount' value='" + output.likeCount + "'><input type='hidden' name='disLikeCount' value='" + output.disLikeCount + "'>");
+	console.log(output.job);
+	console.log(output.likeCount);
+	console.log(output.disLikeCount);
+	
 }
 
 
