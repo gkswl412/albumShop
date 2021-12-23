@@ -126,12 +126,5 @@ public class UserController {
 				
 			}	
 	
-	 } 
-	
-	
-	
-	
-	
-	
-	
 }
+	}
