@@ -7,7 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
+
+
 public interface UserRepository extends CrudRepository<User, String>{
+
+	
+	Optional<User> findByNickName(String nickName);
+	Optional<User> findByEmail(String email);
+
 
     Optional<User> findById(String s);
 

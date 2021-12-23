@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//.loginProcessingUrl("/auth/login")//추가하면 controller에 인증구현 , 아니면 자동인증처리 ...지금은 username이 전달안됨 							// 스프링시큐리티가 해당주소로 오는 요청을 가로채서 대신한다.
 				//.usernameParameter("username") 
 				//.passwordParameter("password") 
-				.defaultSuccessUrl("/user/loginSuccess") // 로그인 성공 후 리다이렉트 주소
+				.defaultSuccessUrl("/user/main") // 로그인 성공 후 리다이렉트 주소
 				.permitAll(); // 접근전부허용
 
 		http.logout() // 로그아웃에 관한 설정을 의미
