@@ -1,4 +1,4 @@
-/*
+
 package org.albumshop.security;
 
 
@@ -125,7 +125,7 @@ public class UserController {
 				
 			}	
 	
-	 }*//*
+	 }
 
 }
-*/
+

@@ -1,4 +1,4 @@
-/*
+
 package org.albumshop.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,21 +88,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	 
-	*/
-/*
+}	
+
 	 
-	@Bean
-	public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
-		CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager());
-		System.out.println("customAuthenticationFilter:" + customAuthenticationFilter);
-		customAuthenticationFilter.setFilterProcessesUrl("/auth/login");
-		
-		customAuthenticationFilter.afterPropertiesSet();
-		return customAuthenticationFilter;
-	}
- 
-	@Bean
-	public CustomAuthenticationProvider customAuthenticationProvider() {
-		return new CustomAuthenticationProvider(memberService, (BCryptPasswordEncoder) passwordEncoder());
-	}
-    *//*
+/*
+ * @Bean public CustomAuthenticationFilter customAuthenticationFilter() throws
+ * Exception { CustomAuthenticationFilter customAuthenticationFilter = new
+ * CustomAuthenticationFilter(authenticationManager());
+ * System.out.println("customAuthenticationFilter:" +
+ * customAuthenticationFilter);
+ * customAuthenticationFilter.setFilterProcessesUrl("/auth/login");
+ * 
+ * customAuthenticationFilter.afterPropertiesSet(); return
+ * customAuthenticationFilter; }
+ * 
+ * @Bean public CustomAuthenticationProvider customAuthenticationProvider() {
+ * return new CustomAuthenticationProvider(memberService,
+ * (BCryptPasswordEncoder) passwordEncoder()); }
+ */
+
