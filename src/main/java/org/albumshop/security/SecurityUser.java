@@ -1,3 +1,4 @@
+/*
 package org.albumshop.security;
 
 
@@ -44,3 +45,4 @@ public class SecurityUser extends User{
 	
 	
 }
+*/

@@ -37,18 +37,18 @@ public class CartInsertTest {
 
     @Test
     public void insertAlbumToCart() {
-        //8, 9, 10번 앨범 각 1, 2, 3개 Cart에 담기
+        //7, 8, 9, 10번 앨범 각 1, 2, 3개 Cart에 담기
         List<Album> albumList = new ArrayList<>();
-        LongStream.rangeClosed(8L, 10L).forEach(i -> {
+        LongStream.rangeClosed(7L, 10L).forEach(i -> {
             albumRepository.findById(i).ifPresent(album -> {
                 albumList.add(album);
             });
         });
 
         userRepository.findById("kosta0").ifPresent(user -> {
-            Cart cart = Cart.createCart(user);
+            Cart cart = cartRepository.findByUserId("kosta0");
             cartRepository.save(cart);
-            IntStream.range(0, 3).forEach(j -> {
+            IntStream.range(0, 4).forEach(j -> {
                 CartDetail cartDetail = CartDetail.createCartDetail(cart, albumList.get(j), j+1);
                 cartDetailRepository.save(cartDetail);
             });
