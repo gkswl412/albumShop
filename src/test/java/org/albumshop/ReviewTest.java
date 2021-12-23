@@ -1,15 +1,18 @@
 package org.albumshop;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.albumshop.domain.Album;
 import org.albumshop.domain.MultiIdUserAlbum;
+import org.albumshop.domain.MultiIdUserReview;
 import org.albumshop.domain.Review;
+import org.albumshop.domain.ReviewLike;
 import org.albumshop.domain.User;
 import org.albumshop.persistence.AlbumRepository;
+import org.albumshop.persistence.ReviewLikeRepository;
 import org.albumshop.persistence.ReviewRepository;
 import org.albumshop.persistence.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -25,6 +28,44 @@ public class ReviewTest {
 	UserRepository userRepo;
 	@Autowired
 	AlbumRepository albumRepo;
+	@Autowired
+	ReviewLikeRepository reviewLikeRepo;
+	
+	//@Test
+	public void test3() {
+		MultiIdUserAlbum multiId = new MultiIdUserAlbum();
+		multiId.setId("kosta0", 1L);
+		Review review = Review.builder().multiId(multiId).build();
+		System.out.println(reviewLikeRepo.countByMultiIdReview(review));
+	}
+	
+	//@Test
+	public void test2() {
+		reviewLikeRepo.getLikedReviewList("kosta0", 1L).forEach(i->{
+			System.out.println(i);
+		});
+	}
+	
+	//@Test
+	public void test1() {
+		Map<String, Long> result = new HashMap<>();
+		reviewLikeRepo.getLikeCount(1L).forEach(i->{
+			result.put((String)i[0],(long) i[1]);
+		});
+		System.out.println(result);
+	}
+	
+	//@Test
+	public void insertReviewLike() {
+		Album album = Album.builder().id(1L).build();
+		reviewRepo.findByMultiIdAlbum(album).forEach(review->{
+			userRepo.findAll().forEach(user->{
+				MultiIdUserReview multiId = MultiIdUserReview.builder().user(user).review(review).build();
+				ReviewLike reviewLike = ReviewLike.builder().multiId(multiId).build();
+				reviewLikeRepo.save(reviewLike);
+			});
+		});
+	}
 	
 	//@Test
 	public void deleteReviewById() {

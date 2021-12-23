@@ -34,6 +34,7 @@ public class Song {
 	private Integer trackNum;
 	private Integer playTime;
 	private Integer isThisSongTitle;
+	private String lyrics;
 	@NotNull
 	private String title;
 }

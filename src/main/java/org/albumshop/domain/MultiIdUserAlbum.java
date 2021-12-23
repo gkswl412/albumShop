@@ -29,4 +29,8 @@ public class MultiIdUserAlbum implements Serializable {
 	@ManyToOne
 	private Album album;
 	
+	public void setId(String userId, Long albumId) {
+		this.user = User.builder().id(userId).build();
+		this.album = Album.builder().id(albumId).build();
+	}
 }

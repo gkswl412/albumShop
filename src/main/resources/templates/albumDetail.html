@@ -8,34 +8,14 @@
   	
   	<!-- style -->
 	<th:block layout:frgment="style">
-		<style>
-			.titleBox{border-bottom:1px solid #EEEEEE; padding:0 !important}
-	  		.table{border:1px solid white}
-	  		ul li span:nth-child(1){display:inline-block; color:#666; width:20px}
-	  		ul li span:nth-child(2){display:inline-block; width:7em}
-	  		ul li span:nth-child(3){color:#666; font-size:13px}
-	  		#totalPlayTime{background-color:#F7F7F7}
-	  		#cover{background-color:#F7F7F7; width:400px; height:400px; width:400px; background-color:#F7F7F7}
-	  		#purchaseMenu{background-color:#F7F7F7; width:400px}
-	  		#reviewAndCatalog, .reviews{padding:0; border-top:1px solid #EEEEEE}
-	  		.row div{padding:25px}
-	  		h1,h3{font-size:30px; font-weight:lighter; color:#555555;}
-	  		h2, .table th{color:#555555; font-size:18px; text-align:left; font-weight:lighter}
-	  		.review_header { width:100% !important; padding:0 !important; background-color:#EEEEEE; border-radius:4px} 
-	  		.review_header img{ width:36px; height:36px; border-radius:4px; margin-right:10px}
-	  		.user_id{font-weight:bolder; margin-right:15px}
-	  		.update_date{font-size:12px; color:#606060}
-	  		.rating{float:right; margin-right:20px; margin-top:5.5px}
-	  		.smallFont{font-size:12px}
-	  		.review_body{padding:10px 36px 10px 36px !important}
-	  		.btnType1{background-color:#DBDBDB; color:#444444; border-radius:4px; padding:5px; font-size:12px; border:1px solid white}
-	  	</style>
+		<link th:href="@{'/css/albumDetailStyle.css'}" rel="stylesheet" />
 	</th:block>
 </head>
 
 <body>
 	<!-- content -->
 	<div class="container mt-5" layout:fragment="content">
+		<span id="hidden"></span>
 	  	<div class="row">
 	    	<div class="col-sm-4" id="cover">
 	      		<img alt="${album.cover}" th:src="@{${album.cover}}" width=350px height=350px>
@@ -46,11 +26,17 @@
 		    		<tr>
 		    			<th width=120>Artist</th>
 		    			<td>
-		    				<span th:each="albumartist:${album.albumartist}">
-							<a th:href="@{/ArtistDetail(Id=${albumartist.artist.Id})}" >
-					  		<span th:if=${albumartist.artist!=null} >[[${albumartist.artist.name}]]</span>
-					  		<span th:if=${albumartist.artistGroup!=null} > [[${albumartist.artistGroup.name}]]</span>
-							</a>
+		    				<span th:each="albumartist:${album.albumartist}"> 
+								<span th:if=${albumartist.artist!=null}> 
+									<a th:href="@{/ArtistDetail(Id=${albumartist.artist.Id})}">
+									[[${albumartist.artist.name}]] 
+									</a>
+								</span>
+								<span th:if=${albumartist.artistGroup!=null}> 
+									<a th:href="@{/ArtistGroupDetail(Id=${albumartist.artistGroup.Id})}">
+									[[${albumartist.artistGroup.name}]] 
+									</a>
+								</span>
 							</span>
 		    			</td>
 		    		</tr>
@@ -85,11 +71,13 @@
 				<h4>바로구매,장바구니 담기</h4>
 			</div>
 			<div class="col-sm-8" id="reviewAndCatalog">
-				<div>
+				<div id="BtnCollection">
 					<h2>Catalog</h2>
 					<br>
-					<button class="btnType1" id="addReviewBtn"><img src="/images/icon/write.png" width=30px height=30px>Add Review</button>
-					<button class="btnType1" id="updateReviewBtn"><img src="/images/icon/update.png" width=30px height=30px>Update Review</button>
+					<button class="btnType1" id="addReviewBtn" value="off"><img src="/images/icon/write.png" width=30px height=30px>Add Review</button>
+					<button class="btnType1" id="updateReviewBtn" value="off"><img src="/images/icon/update.png" width=30px height=30px>Update Review</button>
+					<button class="btnType1" id="deleteReviewBtn" value="off"><img src="/images/icon/delete.png" width=30px height=30px>Delete Review</button>
+					<div id="btnClickResult"></div>
 				</div>
 				<div class="reviews">
 					<h2>Reviews</h2>
@@ -102,55 +90,42 @@
 	<th:block layout:fragment="script">
 	
 		<!-- 리뷰 화면에 표시하기 위한 JS import -->
-		<script th:inline="javascript" th:src="@{'/js/review.js'}"></script>
+		
+		<!-- review CRUD Module import -->
+		<script th:inline="javascript" th:src="@{'/js/reviewCRUDModule.js'}"></script>
+		<!-- albumDetail Page관련 함수 import -->
+		<script th:inline="javascript" th:src="@{'/js/albumDetailPageFunctionCollection.js'}"></script>
+		<!-- albumDetail Page Btn Module import -->
+		<script th:inline="javascript" th:src="@{'/js/albumDetailPageBtnModule.js'}"></script>
+		
 		<script th:inline="javascript">
 			$(document).ready(function(e){
-				var averageRating = 0;
+				/* 전체 플레이 시간 계산 */
+				calcTotalPlayTime();
+				/* 리뷰 목록 가져오기 */
 				(function(){
-					
-					//load reviews
 					reviewManager.getAll([[${album.id}]], printList);
 				})();
-				
-				function printList(list){
-					var header = "<h2>" + list.length + " Reviews</h2><br>";
-					var reviewObj;
-					for(var i = 0; i < list.length; i++){
-						reviewObj = list[i];
-						averageRating += reviewObj.rating;
-						console.log(averageRating);
-						header +=  "<div class='review_header'><a href='/userDetail/" + reviewObj.multiId.user.id + "'><img src='" 
-									+ reviewObj.multiId.user.photo + "'></a><span class='user_id'><a href='/userDetail'>" 
-									+ reviewObj.multiId.user.id + "</a></span><span class='update_date'>"  
-									+ new Date(reviewObj.updateDate).getFullYear() + ". "
-									+ new Date(reviewObj.updateDate).getMonth() + ". "
-									+ new Date(reviewObj.updateDate).getDay() 
-									+ "</span><span class='rating'><span class='smallFont'>평점: </span>" + reviewObj.rating.toFixed(1) + "</span></div>"
-									+ "<div class='review_body'>" + reviewObj.content + "</div><br>";
-						$(".reviews").html(header);
-					}
-					averageRating = averageRating / list.length;
-					$(".averageRating").html(averageRating.toFixed(1));
-				}
-				
-			});
-		</script>
-
-		<script>
-			//총 재생 시간 계산
-			$(function(){
-				var second=0;
-				$("#track li").each(function (index, item){
-					second += item.value;
+				/* add Review btn 클릭시 작성폼 Ajax로 불러오기 */
+				$("#addReviewBtn").on('click',function(){
+					btnManager.clickAdd([[${session.user.id}]],[[${album.id}]]);
 				});
-				var totalPlayTime = parseInt(second/60) + ":" + second%60;
-				$("#track").append('<li class="list-group-item" id="totalPlayTime">' 
-						+ '<span></span>'
-						+ '<span>' + '총 재생 시간:' + '</span>' 
-						+ '<span>' + totalPlayTime + '</span>' + '</li>');
+				/* update Review btn 클릭시 기존 리뷰 작성폼으로 불러오기 */
+				$("#updateReviewBtn").on('click', function(){
+					btnManager.clickUpdate([[${session.user.id}]],[[${album.id}]]);
+				});
+				/* delete Review btn 클릭시 기존 리뷰 작성폼으로 불러오기 */
+				$("#deleteReviewBtn").on('click', function(){
+					btnManager.clickDelete([[${session.user.id}]],[[${album.id}]]);
+				});
+				var callback = function(){
+					reviewManager.clickThumb($(this).parent().parent().attr("id"),[[${album.id}]],$(this).attr("class"),onOff,$(this));
+				}
+				$(document).on('click',".like",callback);
+				$(document).on('click',".disLike",callback);
+
 			});
 		</script>
-	
 	</th:block>
 </body>
 </html>

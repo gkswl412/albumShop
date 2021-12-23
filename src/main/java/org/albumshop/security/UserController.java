@@ -1,7 +1,7 @@
 /*
 package org.albumshop.security;
 
-import java.util.Optional;
+
 
 import org.albumshop.domain.User;
 import org.albumshop.persistence.UserRepository;
@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 
 @Controller
@@ -53,14 +53,6 @@ public class UserController {
 		
 	}
 	
-	
-	@RequestMapping("/user/loginSuccess")
-	public void loginSuccess() {
-		
-		
-		
-	}
-	
 	@GetMapping("/user/join")
 	public String join() {
 		
@@ -74,23 +66,59 @@ public class UserController {
 		System.out.println("==회원가입하기==");
 		uservice.joinUser(user);
 		
-		return "/user/joinSuccess";
+		return "/user/login";
 		
 	}
 	
-	
-	
-	*/
-/*@RequestMapping(value = "/IdCheck", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/IdCheck", method = RequestMethod.POST
 	@ResponseBody
 	 public String IdCheck (String id) throws Exception { 
-		 
-			int result = urepo.findById(id);
-
-			if(result != 0) {
+		   // System.out.println(id);
+		    User user = urepo.findById(id).orElse(null);
+			//System.out.println(user);
+			if(user != null) {
 				
 				return "fail";	
+				 
+			} else {
 				
+				return "success";	
+				
+			}	
+	
+	 } 
+	
+	
+	
+	@RequestMapping(value = "/user/nickCheck", method = RequestMethod.POST)
+	@ResponseBody
+	 public String nickCheck (String nickName) throws Exception { 
+		   // System.out.println(nickName);
+		User user = urepo.findByNickName(nickName).orElse(null);
+			//System.out.println(user);
+			if(user != null) {
+				
+				return "fail";	
+				 
+			} else {
+				
+				return "success";	
+				
+			}	
+	
+	 } 
+	
+	
+	
+	@RequestMapping(value = "/user/emailCheck", method = RequestMethod.POST)
+	@ResponseBody
+	 public String emailCheck (String email) throws Exception { 
+
+		User user = urepo.findByEmail(email).orElse(null);
+			if(user != null) {
+				
+				return "fail";	
+				 
 			} else {
 				
 				return "success";	

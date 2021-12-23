@@ -3,10 +3,14 @@ package org.albumshop.domain;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -48,8 +52,16 @@ public class User {
 	private String grade;
 	@NotNull
 	private Integer score;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull
 	private LocalDate birth;
 	private String gender;
+	
+
+	@Enumerated(EnumType.STRING)
+	org.albumshop.security.UserRole urole;
+	
+	
+	
 	
 }

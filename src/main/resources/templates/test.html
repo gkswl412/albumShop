@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <style>
+div.a { display:none; }
+</style>
+ 
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>KeyWord Highlights</title>
+    <script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+    </head>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            fnKeyWordHighlights(".a","감기");
+        });
+  
+        function fnKeyWordHighlights(obj,keyword)
+        {
+            $(obj).each(function(){ 
+                $(this).html($(this).html().replace(eval("/"+keyword+"/gi"), "<span style='color:red;font-weight:bold;'>"+keyword+"</span>"));
+            });
+        }
+        $(function(){
+            $(".a").slice(0, 5).show(); // select the first ten
+            $("#load").click(function(e){ // click event for load more
+                e.preventDefault();
+                $(".a:hidden").slice(0, 5).show(); // select next 10 hidden divs and show them
+                if($(".a:hidden").length == 0){ // check if any hidden divs still exist
+                    alert("No more divs"); // alert if there are none left
+                }
+            });
+        });
+        
+        
+    </script>
+</head>
+<body >
+
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+<div class="a"><table><tr><td>Content</td><td>아야</td></tr>
+<tr><td><a href="#">wafsf</a></td><td>wefsrgvsdg</td></tr></table></div>
+
+<a href="#" id="load">더 보기</a>
+ 
+ 
+ 
+ 
+
+    <p class="a">나는 오늘 감기에 걸렸다. 지겨운 감기.. 너무 싫다.</p>
+    <p class="a">나는 감기가 걸려서 외롭다.</p>
+</body>
+</html>

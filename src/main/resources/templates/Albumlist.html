@@ -7,19 +7,34 @@
 	<title>AlbumList</title>
 	<!-- style -->
 	<th:block layout:frgment="style">
+	<style>
+div.a { display:none; }
+</style>
 	</th:block>
 </head>
 <body>
 	<!-- content -->
 	<div class="container mt-5" layout:fragment="content">
+	<table class="table table-hover" >
+	<tr>
+	<td>앨범 수 : [[${albumcount}]]</td><td>전체 리뷰 수 : [[${reviewcount}]]</td><td>전체 가수 명 : [[${artistcount}]]</td><td>전체 그룹 수 : [[${artisgroupcount}]]</td>
+	</tr>
+	</table>	
 		<h4>전체 앨범</h4>
-		<table class="table table-hover" th:each="album:${albumlist}">
+		<div class="a" th:each="album:${albumlist}">
+		<table class="table table-hover" >
 			<tr>
-				<td rowspan="4" width=150px height=150px><a class="detailButton" th:href="${album.id}"><img alt="${album.cover}" th:src="@{${album.cover}}" width="150px" height="150px"></a></td>
+				<td rowspan="4" width=150px height=150px><a class="detailButton" th:href="${album.id}" ><img alt="${album.cover}" th:src="@{${album.cover}}" width="150px" height="150px"></a></td>
 			</tr>
 			<tr>
 				<td><a class="detailButton" th:href="${album.id}">[[${album.title}]]</a> / [[${album.releaseDate}]]</td>
-				<td>리뷰수</td>
+				<td>
+				<span th:each="r : ${rlist}">
+				<span th:if="${r.key}==${album.id}">
+				[리뷰 수, 평점] : <span th:text="${r.value[0]}"></span>
+				</span>
+				</span>
+				</td>
 				<td colspan="2">재고 수 : [[${album.remaining}]]</td>
 			</tr>
 			<tr>
@@ -39,23 +54,32 @@
 				</td>
 			</tr>
 			<tr>
-				<td>[[${album.description}]]</td>
-				<td>가격 : [[${album.price}]]</td>
-				<td><button>구매</button></td>
-				<td><button>담기</button></td>
+				<td colspan="4">앨범 정보 : [[${album.description}]]</td>
 			</tr>
 		</table>
+		</div>
+		<a href="#" id="load">더 보기</a>
 		<!-- Form : goto AlbumDetail Page -->
 		<form id="gotoDetail" th:action="@{albumdetail}" method="get">
 		</form>
 	</div>
+	
 <!-- 커버사진, 타이틀 클릭시 albumDetail로 이동 구현 -->
 <!-- custom javaScript -->
 	<th:block layout:fragment="script">
 		<script>
 			$(function(){
-				var form = $("#gotoDetail");
+				$(".a").slice(0, 3).show(); // select the first ten
+	            $("#load").click(function(e){ // click event for load more
+	                e.preventDefault();
+	                $(".a:hidden").slice(0, 3).show(); // select next 10 hidden divs and show them
+	                if($(".a:hidden").length == 0){ // check if any hidden divs still exist
+	                    alert("마지막 앨범 목록입니다."); // alert if there are none left
+	                }
+	            });
 				
+				
+				var form = $("#gotoDetail");
 				$(".detailButton").click(function(e){
 					var albumId = $(this).attr("href");
 					e.preventDefault();

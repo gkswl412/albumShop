@@ -46,14 +46,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	protected void configure(HttpSecurity http) throws Exception {
 		log.info("!!!!!!security config..........");
-		//http.csrf().disable();
+		http.csrf().disable();
 		
 		// antMatchers url 패턴에 대한 접근허용
 		// permitAll: 모든사용자가 접근가능하다는 의미
 		// hasRole : 특정권한을 가진 사람만 접근가능하다는 의미
 		http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
 		http.authorizeRequests() // HttpServletRequest에 따라 접근(access)을 제한
-				.antMatchers("/hello/**", "/user/**").permitAll() // 누구나 접근 허용
+				.antMatchers("**").permitAll() // 누구나 접근 허용
 				.antMatchers("/admin/**").hasRole("ADMIN") // /admin으로 시작하는 경로는 ADMIN롤을 가진 사용자만 접근 가능(자동으로 ROLE_가 삽입)
 				.antMatchers("/manager/**").hasRole("MANAGER").antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.anyRequest().authenticated() // anyRequest() 나머지요청 , authenticated() : 인증된 사용자만 접근가능,
@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//.loginProcessingUrl("/auth/login")//추가하면 controller에 인증구현 , 아니면 자동인증처리 ...지금은 username이 전달안됨 							// 스프링시큐리티가 해당주소로 오는 요청을 가로채서 대신한다.
 				//.usernameParameter("username") 
 				//.passwordParameter("password") 
-				.defaultSuccessUrl("/user/loginSuccess") // 로그인 성공 후 리다이렉트 주소
+				.defaultSuccessUrl("/user/main") // 로그인 성공 후 리다이렉트 주소
 				.permitAll(); // 접근전부허용
 
 		http.logout() // 로그아웃에 관한 설정을 의미
@@ -101,13 +101,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return customAuthenticationFilter;
 	}
  
-
 	@Bean
 	public CustomAuthenticationProvider customAuthenticationProvider() {
 		return new CustomAuthenticationProvider(memberService, (BCryptPasswordEncoder) passwordEncoder());
 	}
     *//*
-
-    
-}
-*/

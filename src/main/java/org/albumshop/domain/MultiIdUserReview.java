@@ -28,4 +28,11 @@ public class MultiIdUserReview implements Serializable {
 	
 	@ManyToOne
 	private Review review;
+	
+	public void setId(String userId, String reviewUserId, Long albumId) {
+		this.user = User.builder().id(userId).build();
+		MultiIdUserAlbum multiId = new MultiIdUserAlbum();
+		multiId.setId(reviewUserId, albumId);
+		this.review = Review.builder().multiId(multiId).build();
+	}
 }
