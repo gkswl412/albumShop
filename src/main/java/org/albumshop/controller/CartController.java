@@ -46,10 +46,10 @@ public class CartController {
         });*/
         if (cartDetailList != null) {
             model.addAttribute("cartlist", cartDetailList);
+            return "cart/list";
         } else {
-            model.addAttribute("msg", "장바구니가 비어있습니다.");
+            return "cart/empty";
         }
-        return "cart/list";
     }
 
     @PatchMapping(value = "/cart/update/{cartId}/{albumId}")

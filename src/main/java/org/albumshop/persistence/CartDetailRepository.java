@@ -3,8 +3,10 @@ package org.albumshop.persistence;
 import org.albumshop.domain.CartDetail;
 import org.albumshop.domain.MultiIdCartAlbum;
 import org.albumshop.vo.CartDetailVO;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +24,8 @@ public interface CartDetailRepository extends CrudRepository<CartDetail, MultiId
             "where cart_id = ?1", nativeQuery = true)
     List<Object[]> findByCartDetailVOList(Long cartId);
 
+    @Transactional
+    @Modifying
     @Query(value = "delete from cart_detail where cart_id = ?1", nativeQuery = true)
     void deleteByCartId(Long cartId);
 }
