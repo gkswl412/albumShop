@@ -17,28 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailService {
 
-	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	MyListRepository myListRepository;
-
-	@Autowired
-	DeliveryRepository deliveryRepository;
-
-	public User findByUserId(String id) {
-		Optional<User> user = userRepository.findById(id);
-		return user.get();
-	}
-
-	public List<MyList> findByMyListId(String id, Pageable pageble) {
-		List<MyList> myList = myListRepository.findByUserId(id, pageble);
-		return myList;
-	}
-
-	public List<Delivery> findDelivertByUserId(String id, Pageable pageble) {
-		List<Delivery> delivertList = deliveryRepository.findDelivertByUserId(id, pageble);
-		return delivertList;
-	}
-
+	
+	
+	
 }

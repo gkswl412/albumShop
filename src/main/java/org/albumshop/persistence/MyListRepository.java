@@ -11,8 +11,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface MyListRepository extends CrudRepository<User, String>{
 
-	@Query("select ml from MyList wgere ml.user.id=?1")
-	List<MyList> findByUserId(String user_id, Pageable paging);
-	
     
 }
