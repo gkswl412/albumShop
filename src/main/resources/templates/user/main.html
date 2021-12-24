@@ -11,8 +11,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 
 <h1>main page</h1>
 <h1>Welcome! Album Shop!</h1>
-
-
+<div th:if="${session.user!=null}">
+<input th:text="${session.user}">
+</div>
 </div>
 </body>
 </html>

@@ -49,12 +49,13 @@ public class UserService implements UserDetailsService{
 		System.out.println("loadUserByUsername id:" + id);
 		//filter는 조건에 맞는것만 선택
 		//map: 변형한다. 
-	 
-		UserDetails user = urepo.findById(id)
+		org.albumshop.domain.User user = urepo.findById(id).orElse(null);
+		UserDetails user2 = urepo.findById(id)
 				.filter(m -> m != null).map(m -> new SecurityUser(m)).get();
 		System.out.println("user:" + user);
+		httpSession.setAttribute("user2", user2);
 		httpSession.setAttribute("user", user);
-		return user;
+		return user2;
 	}
 
 	 
