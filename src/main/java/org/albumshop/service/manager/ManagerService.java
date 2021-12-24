@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ManagerService<T, R extends CrudRepository<T, ?>> {
 
 
-
     default <T> T create(T t) {
         return t;
     }

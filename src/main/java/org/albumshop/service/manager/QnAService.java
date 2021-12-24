@@ -16,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class QnAService {
 
     @Autowired
-    UserRepository userRepo;
+    UserRepository qnaRepo;
 
     //create order
     public User createUser(User User){
         String id = User.getId();
-        userRepo.save(User);
-        Optional<User> optional = userRepo.findById(id);
+        qnaRepo.save(User);
+        Optional<User> optional = qnaRepo.findById(id);
         if (optional.isPresent()) {
             return optional.get();
         } else {
@@ -31,7 +31,7 @@ public class QnAService {
     }
     //read order
     public User readUser(String id) {
-        Optional<User> optional = userRepo.findById(id);
+        Optional<User> optional = qnaRepo.findById(id);
         if(optional.isPresent()) {
             return optional.get();
         }
@@ -40,10 +40,10 @@ public class QnAService {
 
     public User updateUser(User User){
         String id = User.getId();
-        Optional<User> optional = userRepo.findById(id);
+        Optional<User> optional = qnaRepo.findById(id);
         if (optional.isPresent()) {
             User target = optional.get();
-            userRepo.save(target);
+            qnaRepo.save(target);
             return target;
         }
         return null;
@@ -51,9 +51,9 @@ public class QnAService {
 
     //delete order
     public boolean deleteUser(String id) {
-        Optional<User> optional = userRepo.findById(id);
+        Optional<User> optional = qnaRepo.findById(id);
         if (optional.isPresent()) {
-            userRepo.deleteById(optional.get().getId());
+            qnaRepo.deleteById(optional.get().getId());
             return true;
         } else {
             return false;
