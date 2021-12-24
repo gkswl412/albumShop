@@ -145,8 +145,7 @@ body {
 				<label for="grade"></label> <input type="hidden" id="grade"
 					name="grade" value="Bronze" /> <label for="score"></label> <input
 					type="hidden" id="score" name="score" value="0" /> <input
-					type="hidden" name="mrole" value="USER" /> <input type="hidden"
-					th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+					type="hidden" name="mrole" value="USER"/> 
 				<button type="submit" class="btn btn-primary btn-block" id="btn">가입하기</button>
 
 			</form>
@@ -249,13 +248,8 @@ $('#email').on("propertychange change keyup paste input", function(){
 
 	var email = $('#email').val();		
 	var data = {"email" : email};			
-	var token = $("meta[name='_csrf']").attr("content");
- 	var header = $("meta[name='_csrf_header']").attr("content");
-
 	$.ajax({
 		type : "post",
-		beforeSend : function(xhr){
-			xhr.setRequestHeader(header, token);},
 		url : "/user/emailCheck",
 		data : data,
 		success : function(result){
@@ -301,13 +295,9 @@ $('#nickName').on("propertychange change keyup paste input", function(){
 
 	var nickName = $('#nickName').val();		
 	var data = {"nickName" : nickName};			
-	var token = $("meta[name='_csrf']").attr("content");
- 	var header = $("meta[name='_csrf_header']").attr("content");
 
 	$.ajax({
 		type : "post",
-		beforeSend : function(xhr){
-			xhr.setRequestHeader(header, token);},
 		url : "/user/nickCheck",
 		data : data,
 		success : function(result){
@@ -341,13 +331,9 @@ $('#id').on("propertychange change keyup paste input", function(){
 
 	var id = $('#id').val();		
 	var data = {"id" : id};			
-	var token = $("meta[name='_csrf']").attr("content");
- 	var header = $("meta[name='_csrf_header']").attr("content");
 
 	$.ajax({
 		type : "post",
-		beforeSend : function(xhr){
-			xhr.setRequestHeader(header, token);},
 		url : "/user/IdCheck",
 		data : data,
 		success : function(result){

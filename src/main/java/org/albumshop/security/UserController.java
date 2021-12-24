@@ -1,11 +1,16 @@
-/*
 package org.albumshop.security;
 
 
 
+import java.security.Principal;
+
+import javax.servlet.http.HttpSession;
+
 import org.albumshop.domain.User;
 import org.albumshop.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,10 +29,12 @@ public class UserController {
 	   
 	@Autowired
 	UserService uservice;
+	@Autowired
+	HttpSession session;
+	
 	
 	@RequestMapping("/user/main")
 	public void hello() {
-		
 	
 		
 	}
@@ -70,7 +77,9 @@ public class UserController {
 		
 	}
 	
-	@RequestMapping(value = "/user/IdCheck", method = RequestMethod.POST
+	
+	
+	@RequestMapping(value = "/user/IdCheck", method = RequestMethod.POST)
 	@ResponseBody
 	 public String IdCheck (String id) throws Exception { 
 		   // System.out.println(id);
@@ -125,7 +134,5 @@ public class UserController {
 				
 			}	
 	
-	 }*//*
-
 }
-*/
+	}
