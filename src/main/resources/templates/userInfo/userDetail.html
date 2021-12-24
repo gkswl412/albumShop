@@ -8,29 +8,39 @@
 <body>
 
 	<div class="detailFrame">
-		<div class="detailLine1">
-			<div class="detailLName">사용자아이디</div>
-			<div class="detailLName">사용자이름</div>
-			<div class="detailLName">사용자별명</div>
-			<div class="detailLName">사용자주소</div>
-			<div class="detailLName">사용자메일</div>
-			<div class="detailLName">사용자번호</div>
-			<div class="detailLName">생년월일</div>
-			<div class="detailLName">사용자등급</div>
-			<div class="detailLName">마일리지</div>
-		</div>
-		<div class="detailLine2">
-			<div class="detailLInfo" th:text="userDedatil.id"></div>
-			<div class="detailLInfo" th:text="userDedatil.name"></div>
-			<div class="detailLInfo" th:text="userDedatil.nickName"></div>
-			<div class="detailLInfo" th:text="userDedatil.address"></div>
-			<div class="detailLInfo" th:text="userDedatil.email"></div>
-			<div class="detailLInfo" th:text="userDedatil.phone"></div>
-			<div class="detailLInfo" th:text="userDedatil.birth"></div>
-			<div class="detailLInfo" th:text="userDedatil.grade"></div>
-			<div class="detailLInfo" th:text="userDedatil.score"></div>
-		</div>
+	<h2> 님의 정보</h2>	
+	<form>
+<div>
+<label for="userId">유저 아이디 : </label>
+</div>
+<div>
+유저 이름 : 
+</div>
+<div>
+유저 닉네임 : 
+</div>
+<div>
+유저 생년월일 : 
+</div>
+<div>
+유저 성별 : 
+</div>
+<div>
+유저 주소 : 
+</div>
+<div>
+유저 사진 : 
+</div>
+<div>
+유저 점수 : 
+</div>
+<div>
+유저 사진 : 
+</div>
+</form>
 
+<button id="btnupdate" type="button" class="btn btn-warning">수정하기</button>
+<button id="btndelete" type="button" class="btn btn-danger">탈퇴하기</button>
 	</div>
 
 </body>

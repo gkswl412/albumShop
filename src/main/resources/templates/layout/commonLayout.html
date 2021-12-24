@@ -61,7 +61,9 @@ function scroll_follow( id ){
 <td><a href="/Genre">Genre</a></td>
 </tr>
 </table>
-<table id="table2"><tr><td>
+<table id="table2">
+	<tr>
+	<td>
 		<select id="searchType" name="searchType">
 			<option id="SelectAll">Select All</option>
 			<option id="Artist" >Artist</option>
@@ -73,13 +75,17 @@ function scroll_follow( id ){
 		</select>
 		<input id="text" type="text" name="searchKeyword" th:value="${searchKeyword}">
 		<button id="searchBtn">Search</button> 
-</td>
-<td>
-<a href="/user/login">Login</a>
-<a href="">JoinClub</a>
-</td>
-
-</tr></table>
+	</td>
+	<td>
+	<a href="/user/login">Login</a>
+	<a href="#">JoinClub</a>	
+	</td>
+	<td>
+	<a href="$">LogOut</a>
+	<a href="/userInfo/userDetail">MyPage</a>
+	</td>
+	</tr>
+</table>
 </form>
 
 </div>
