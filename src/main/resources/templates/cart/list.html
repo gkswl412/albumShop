@@ -91,28 +91,14 @@
 				var itemId = obj.id.split('_')[1];
 				var price = $("#price_" + itemId).data("price");
 				var totalPrice = price * quantity;
-				$("#price_" + itemId).html(totalPrice + '원');
+				$("#total_price_" + itemId).html(totalPrice + '원');
 				getCartTotalPrice();
 				getOrderTotalPrice();
 				getMileage();
 				updateCartAlbumCount(cartId, itemId, quantity);
 			}
 			function getMileage() {
-				var orderTotalPrice = 0;
-				var mileage = 0;
-				/*$("input[name=itemChk]:checked").each(function (){
-					var checkedItemId = $(this).val();
-					var price = $('#price_' + checkedItemId).attr("data-price");
-					var quantity = $('#quantity_' + checkedItemId).val();
-					console.log('price : ' + price);
-					console.log('quantity : ' + quantity);
-					orderTotalPrice += price * quantity;
-					mileage = Math.floor(price * 0.05);
-				});
-				console.log('orderTotalPrice : ' + orderTotalPrice);
-				console.log('mileage : ' + mileage);*/
-
-				mileage = Math.floor(totalOrderPrice * 0.05);
+				var mileage = Math.floor(totalOrderPrice * 0.05);
 				if ($('input[name="itemChk"]:checked').length == 0) {
 					mileage = totalMileage;
 				}
@@ -246,7 +232,7 @@
 
 			<div th:if="${cartlist} == null">
 				<tr>
-					<td><div id="listIsEmpty">장바구니가 비어있습니다.</div></td>
+					<td colspan="9"><div id="listIsEmpty">장바구니가 비어있습니다.</div></td>
 				</tr>
 			</div>
 			<div th:unless="${cartlist} == null">
