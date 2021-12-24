@@ -1,9 +1,9 @@
+
 package org.albumshop.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -86,23 +86,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 	}
 	
-	 
+}	 
+
 	/*
+>>>>>>> branch 'master' of https://github.com/gkswl412/albumShop.git
 	 
-	@Bean
-	public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
-		CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager());
-		System.out.println("customAuthenticationFilter:" + customAuthenticationFilter);
-		customAuthenticationFilter.setFilterProcessesUrl("/auth/login");
-		
-		customAuthenticationFilter.afterPropertiesSet();
-		return customAuthenticationFilter;
-	}
- 
-	@Bean
-	public CustomAuthenticationProvider customAuthenticationProvider() {
-		return new CustomAuthenticationProvider(memberService, (BCryptPasswordEncoder) passwordEncoder());
-	}
-    */
-    
-}
+<<<<<<< HEAD
+/*
+ * @Bean public CustomAuthenticationFilter customAuthenticationFilter() throws
+ * Exception { CustomAuthenticationFilter customAuthenticationFilter = new
+ * CustomAuthenticationFilter(authenticationManager());
+ * System.out.println("customAuthenticationFilter:" +
+ * customAuthenticationFilter);
+ * customAuthenticationFilter.setFilterProcessesUrl("/auth/login");
+ * 
+ * customAuthenticationFilter.afterPropertiesSet(); return
+ * customAuthenticationFilter; }
+ * 
+ * @Bean public CustomAuthenticationProvider customAuthenticationProvider() {
+ * return new CustomAuthenticationProvider(memberService,
+ * (BCryptPasswordEncoder) passwordEncoder()); }
+ */
+
