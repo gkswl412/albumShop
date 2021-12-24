@@ -2,57 +2,65 @@ package org.albumshop.service.manager;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import org.albumshop.domain.Delivery;
 import org.albumshop.persistence.DeliveryRepository;
 import org.albumshop.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-// The role of service is
-// 1. "basic CRUD" between controller and repository.
-// 2. "verification of CRUD action" with boolean return value.
-// 3. detecting  "abnormal value" of Domain member.
-// etc??
 @Service
 @Transactional
-public class DeliveryService implements ManagerService {
+public class DeliveryService {
 
     @Autowired
     DeliveryRepository deliRepo;
     @Autowired
     UserRepository userRepo;
-
+    
     //create order
-    public boolean createDelivery(Delivery delivery){
+    public Delivery createDelivery(Delivery delivery){
         Long id = delivery.getId();
         deliRepo.save(delivery);
-        if (deliRepo.findById(id).isPresent()) {
-            return true;
+        Optional<Delivery> optional = deliRepo.findById(id);
+        if (optional.isPresent()) {
+            return optional.get();
         } else {
-            return false;
+            return null;
         }
     }
-    //read order
+
     public Delivery readDelivery(Long id) {
         Optional<Delivery> optional = deliRepo.findById(id);
-        if(optional != null) {
+        if(optional.isPresent()) {
             return optional.get();
         }
         return null;
     }
 
-    public boolean updateDelivery(Long id, String orderState){
+//    public List<Delivery> readAllDeliveries() {
+//        Page<Delivery> page = deliRepo.findAll();
+//        if(optional.isPresent()) {
+//            return optional.get();
+//        }
+//        return null;
+//    }
+
+    public Delivery updateDelivery(Delivery delivery){
+        Long id = delivery.getId();
         Optional<Delivery> optional = deliRepo.findById(id);
         if (optional.isPresent()) {
-            Delivery delivery = optional.get();
-            delivery.setOrderState(orderState);
-            delivery.setDeliveryUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
-            return true;
-        } else {
-            return false;
+            Delivery target = optional.get();
+            target.setOrderState(delivery.getOrderState());
+            target.setDeliveryUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
+            deliRepo.save(target);
+            return target;
         }
+        return null;
     }
 
     //delete order
