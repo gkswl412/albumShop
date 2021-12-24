@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout1}">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>user list test</title>
+</head>
+<div class="panel panel-default" layout:fragment="content1">
+
+  <h1>main page</h1>
+  <h1>Welcome! Album Shop!</h1>
+  <div id="function-selection">
+    <a href="account/accountList.html">계정 관리</a>
+    <a href="content/contentMain.html">컨텐츠 관리</a>
+    <a href="board/boardList.html">게시판 관리</a>
+    <a href="delivery/deliveryList.html">주문 관리</a>
+    <a href="QnA/QnAMain.html">질문 관리</a>
+  </div>
+
+  <div id="panel-body">
+    <div id="table">
+      <h3 th:text="${user}">test</h3>
+      <table class="table table-hover" >
+        <tr>
+          <td>id</td>
+          <td>name</td>
+          <td>nickName</td>
+          <td>pass</td>
+          <td>address</td>
+          <td>email</td>
+          <td>phone</td>
+          <td>photo</td>
+          <td>grade</td>
+          <td>score</td>
+          <td>birth</td>
+          <td>gender</td>
+        </tr>
+
+        <tr th:each="account : ${userList}">
+          <td th:text="${account.id}"></td>
+          <td th:text="${account.name}"></td>
+          <td th:text="${account.nickName}"></td>
+          <td th:text="${account.pass}"></td>
+          <td th:text="${account.address}"></td>
+          <td th:text="${account.email}"></td>
+          <td th:text="${account.phone}"></td>
+          <td th:text="${account.photo}"></td>
+          <td th:text="${account.grade}"></td>
+          <td th:text="${account.score}"></td>
+          <td th:text="${account.birth}"></td>
+          <td th:text="${account.gender}"></td>
+        </tr>
+
+      </table>
+
+    </div>
+    <p></p>
+    <p></p>
+  </div>
+
+</div>
+</body>
+</html>
