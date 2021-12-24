@@ -24,8 +24,8 @@
 	<th:block layout:frgment="script">
 		<script th:inline="javascript">
 			var cartId = 0;
-			var totalOrderPrice;
-			var mileage;
+			var totalOrderPrice = 0;
+			var totalMileage = 0;
 			$(function () {
 
 				cartId = $("#cartId").val();
@@ -59,10 +59,16 @@
 					var quantity = $('#quantity_' + checkedItemId).val();
 
 					orderTotalPrice += price * quantity;
-
+					totalOrderPrice = orderTotalPrice;
+					console.log("totalOrderPrice : " + totalOrderPrice);
 				});
 				$("#orderTotalPrice").html(orderTotalPrice + '원');
-				$("#finalOrderTotalPrice").html(orderTotalPrice + deliveryFee + '원');
+				if (orderTotalPrice == 0) {
+					$("#finalOrderTotalPrice").html(orderTotalPrice + '원');
+				} else {
+					$("#finalOrderTotalPrice").html(orderTotalPrice + deliveryFee + '원');
+				}
+				getMileage();
 			};
 
 			function getCartTotalPrice() {
@@ -94,7 +100,7 @@
 			function getMileage() {
 				var orderTotalPrice = 0;
 				var mileage = 0;
-				$("input[name=itemChk]:checked").each(function (){
+				/*$("input[name=itemChk]:checked").each(function (){
 					var checkedItemId = $(this).val();
 					var price = $('#price_' + checkedItemId).attr("data-price");
 					var quantity = $('#quantity_' + checkedItemId).val();
@@ -104,8 +110,14 @@
 					mileage = Math.floor(price * 0.05);
 				});
 				console.log('orderTotalPrice : ' + orderTotalPrice);
-				console.log('mileage : ' + mileage);
+				console.log('mileage : ' + mileage);*/
 
+				mileage = Math.floor(totalOrderPrice * 0.05);
+				if ($('input[name="itemChk"]:checked').length == 0) {
+					mileage = totalMileage;
+				}
+
+				console.log(mileage);
 				$("#mileage").html("적립 예정 마일리지 : " + mileage + "점 (5%)");
 			}
 			function deleteCartAlbum (obj) {
