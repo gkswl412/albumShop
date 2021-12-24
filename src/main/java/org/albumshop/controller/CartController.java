@@ -44,12 +44,9 @@ public class CartController {
 /*        IntStream.rangeClosed(0, cartDetailList.size()-1).forEach(i -> {
             System.out.println(cartDetailList.get(i));
         });*/
-        if (cartDetailList != null) {
-            model.addAttribute("cartlist", cartDetailList);
-            return "cart/list";
-        } else {
-            return "cart/empty";
-        }
+        model.addAttribute("cartlist", cartDetailList);
+        return "cart/list";
+
     }
 
     @PatchMapping(value = "/cart/update/{cartId}/{albumId}")
