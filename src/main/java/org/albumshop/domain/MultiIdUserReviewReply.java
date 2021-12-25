@@ -2,6 +2,7 @@ package org.albumshop.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
@@ -23,7 +24,7 @@ public class MultiIdUserReviewReply implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
 	
 	@ManyToOne
