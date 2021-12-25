@@ -44,7 +44,7 @@ public class UserTest {
             userRepo.save(user);
         }
     }
-    //@Test
+    @Test
     public void userFindAllTest(){
         Page<User> allUsers = userRepo.findAll(paging);
         List<User> allUsersList = allUsers.getContent();
@@ -59,6 +59,10 @@ public class UserTest {
     }
     @Test
     public void userDeleteByIdTest(){
+        String[] x = {"zzzz", "xxxx", "vvvvv"};
+        for (String string : x) {
+            userRepo.deleteById(string);
+        }
         userRepo.deleteById("userTestId0");
         Optional<User> optionalUser = userRepo.findById("userTestId0");
         optionalUser.ifPresent(u-> {
