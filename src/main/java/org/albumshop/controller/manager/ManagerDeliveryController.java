@@ -35,7 +35,7 @@ public class ManagerDeliveryController {
 //        log.info("list() called" + page);
 //    }
 
-    @GetMapping("/delivery")
+/*    @GetMapping("/delivery")
     public void list(PageVO vo, Model model){
         Pageable page = vo.makePaging(0, "id");
 
@@ -44,6 +44,6 @@ public class ManagerDeliveryController {
         log.info("" + result);
 
         model.addAttribute("result", result);
-    }
+    }*/
 
 }

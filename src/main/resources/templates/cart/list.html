@@ -28,7 +28,7 @@
 			var totalMileage = 0;
 			$(function () {
 
-				cartId = $("#cartId").val();
+				cartId = $(".cartId").val();
 				$("input[name^=item]").prop("checked", true);
 				getOrderTotalPrice();
 				getMileage();
@@ -215,7 +215,12 @@
 		<div id="myDeleteAlert" class="alert alert-warning" style="display: none"><button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>장바구니에 담긴 앨범을 삭제했습니다.</div>
 		<h1>장바구니</h1>
 		<!--<p th:text="${cartlist.get(0).getUserId()} + '님의 장바구니입니다.'"></p>-->
-
+		<div th:if="${cartlist} == null">
+			<input type="hidden" th:value="0" class="cartId">
+		</div>
+		<div th:unless="${cartlist} == null">
+			<input type="hidden" th:value="${cartlist.get(0).getCartId()}" class="cartId">
+		</div>
 		<div>
 		<table class="table table-hover">
 			<tr>
@@ -235,8 +240,9 @@
 					<td colspan="9"><div id="listIsEmpty">장바구니가 비어있습니다.</div></td>
 				</tr>
 			</div>
-			<div th:unless="${cartlist} == null">
-				<input type="hidden" th:value="${cartlist.get(0).getCartId()}" id="cartId">
+
+
+			<div th:if="${cartlist} != null">
 				<tr th:each="cartDetail:${cartlist}">
 					<td class="text-center align-middle"><input type="checkbox" name="itemChk" th:value="${cartDetail.getAlbumId()}"> </td>
 					<td class="text-center align-middle" th:text="${cartlist.indexOf(cartDetail)+1}"></td>
@@ -245,10 +251,10 @@
 					<td class="align-middle" th:text="${cartDetail.getArtistName()}"></td>
 					<td class="align-middle text-right" th:id="'price_' + ${cartDetail.getAlbumId()}" th:data-price="${cartDetail.getPrice()}" th:text="${cartDetail.getPrice()} + '원'"></td>
 					<td><input type="number" class="form-control align-middle" onchange="changeQuantity(this)" th:id="'quantity_' + ${cartDetail.getAlbumId()}" th:data-quantity="${cartDetail.getQuantity()}" th:value="${cartDetail.getQuantity()}" min="1" th:max="${cartDetail.getRemaining()}"></td>
-				<td class="align-middle text-right" th:id="'total_price_' + ${cartDetail.getAlbumId()}" th:data-price="${cartDetail.getQuantity()} * ${cartDetail.getPrice()}" th:text="${cartDetail.getQuantity()} * ${cartDetail.getPrice()} + '원'"></td>
+					<td class="align-middle text-right" th:id="'total_price_' + ${cartDetail.getAlbumId()}" th:data-price="${cartDetail.getQuantity()} * ${cartDetail.getPrice()}" th:text="${cartDetail.getQuantity()} * ${cartDetail.getPrice()} + '원'"></td>
 					<td class="text-center align-middle"><button type="button" th:id="${cartDetail.getAlbumId()}" class="close" aria-label="Close"><span aria-hidden="true" th:id="${cartDetail.getAlbumId()}" th:data-albumId="${cartDetail.getAlbumId()}" onclick="deleteCartAlbum(this)">&times;</span></button></td>
 				</tr>
-
+			</div>
 			<tr>
 				<td colspan="5">
 					<!--<button type="button" class="btn btn-warning btn-xs">선택삭제</button>-->
@@ -260,7 +266,6 @@
 				<td><div class="text-right" id="totalPrice"></div></td>
 				<td></td>
 			</tr>
-			</div>
 		</table>
 			<div align="center" id="totalTable">
 				<table class="table table-hover">

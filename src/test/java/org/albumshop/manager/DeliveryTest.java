@@ -78,14 +78,14 @@ public class DeliveryTest {
         });
     }
 
-    //@Test
+/*    //@Test
     public void readAllDeliveryTest() {
         Page<Delivery> result = deliRepo.findAll(paging);
         List<Delivery> list = result.getContent();
 
         list.forEach(delivery2 -> System.out.println(delivery2));
-    }
-
+    }*/
+/*
     @Test
     public void readDeliveryByUserIdTest() {
         User testUser = userRepo.findById("asdf1111").get();
@@ -101,7 +101,7 @@ public class DeliveryTest {
         List<Delivery> list = result.getContent();
 
         list.forEach(delivery2 -> System.out.println(delivery2));
-    }
+    }*/
 
     //@Test
 //    public void findDeliveriesByUserIdTest(){
@@ -123,6 +123,7 @@ public class DeliveryTest {
             System.out.println("changedObject : " + deliDone);
         });
     }
+/*
 
     //@Test
     public void updateDeliveryTest2(){
@@ -134,6 +135,7 @@ public class DeliveryTest {
         deliRepo.deleteById(11l);
     }
 
+*/
 
 
 

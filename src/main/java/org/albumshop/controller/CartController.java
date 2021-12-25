@@ -37,7 +37,7 @@ public class CartController {
     CartDetailService cartDetailService;
 
     @RequestMapping(value = "/cart")
-    public String cartAll(Model model) {
+    public String cartAll(Model model, Principal principal) {
         User user = userRepository.findById("kosta0").orElse(null);
 
         List<CartDetailVO> cartDetailList = cartDetailService.getCartList(user);
