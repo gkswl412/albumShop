@@ -18,7 +18,7 @@ public class CommentService {
     @Autowired
     UserRepository userRepo;
 
-    //create order
+    //create
     public User createUser(User User){
         String id = User.getId();
         userRepo.save(User);

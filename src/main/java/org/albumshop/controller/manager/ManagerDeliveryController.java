@@ -22,28 +22,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/template/manager/")
 @Log
 public class ManagerDeliveryController {
-    @Autowired
-    DeliveryRepository deliRepo;
-
-//    @GetMapping("/delivery")
-//    public void list(
-//        @PageableDefault(
-//            direction = Sort.Direction.DESC,
-//            sort = "id",
-//            size = 10,
-//            page = 0) Pageable page){
-//        log.info("list() called" + page);
-//    }
-
-/*    @GetMapping("/delivery")
-    public void list(PageVO vo, Model model){
-        Pageable page = vo.makePaging(0, "id");
-
-        Page<Delivery> result = deliRepo.findAll(page);
-        log.info("" + page);
-        log.info("" + result);
-
-        model.addAttribute("result", result);
-    }*/
-
+   
 }
