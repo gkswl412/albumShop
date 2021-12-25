@@ -53,11 +53,11 @@ public class UserDetailTest {
 		userRepository.deleteById("park");
 	}
 
-	@Test
-	public void userDetailTest() {
-
-		User user = userDetailService.findByUserId(id);
-		assertThat(user.getEmail()).isEqualTo(email);
-	}
+//	@Test
+//	public void userDetailTest() {
+//
+//		User user = userDetailService.findByUserId(id);
+//		assertThat(user.getEmail()).isEqualTo(email);
+//	}
 
 }
