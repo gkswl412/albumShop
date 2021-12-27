@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### oauth2 ###
-application-google.properties
+application-oauth.properties
