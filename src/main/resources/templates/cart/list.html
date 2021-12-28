@@ -23,12 +23,13 @@
 	</th:block>
 	<th:block layout:frgment="script">
 		<script th:inline="javascript">
-			var cartId = 0;
+			var cartId;
 			var totalOrderPrice = 0;
 			var totalMileage = 0;
+			var list = JSON.parse($(cartlistjson));
 			$(function () {
-
-				cartId = $(".cartId").val();
+				cartId = Number.parseInt($(".cartId").val());
+				console.log("cartId" + cartId);
 				$("input[name^=item]").prop("checked", true);
 				getOrderTotalPrice();
 				getMileage();
