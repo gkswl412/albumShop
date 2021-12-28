@@ -1,23 +1,28 @@
 package org.albumshop.service;
 
-import java.util.List;
 import java.util.Optional;
 
-import org.albumshop.domain.Delivery;
-import org.albumshop.domain.MyList;
 import org.albumshop.domain.User;
-import org.albumshop.persistence.DeliveryRepository;
-import org.albumshop.persistence.MyListRepository;
 import org.albumshop.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserDetailService {
 
+	@Autowired
+	UserRepository uRepo;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
-	
-	
+	public Optional<User> userPassCheck(String userid, String pass) {
+		Optional<User> user = uRepo.findById(userid);
+		String pw = passwordEncoder.encode(pass);
+		if(user.get().getPass() == pw) {
+			return uRepo.findById(userid);	
+		}else {
+			return null;	
+		}
+	}
 }
