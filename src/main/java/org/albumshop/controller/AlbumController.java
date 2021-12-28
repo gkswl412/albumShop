@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
+
 import org.albumshop.domain.Album;
 import org.albumshop.domain.Artist;
 import org.albumshop.domain.ArtistGroup;
@@ -19,6 +22,7 @@ import org.albumshop.persistence.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -114,15 +118,12 @@ public class AlbumController {
 
 	@RequestMapping("/Genre")
 	public String test3(String genre, Model model) {
-		
 		List<Album> glist = abRepo.findAllByGenre();
 		model.addAttribute("glist", glist);
-		
 		return "/Genre";
 	}
 	@RequestMapping("/test")
 	public String test4() {
-		
 		return "/test";
 	}
 	@RequestMapping("/userInfo/userDetail")

@@ -1,7 +1,7 @@
 /**
  * 
  */
-var genreList = (function() {
+var jsList = (function() {
 	var clicklist = function(genre){
 	console.log(genre);
 		$.ajax({
@@ -14,7 +14,31 @@ var genreList = (function() {
 			$("#here").html(form);
 	});
 	};
+	
+	var passcheck = function(id,pass){
+		$.ajax({
+			url:"/PassWordChangeForm",
+			type:"POST",
+			data:{
+				"id":id,
+				"pass":pass,
+				"job":"update"
+			}
+			
+		}).done(function(form){
+			$("#here1").html(form);
+		});
+	
+	};
 	return{
-	clicklist: clicklist
+	clicklist: clicklist,
+	passcheck: passcheck
 	}
+	
+	
+	
+	
 })();
+
+
+

@@ -86,6 +86,9 @@
 	  	</div>
 	</div>
 
+<form id="userdetail" action="@{userDetail}" method="get">
+</form>
+
 	<!-- custom javaScript -->
 	<th:block layout:fragment="script">
 	
@@ -124,6 +127,17 @@
 				$(document).on('click',".like",callback);
 				$(document).on('click',".disLike",callback);
 
+				
+				var form = $("#userdetail");
+				$(".userdetail").click(function(e){
+					var userid = $(this).attr("href");
+					console.log(userid);
+					e.preventDefault();
+					form.find($("input")).remove();
+					from.append("<input type='hidden' name='userid' value='" + userid + "'>" );
+					form.submit();
+				});
+				
 			});
 		</script>
 	</th:block>

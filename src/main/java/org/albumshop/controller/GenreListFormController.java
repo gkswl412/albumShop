@@ -20,7 +20,6 @@ public class GenreListFormController {
 	
 	@GetMapping("/GenreListForm")
 	public String getGenreListForm(Model model, String genre) {
-		System.out.println(genre);
 		List<Album> glist= abRepo.findByGenreContaining(genre);
 		model.addAttribute("g",glist);
 		return "Genre/GenreListForm";
