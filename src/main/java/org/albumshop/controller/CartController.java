@@ -43,12 +43,6 @@ public class CartController {
         User user = userRepository.findById("kosta0").orElse(null);
 
         List<CartDetailVO> cartDetailList = cartDetailService.getCartList(user);
-/*        IntStream.rangeClosed(0, cartDetailList.size()-1).forEach(i -> {
-            System.out.println(cartDetailList.get(i));
-        });*/
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonText = objectMapper.writeValueAsString(cartDetailList);
-        model.addAttribute("cartlistjson", jsonText);
         model.addAttribute("cartlist", cartDetailList);
         return "cart/list";
 

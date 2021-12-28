@@ -26,7 +26,6 @@
 			var cartId;
 			var totalOrderPrice = 0;
 			var totalMileage = 0;
-			var list = JSON.parse($(cartlistjson));
 			$(function () {
 				cartId = Number.parseInt($(".cartId").val());
 				console.log("cartId" + cartId);
@@ -216,10 +215,10 @@
 		<div id="myDeleteAlert" class="alert alert-warning" style="display: none"><button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>장바구니에 담긴 앨범을 삭제했습니다.</div>
 		<h1>장바구니</h1>
 		<!--<p th:text="${cartlist.get(0).getUserId()} + '님의 장바구니입니다.'"></p>-->
-		<div th:if="${cartlist} == null">
+		<div th:if="${cartlist.size()} == 0">
 			<input type="hidden" th:value="0" class="cartId">
 		</div>
-		<div th:unless="${cartlist} == null">
+		<div th:unless="${cartlist.size()} == 0">
 			<input type="hidden" th:value="${cartlist.get(0).getCartId()}" class="cartId">
 		</div>
 		<div>
@@ -236,14 +235,12 @@
 				<th class="text-center" th:width="50px">삭제</th>
 			</tr>
 
-			<div th:if="${cartlist} == null">
+			<div th:if="${cartlist.size()} == 0">
 				<tr>
 					<td colspan="9"><div id="listIsEmpty">장바구니가 비어있습니다.</div></td>
 				</tr>
 			</div>
-
-
-			<div th:if="${cartlist} != null">
+			<div th:unless="${cartlist.size()} == 0">
 				<tr th:each="cartDetail:${cartlist}">
 					<td class="text-center align-middle"><input type="checkbox" name="itemChk" th:value="${cartDetail.getAlbumId()}"> </td>
 					<td class="text-center align-middle" th:text="${cartlist.indexOf(cartDetail)+1}"></td>
