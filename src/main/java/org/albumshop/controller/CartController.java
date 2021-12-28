@@ -1,5 +1,7 @@
 package org.albumshop.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.albumshop.domain.Cart;
 import org.albumshop.domain.CartDetail;
@@ -37,19 +39,13 @@ public class CartController {
     CartDetailService cartDetailService;
 
     @RequestMapping(value = "/cart")
-    public String cartAll(Model model) {
+    public String cartAll(Model model, Principal principal) throws JsonProcessingException {
         User user = userRepository.findById("kosta0").orElse(null);
 
         List<CartDetailVO> cartDetailList = cartDetailService.getCartList(user);
-/*        IntStream.rangeClosed(0, cartDetailList.size()-1).forEach(i -> {
-            System.out.println(cartDetailList.get(i));
-        });*/
-        if (cartDetailList != null) {
-            model.addAttribute("cartlist", cartDetailList);
-            return "cart/list";
-        } else {
-            return "cart/empty";
-        }
+        model.addAttribute("cartlist", cartDetailList);
+        return "cart/list";
+
     }
 
     @PatchMapping(value = "/cart/update/{cartId}/{albumId}")
