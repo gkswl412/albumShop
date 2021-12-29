@@ -57,8 +57,5 @@ public class UserService implements UserDetailsService{
 		httpSession.setAttribute("user", user);
 		return user2;
 	}
-
-	 
-	
 }
  
