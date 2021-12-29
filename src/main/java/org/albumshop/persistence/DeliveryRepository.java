@@ -12,8 +12,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface DeliveryRepository extends CrudRepository<Delivery, Long> {
 
-    //Pageable paging = Pageable.
-
     Optional<Delivery> findById(Long l);
 
     Page<Delivery> findAll(Pageable paging);

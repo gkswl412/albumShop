@@ -101,7 +101,7 @@
 				<th>
 				<span th:each="albuma:${album.albumartist}"> 
 				<span th:if=${albuma.artist!=null}>
-				<a class="artistdetail" th:href=${albuma.artist.id}>[[${albuma.artist.name}]]</a>
+				<a class="artistdetail" th:href=${albuma.artist.id}>[[${albuma.artist.name}]]</a><br>
 				</span> 
 				<span th:if=${albuma.artistGroup!=null}>
 				<a class="artistgdetail" th:href=${albuma.artistGroup.id}>
@@ -147,7 +147,7 @@
 					<a th:href="@{/ArtistDetail(Id=${albumartist.artist.Id})}">
 					[[${albumartist.artist.name}]]
 					</a>
-					&nbsp;
+					<br>
 					</span>
 					<span th:if=${albumartist.artistGroup!=null}>
 					<a th:href="@{/ArtistGroupDetail(Id=${albumartist.artistGroup.Id})}">

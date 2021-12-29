@@ -21,7 +21,7 @@ public class GenreService {
 		return arRepo.findByGenreContaining(genre);
 	}
 	
-	//앨범 정보 얻기
+	//장르별 앨범 정보 리스트 얻기
 	public List<Album> getAlbumInfo(String genre) {
 		return arRepo.findByGenreContaining(genre);
 	}
