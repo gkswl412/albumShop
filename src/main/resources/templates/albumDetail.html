@@ -142,7 +142,7 @@
 				});
 				/* 답글 CRUD */
 				$(document).on('click','#reply_create',function(){
-					replyManager.create($(this),[[${album.id}]],$(this).parent().parent().parent().parent().attr("id"),[[${session.user.id}]]);
+					replyManager.create($(this),[[${album.id}]],$(this).parent().parent().parent().parent().attr("id"),[[${session.user.id}]],'reply_create');
 				});
 				$(document).on('click','#reply_update',function(){
 					replyManager.loadUpdateForm($(this));
@@ -165,6 +165,10 @@
 				});
 				/* reply_reply btn 클릭시 이벤트 */
 				$(document).on('click',".reply_reply",function(){btnManager.clickReply_reply($(this))});
+				/* reply_reply create */
+				$(document).on('click','#reply_reply_create',function(){
+					replyManager.create($(this),[[${album.id}]],$(this).parent().parent().parent().parent().parent().parent().parent().parent().attr("id"),[[${session.user.id}]],'reply_reply_create');
+				});
 			});
 		</script>
 	</th:block>
