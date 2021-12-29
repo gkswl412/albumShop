@@ -16,7 +16,7 @@ var jsList = (function() {
 	});
 	};
 	
-	var passcheck = function(userid,pass){
+	var passcheckform = function(userid,pass){
 		$.ajax({
 			url:"/PassWordChangeForm",
 			type:"POST",
@@ -39,11 +39,12 @@ var jsList = (function() {
 	}
 	}).done(function(form){
 	$("#here1").html("");
-	})
+	});
 	};
 	
 	
-	var addressch = function(id){
+	var addresschform = function(id){
+	console.log(id);
 	$.ajax({
 		url:"/AddressChangeForm",
 		type:"GET",
@@ -55,15 +56,42 @@ var jsList = (function() {
 	$("#here2").html(form);
 	});
 	};
+	
+	var address = function(id,addr){
+	$.ajax({
+		url:"/addresschange",
+		type:"POST",
+		data:{
+		"id": id,
+		"addr": addr
+		}
+	}).done(function(form){
+	$("#here2").html("");
+	});
+	};
+	
+	var photochangeform = function(id,photo){
+	$.ajax({
+		url:"/PhotoChangeForm",
+		type:"POST",
+		data:{
+		"id": id,
+		"photo": photo
+		}
+	}).done(function(form){
+	$("#here3").html(form);
+	});
+	
+	}
+
 	return{
 	clicklist: clicklist,
-	passcheck: passcheck,
-	addressch: addressch,
-	passchange: passchange
+	passcheckform: passcheckform,
+	addresschform: addresschform,
+	passchange: passchange,
+	address:address,
+	photochangeform:photochangeform
 	}
-	
-	
-	
 	
 })();
 

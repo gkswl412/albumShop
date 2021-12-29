@@ -23,7 +23,7 @@ div.a { display:none; }
 		<h4>전체 앨범</h4>
 		<div th:if="${session.user != null}">
 		[[${session.user}]]
-		[[${message}]]
+		
 		</div>
 		<div class="a" th:each="album:${albumlist}">
 		<table class="table table-hover" >
