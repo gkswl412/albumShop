@@ -77,5 +77,5 @@ function printList(output) {
 			+ "</div>"
 			+ "</div>";
 	}
-	$(".reviews").html(header);
+	$(".reviews").html(header); 
 }
