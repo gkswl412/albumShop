@@ -1,9 +1,9 @@
+
 package org.albumshop.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,12 +15,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
 @Log
 @Configuration
 @EnableWebSecurity // security설정을 담당하는 Bean이다.
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
 	
 	
 	@Bean
@@ -62,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//.loginProcessingUrl("/auth/login")//추가하면 controller에 인증구현 , 아니면 자동인증처리 ...지금은 username이 전달안됨 							// 스프링시큐리티가 해당주소로 오는 요청을 가로채서 대신한다.
 				//.usernameParameter("username") 
 				//.passwordParameter("password") 
-				.defaultSuccessUrl("/user/main") // 로그인 성공 후 리다이렉트 주소
+				.defaultSuccessUrl("/albumlist") // 로그인 성공 후 리다이렉트 주소
 				.permitAll(); // 접근전부허용
 
 		http.logout() // 로그아웃에 관한 설정을 의미
@@ -73,8 +75,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.exceptionHandling().accessDeniedPage("/accessDenied"); // 403 예외처리 핸들링 권한이 없는 대상이 접속을시도했을 때
 		
 		//구글인증
-	//	http.oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
-	//	http.oauth2Login().defaultSuccessUrl("/auth/login");
+	//http.oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
+    // http.oauth2Login().defaultSuccessUrl("/user/login");
 		 
 		
 		// 토큰을 활용하면 세션이 필요 없으므로 STATELESS로 설정하여 Session을 사용하지 않는다.
@@ -86,23 +88,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 	}
 	
-	 
-	/*
-	 
-	@Bean
-	public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
-		CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManager());
-		System.out.println("customAuthenticationFilter:" + customAuthenticationFilter);
-		customAuthenticationFilter.setFilterProcessesUrl("/auth/login");
-		
-		customAuthenticationFilter.afterPropertiesSet();
-		return customAuthenticationFilter;
-	}
- 
-	@Bean
-	public CustomAuthenticationProvider customAuthenticationProvider() {
-		return new CustomAuthenticationProvider(memberService, (BCryptPasswordEncoder) passwordEncoder());
-	}
-    */
-    
-}
+}	 

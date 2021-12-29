@@ -50,8 +50,8 @@ function scroll_follow( id ){
 	$(window).scroll(function(){
 	       var position = $(document).scrollTop();
 	       $("#scroll").css('top',  position );});}
- scroll_follow( "#scroll" ); 
-</script> 
+ scroll_follow( "#scroll" );
+ </script> 
 <div id="scroll" style="position:absolute;top:0;z-index:2;">
 <form th:action="@{SearchResult}" method="get">
 <table id="table1">
@@ -61,7 +61,9 @@ function scroll_follow( id ){
 <td><a href="/Genre">Genre</a></td>
 </tr>
 </table>
-<table id="table2"><tr><td>
+<table id="table2">
+	<tr>
+	<td>
 		<select id="searchType" name="searchType">
 			<option id="SelectAll">Select All</option>
 			<option id="Artist" >Artist</option>
@@ -73,15 +75,18 @@ function scroll_follow( id ){
 		</select>
 		<input id="text" type="text" name="searchKeyword" th:value="${searchKeyword}">
 		<button id="searchBtn">Search</button> 
-</td>
-<td>
-<a href="/user/login">Login</a>
-<a href="">JoinClub</a>
-</td>
-
-</tr></table>
+	</td>
+	<td th:if="${session.user == null}">
+	<a href="/user/login">Login</a>
+	<a href="#">JoinClub</a>
+	</td>
+	<td th:if="${session.user != null}">
+	<a id="logout" href="/albumlist">LogOut</a>
+	<a href="/userInfo/userDetail">MyPage</a>
+	</td>
+	</tr>
+</table>
 </form>
-
 </div>
 	
 	

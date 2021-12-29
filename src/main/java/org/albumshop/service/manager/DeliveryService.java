@@ -9,7 +9,9 @@ import org.albumshop.persistence.DeliveryRepository;
 import org.albumshop.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +23,9 @@ public class DeliveryService {
     DeliveryRepository deliRepo;
     @Autowired
     UserRepository userRepo;
-    
+
+    Pageable paging = PageRequest.of(0, 10, Sort.Direction.DESC, "id");
+
     //create order
     public Delivery createDelivery(Delivery delivery){
         Long id = delivery.getId();
@@ -42,13 +46,13 @@ public class DeliveryService {
         return null;
     }
 
-//    public List<Delivery> readAllDeliveries() {
-//        Page<Delivery> page = deliRepo.findAll();
-//        if(optional.isPresent()) {
-//            return optional.get();
-//        }
-//        return null;
-//    }
+    public List<Delivery> readAllDeliveries() {
+        Page<Delivery> page = deliRepo.findAll(paging);
+        if(page.hasContent()){
+            return page.getContent();
+        }
+        return null;
+    }
 
     public Delivery updateDelivery(Delivery delivery){
         Long id = delivery.getId();

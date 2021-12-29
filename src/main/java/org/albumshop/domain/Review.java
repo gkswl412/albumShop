@@ -34,8 +34,7 @@ public class Review {
 	@NotNull
 	private float rating;
 	private String content;
-	
-	
+
 	@CreationTimestamp
 	@Column(updatable = false)
 	private Timestamp regDate;

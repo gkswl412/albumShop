@@ -54,9 +54,9 @@ function printList(output) {
 			disLikeCnt = output.disLikeCount[reviewObj.multiId.user.id];
 		}
 		header += "<div id='" + reviewObj.multiId.user.id + "'>"
-			+ "<div class='review_header'><a href='/userDetail/" + reviewObj.multiId.user.id + "'><img src='"
-			+ reviewObj.multiId.user.photo + "'></a><span class='user_id'><a href='/userDetail'>"
-			+ reviewObj.multiId.user.id + "</a></span><span class='update_date'>"
+			+ "<div class='review_header'><a class='userdetail' href=userDetail?userid="+reviewObj.multiId.user.id+"><img src='"
+			+ reviewObj.multiId.user.photo + "'></a><a class='userdetail' href=userDetail?userid="+reviewObj.multiId.user.id+">"
+			+ reviewObj.multiId.user.id + "</a><span class='update_date'>"
 			+ new Date(reviewObj.updateDate).getFullYear() + ". "
 			+ (new Date(reviewObj.updateDate).getMonth()+1) + ". "
 			+ new Date(reviewObj.updateDate).getDate()

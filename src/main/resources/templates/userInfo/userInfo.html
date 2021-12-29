@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/commonLayout}">
+<head>
+<style>
+#1 {
+	width: 210px;
+	height: 210px;
+}
+
+table {
+	text-align: center;
+}
+</style>
+<meta charset="UTF-8">
+<title>[[${UserInfo.id}]]님의 회원 정보</title>
+</head>
+<body>
+	<!-- content -->
+	<div class="container mt-5" layout:fragment="content">
+		<h2>[[${UserInfo.id}]]님의 정보</h2>
+		[[${userReview}]]
+		<table class="table table-hover">
+			<tr>
+				<td id="1" rowspan="2" width="250px" height="250px"><img
+					alt="@{${UserInfo.name}" th:src="@{${UserInfo.photo}}"
+					width="210px" height="210px"> <br> <br> Name :
+					[[${UserInfo.name}]]</td>
+				<td>NickName : [[${UserInfo.nickName}]]</td>
+				<td>Gender : [[${UserInfo.gender}]]</td>
+			</tr>
+			<tr>
+				<td>Grade : [[${UserInfo.grade}]]</td>
+				<td>Birth : [[${UserInfo.birth}]]</td>
+			</tr>
+		</table>
+		<div>
+			<table class="table table-hover">
+				<tr>
+					<th>Album Cover</th>
+					<th>Album Title</th>
+					<th>Content</th>
+					<th>Rating</th>
+				</tr>
+				<tr th:each="reviewlist:${review}">
+					<td width="100px" height="100px"><a class="detailButton"
+						th:href="${reviewlist[0]}"><img alt="${reviewlist[1]}"
+							th:src="@{${reviewlist[1]}}" width="100px" height="100px"></a></td>
+					<td><a class="detailButton" th:href="${reviewlist[0]}">[[${reviewlist[2]}]]</a></td>
+					<td th:text="${reviewlist[3]}"></td>
+					<td th:text="${reviewlist[4]}"></td>
+				</tr>
+			</table>
+			<form id="gotoDetail" th:action="@{albumdetail}" method="get">
+			</form>
+		</div>
+	</div>
+	<th:block layout:fragment="script">
+		<script>
+			$(function() {
+				var form = $("#gotoDetail");
+				$(".detailButton").click(function(e) {
+					var albumId = $(this).attr("href");
+					e.preventDefault();
+					form.find($("input")).remove();
+					form.append("<input type='hidden' name='albumId' value='" + albumId + "'>");
+					form.submit();
+				});
+			});
+		</script>
+	</th:block>
+</body>
+</html>
