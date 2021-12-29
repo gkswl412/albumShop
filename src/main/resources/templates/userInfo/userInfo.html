@@ -24,7 +24,7 @@ table {
 		<table class="table table-hover">
 			<tr>
 				<td id="1" rowspan="2" width="250px" height="250px"><img
-					alt="@{${UserInfo.name}" th:src="@{${UserInfo.photo}}"
+				th:alt="${UserInfo.name}" th:src="|/images/userProfile/${UserInfo.photo}|"
 					width="210px" height="210px"> <br> <br> Name :
 					[[${UserInfo.name}]]</td>
 				<td>NickName : [[${UserInfo.nickName}]]</td>
