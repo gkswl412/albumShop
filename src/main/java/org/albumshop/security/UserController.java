@@ -1,22 +1,18 @@
 package org.albumshop.security;
 
-
-
-import java.security.Principal;
-
 import javax.servlet.http.HttpSession;
 
 import org.albumshop.domain.User;
 import org.albumshop.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 
@@ -31,7 +27,6 @@ public class UserController {
 	UserService uservice;
 	@Autowired
 	HttpSession session;
-	
 	
 	@RequestMapping("/user/main")
 	public void hello() {

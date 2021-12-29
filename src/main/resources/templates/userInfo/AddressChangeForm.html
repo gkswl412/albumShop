@@ -6,7 +6,7 @@
 	<div class="form-group">
 		<label for="address">주소</label><br> <input class="form-control"
 			placeholder="우편번호" name="addr1" id="addr1" type="text"
-			readonly="readonly">
+			readonly="readonly" >
 		<button type="button" class="btn btn-default"
 			onclick="execution_daum_address()">
 			<i class="fa fa-search"></i> 우편번호 찾기
@@ -20,5 +20,22 @@
 		<input class="form-control" placeholder="상세주소" name="addr3" id="addr3"
 			type="text" />
 	</div>
+	<button id="addresschange">변경</button>
 </body>
 </html>
+<script>
+$(function() {
+	$("#addresschange").on('click', function() {
+		var userid = "[[${user.id}]]";
+		var addr1 = $("#addr1").val();
+		var addr2 = $("#addr2").val();
+		var adde3 = $("#addr3").val();
+		
+		
+			
+			jsList.
+		}
+	});
+});
+
+</script>

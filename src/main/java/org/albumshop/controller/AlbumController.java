@@ -130,5 +130,4 @@ public class AlbumController {
 	public String test5() {
 		return "/userInfo/userDetail";
 	}
-	
 }

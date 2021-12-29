@@ -1,5 +1,6 @@
 package org.albumshop;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.albumshop.domain.Album;
@@ -42,7 +43,8 @@ public class AlbumDetailTest {
 	
 	@Test
 	public void findReviewById() {
-		List<Review> List= reRepo.findReviewById("kosta2");
-		System.out.println(List);
+		reRepo.findReviewById("kosta2").forEach(item->{
+			System.out.println(Arrays.toString(item));
+		});
 	}
 }
