@@ -29,33 +29,28 @@
 	<div class="container mt-5" layout:fragment="content">
 		<div id="content">
 		<h2>[[${session.user.name}]] 님의 정보</h2>
-			[[${session.user.photo}]]
-			
+		[[${message}]]
+		[[${session.user.photo}]]			
 			<table border="1">
 			<tr>
 			<td>
-			<img th:alt="${session.user.photo}" th:src="${session.user.photo}" width="210px" height="210px">
+			<img th:alt="${session.user.photo}" th:src="|/images/userProfile/${session.user.photo}|" width="210px" height="210px">
 			</td>
 			</tr>
 			</table>
-
 				<div class="form-group">
 					<label for="name">이름</label> 
 					<input type="text" class="form-control" id="name" name="name" th:value="${session.user.name}" required>
 				</div><br>
-				
 				<input type="text" id="userpass" style="width:350px;"  placeholder="비밀번호 변경시 기존 비밀번호 입력 바랍니다.">[[${message}]]
 				<button class="pwchange">비밀번호 변경</button>
 				<div id="here1"></div>
-				
-				
-				
 				<div class="form-group">
 					<label for="phone">전화번호</label> 
 					<input type="tel" class="form-control" id="phone" name="phone" th:value="${session.user.phone}" required placeholder="하이픈(-) 뺴고 입력바랍니다." maxlength="11">
 				</div><br>
 				
-				<button class="addresschange"> 주소 변경 </button>(기존 주소 변경시)<br>
+				<button class="addresschange1"> 주소 변경 </button>(기존 주소 변경시)<br>
 				<div id="here2"></div><br>
 
 				<div class="form-group">
@@ -85,16 +80,9 @@
 					<span class="nickCheck_2">이미 존재하는 닉네임입니다.</span>
 				</div><br>
 				
-				<div class="form-group">
-					<label for="img">사진</label>
-					<input type="file" class="form-control" id="photo" name="photo" accept="img/*" th:value="${session.user.photo}">
-					<button class="photo-btn">사진 업로드</button>
-					
-					<h4>사진 미리보기</h4>
-					<div id="image"> <img id="img" /> </div>
+				<button class="photochange">사진 등록</button><br>
+				<div id="here3"></div><br>
 				
-				</div><br>
-
 				<label for="grade"></label> 
 				<input type="hidden" id="grade"	name="grade" value="Bronze" /> 
 				<label for="score"></label> 
@@ -168,12 +156,18 @@ $(document).ready(function(e){
 	$(".pwchange").on('click', function(){
 		var userid = [[${session.user.id}]];
 		var pass = $("#userpass").val();
-		jsList.passcheck(userid,pass);
+		jsList.passcheckform(userid,pass);
 	});
 	
-	$(".addresschange").on('click',function(){
-		var userid = [[${session.user.id}]];
-		jsList.addressch(userid);
+	$(".addresschange1").on('click',function(){
+		var id = [[${session.user.id}]];
+		jsList.addresschform(id);
+	});
+	
+	$(".photochange").on('click',function(){
+		var id = [[${session.user.id}]];
+		var photo = [[${session.user.photo}]];
+		jsList.photochangeform(id,photo);
 	});
 });
 </script>
