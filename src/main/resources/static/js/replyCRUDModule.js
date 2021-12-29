@@ -1,7 +1,7 @@
 
 var replyManager = (function() {
 	
-	function printReplies(self,result,loginUser,job) {
+	function printReplies(self,result,loginUser,job,job2) {
 					var context = "";
 					for (var i = 0; i < result.replies.length; i++) {
 						var reply = result.replies[i];
@@ -36,7 +36,7 @@ var replyManager = (function() {
 							disLikeCnt = result.disLikeCount[reply.id];
 						}
 						if (reply.user.photo == null) {
-							userPhoto = "images/icon/defaultProfile.png";
+							userPhoto = "defaultProfile.png";
 						}
 						if (reply.user.id == loginUser) {
 							loginComplete = "<div id='replyUpdateDelete'><button id='reply_update' value='off' name='boxing'>수정</button><button id='reply_delete' value='off' name='boxing'>삭제</button></div>";
@@ -45,7 +45,7 @@ var replyManager = (function() {
 							+= "<div id='" + reply.id + "'>"
 							+ "<div class='reply_header'>"
 							+ "<a href='/userDetail/" + reply.user.id + "'>"
-							+ "<img src='" + userPhoto + "'>"
+							+ "<img src='/images/userProfile/" + userPhoto + "'>"
 							+ "</a>"
 							+ "<a href='/userDetail'>"
 							+ "<span class='reply_user_id'>" + reply.user.id + "</span>"
@@ -78,14 +78,26 @@ var replyManager = (function() {
 					}else if(job=="modify"){
 						self.parent().parent().parent().parent().parent().html(context);
 					}else if(job=="add"){
-						self.parent().parent().parent().children(".replyZone").children(".replyContent").html(context);
-						self.parent().parent().parent().children(".replyZone").children(".replyList").attr("name","unboxing");
-						if(self.parent().parent().parent().children(".replyZone").children(".replyList").attr("value")=="off"){
-							self.parent().parent().parent().children(".replyZone").children(".replyList").attr("value","on");
+						if(job2=="reply_create"){
+							self.parent().parent().parent().children(".replyZone").children(".replyContent").html(context);
+							self.parent().parent().parent().children(".replyZone").children(".replyList").attr("name","unboxing");
+							if(self.parent().parent().parent().children(".replyZone").children(".replyList").attr("value")=="off"){
+								self.parent().parent().parent().children(".replyZone").children(".replyList").attr("value","on");
+							}
+							self.parent().parent().parent().children(".reply").attr("name", "boxing");
+							self.parent().parent().parent().children(".reply").attr("value", "off");
+							self.parent().parent().html("");
+						}else if(job2=="reply_reply_create"){
+							self = self.parent().parent().parent().parent();
+							self.parent().parent().parent().children(".replyZone").children(".replyContent").html(context);
+							self.parent().parent().parent().children(".replyZone").children(".replyList").attr("name","unboxing");
+							if(self.parent().parent().parent().children(".replyZone").children(".replyList").attr("value")=="off"){
+								self.parent().parent().parent().children(".replyZone").children(".replyList").attr("value","on");
+							}
+							self.parent().parent().parent().children(".reply").attr("name", "boxing");
+							self.parent().parent().parent().children(".reply").attr("value", "off");
+							self.parent().parent().html("");
 						}
-						self.parent().parent().parent().children(".reply").attr("name", "boxing");
-						self.parent().parent().parent().children(".reply").attr("value", "off");
-						self.parent().parent().html("");
 					}
 				}
 	
@@ -110,7 +122,7 @@ var replyManager = (function() {
 		}
 	};
 
-	var create = function(self, albumId, userId, loginUser) {
+	var create = function(self, albumId, userId, loginUser, job) {
 		var reviewReply = {
 			"review": {
 				"multiId": {
@@ -122,7 +134,7 @@ var replyManager = (function() {
 					}
 				}
 			},
-			"content": self.parent().parent().children("div").eq(0).children("div").eq(1).children("#textarea").val()
+			"content": job=='reply_create'? self.parent().parent().children("div").eq(0).children("div").eq(1).children("#textarea").val():self.parent().parent().children("div").eq(0).children("div").eq(1).html()
 		};
 		$.ajax({
 			type: "post",
@@ -132,7 +144,7 @@ var replyManager = (function() {
 			contentType: "application/json"
 		}).done(
 			function(result){
-				printReplies(self,result,loginUser,"add");
+				printReplies(self,result,loginUser,"add",job);
 			}
 		);
 	};

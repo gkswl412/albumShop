@@ -80,7 +80,7 @@ var btnManager = (function(){
 				self.attr("value","on");
 				self.parent().children(".replyClickResult").children("div").eq(0).children("div").eq(1).children("#textarea").keyup(function(e){
 					var content = $(this).val();
-					if(content.length >= 1){
+					if(content.replace(/(\s*)/g,"").length >= 1){
 						self.parent().children(".replyClickResult").children("div").eq(1).children("#reply_create").attr("disabled",false);
 						self.parent().children(".replyClickResult").children("div").eq(1).children("#reply_create").css({"color":"white","background-color":"slateblue"});
 					}else{
@@ -108,19 +108,26 @@ var btnManager = (function(){
 		if(self.attr("name")=="boxing"){
 			self.attr("name","unboxing");
 			$.ajax({
-				url: "/replyForm",
+				url: "/reply_replyForm",
 				type: "GET",
 			}).done(function(form){
 				self.parent().children(".reply_replyClickResult").html(form);
 				self.attr("value","on");
-				self.parent().children(".reply_replyClickResult").children("div").eq(0).children("div").eq(1).children("#textarea").keyup(function(e){
-					var content = $(this).val();
-					if(content.length >= 1){
-						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_create").attr("disabled",false);
-						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_create").css({"color":"white","background-color":"slateblue"});
+				var tagId = "@" + self.parent().parent().children(".reply_header").children("a").eq(1).children(".reply_user_id").text();
+				self.parent().children(".reply_replyClickResult").children("div").eq(0).children("div").eq(1).html("<a href='/userDetail'>@" + self.parent().parent().children(".reply_header").children("a").eq(1).children(".reply_user_id").text() + "</a>");
+				var original = self.parent().children(".reply_replyClickResult").children("div").eq(0).children("div").eq(1).text();
+				self.parent().children(".reply_replyClickResult").children("div").eq(0).children("div").eq(1).keyup(function(e){
+					if($(this).children("a").text().trim() != tagId){
+						$(this).children("a").remove();
+					}
+					var content = $(this).text();
+					
+					if(content.replace(/(\s*)/g,"").length >= 1 && content.replace(/(\s*)/g,"") != original){
+						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_reply_create").attr("disabled",false);
+						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_reply_create").css({"color":"white","background-color":"slateblue"});
 					}else{
-						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_create").attr("disabled",true);
-						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_create").css({"color":"#909090","background-color":"#0000000D"});
+						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_reply_create").attr("disabled",true);
+						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_reply_create").css({"color":"#909090","background-color":"#0000000D"});
 					}
 				});
 				self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#cancelBtn").on('click',function(){
