@@ -1,8 +1,5 @@
 package org.albumshop.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -22,11 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.extern.slf4j.Slf4j;
-
 @RestController
 @RequestMapping("/review/*")
-@Slf4j
 public class ReviewRestController {
 	
 	@Autowired
@@ -71,7 +65,7 @@ public class ReviewRestController {
 		return new ResponseEntity<>(output, HttpStatus.CREATED);
 	}
 	
-	//
+	//좋아요 싫어요 수정 요청
 	@Transactional
 	@PostMapping("/thumb/{userId}/{albumId}/{job}")
 	public Map<String,Object> createEmpathy(

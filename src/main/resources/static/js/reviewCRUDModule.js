@@ -25,7 +25,7 @@ var reviewManager = (function(){
 		console.log(review);
 		$.ajax({
 			type:"put",
-		url:'review/'+ obj.multiId.album.id ,
+			url:'review/'+ obj.multiId.album.id ,
 			data: JSON.stringify(review),
 			dataType:'json',
 			contentType: "application/json",
@@ -42,7 +42,7 @@ var reviewManager = (function(){
 		});
 	};
 	
-	var clickThumb = function(userId, albumId, job, callback, self){
+	var clickThumb = function(userId, albumId, job, self){
 		$.ajax({
 			type:"post",
 			url:'review/thumb/' + userId + '/' + albumId + '/' + job,
@@ -80,10 +80,9 @@ var reviewManager = (function(){
 				console.log(data.job);
 				console.log(data.likeCount);
 				console.log(data.disLikeCount);
-				console.log(self);
-				
-				}
-			});
+				console.log(self);	
+			}
+		});
 	};
 	
 	return {
