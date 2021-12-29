@@ -40,4 +40,9 @@ public class ReviewController {
 		
 		return "review/replyForm";
 	}
+	@GetMapping("/reply_replyForm")
+	public String getReplyReplyForm() {
+		
+		return "review/reply_replyForm";
+	}
 }
