@@ -7,9 +7,9 @@
 	<title>AlbumList</title>
 	<!-- style -->
 	<th:block layout:frgment="style">
-	<style>
-div.a { display:none; }
-</style>
+		<style>
+		div.a { display:none; }
+		</style>
 	</th:block>
 </head>
 <body>
@@ -27,19 +27,19 @@ div.a { display:none; }
 		</div>
 		<div class="a" th:each="album:${albumlist}">
 		<table class="table table-hover" >
-			<tr>
-				<td rowspan="4" width=250px height=250px><a class="detailButton" th:href="${album.id}" ><img alt="${album.cover}" th:src="@{${album.cover}}" width="210px" height="210px"></a></td>
+			<tr style="text-align:center;vertical-align : middle;">
+				<td rowspan="4" width="250px" height="250px"><a class="detailButton" th:href="${album.id}" ><img alt="${album.cover}" th:src="@{${album.cover}}" width="210px" height="210px"></a></td>
 			</tr>
 			<tr>
-				<td><a class="detailButton" th:href="${album.id}">[[${album.title}]]</a> / [[${album.releaseDate}]]</td>
-				<td>
+				<td style="vertical-align : middle;"><a class="detailButton" th:href="${album.id}">[[${album.title}]]</a> / [[${album.releaseDate}]]</td>
+				<td style="vertical-align : middle;">
 				<span th:each="r : ${rlist}">
 				<span th:if="${r.key}==${album.id}">
 				리뷰 수 : <span th:text="${r.value[0]}"></span> 
 				</span>
 				</span>
 				</td>
-				<td>
+				<td style="vertical-align : middle;">
 				<span th:each="r : ${rlist}">
 				<span th:if="${r.key}==${album.id}">
 				평점 : <span th:text="${r.value[1]}"></span> 
@@ -48,7 +48,7 @@ div.a { display:none; }
 				</td>
 			</tr>
 			<tr>
-				<td colspan="4">
+				<td style="vertical-align : middle;">
 				<span th:each="albumartist:${album.albumartist}"> 
 					<span th:if=${albumartist.artist!=null}> 
 					<a th:href="@{/ArtistDetail(Id=${albumartist.artist.Id})}">
@@ -62,9 +62,12 @@ div.a { display:none; }
 					</span>
 				</span> / [[${album.genre}]]
 				</td>
+				<td></td>
+				<td></td>
+				
 			</tr>
 			<tr>
-				<td colspan="4">앨범 정보<br>
+				<td colspan="3">앨범 정보<br>
 				[[${album.description}]]</td>
 			</tr>
 		</table>

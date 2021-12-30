@@ -126,8 +126,4 @@ public class AlbumController {
 	public String test4() {
 		return "/test";
 	}
-	@RequestMapping("/userInfo/userDetail")
-	public String test5() {
-		return "/userInfo/userDetail";
-	}
 }
