@@ -55,7 +55,7 @@ function printList(output) {
 		}
 		header += "<div id='" + reviewObj.multiId.user.id + "'>"
 			+ "<div class='review_header'><a href='/userInfo?userid=" + reviewObj.multiId.user.id + "'><img src='/images/userProfile/"
-			+ reviewObj.multiId.user.photo + "'></a><span class='user_id'><a href='/userDetail'>"
+			+ reviewObj.multiId.user.photo + "'></a><span class='user_id'><a href='/userInfo?userid=" + reviewObj.multiId.user.id + "'>"
 			+ reviewObj.multiId.user.id + "</a></span><span class='update_date'>"
 			+ new Date(reviewObj.updateDate).getFullYear() + ". "
 			+ (new Date(reviewObj.updateDate).getMonth()+1) + ". "
