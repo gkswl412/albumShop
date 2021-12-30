@@ -3,13 +3,11 @@
 var reviewManager = (function(){
 	
 	var getAll = function(obj, callback){
-		console.log("get all...");
 		$.getJSON('/review/' + obj, callback);
 	};
 	
 	var create = function(obj, callback){
 		var review = obj;
-		console.log(review);
 		$.ajax({
 			type:"post",
 			url:'review/'+ obj.multiId.album.id ,
@@ -22,7 +20,6 @@ var reviewManager = (function(){
 	
 	var update = function(obj, callback){
 		var review = obj;
-		console.log(review);
 		$.ajax({
 			type:"put",
 			url:'review/'+ obj.multiId.album.id ,
@@ -34,7 +31,6 @@ var reviewManager = (function(){
 	};
 	
 	var remove = function(obj, callback){
-		console.log("delete........");
 		$.ajax({
 			type:"delete",
 			url:'review/' + obj.multiId.album.id + '/' + obj.multiId.user.id,
@@ -76,11 +72,6 @@ var reviewManager = (function(){
 						self.parent().children('.disLikeCount').html(data.disLikeCount);
 					}
 				}
-				
-				console.log(data.job);
-				console.log(data.likeCount);
-				console.log(data.disLikeCount);
-				console.log(self);	
 			}
 		});
 	};
