@@ -25,6 +25,19 @@ public class CartService {
     @Autowired
     AlbumRepository albumRepository;
 
+    public Cart createCart(String userId) {
+        Cart cart;
+        if (cartRepository.findByUserId(userId) == null) {
+            User user = userRepository.findById(userId).get();
+            cart = Cart.createCart(user);
+            cartRepository.save(cart);
+        } else {
+            cart = cartRepository.findByUserId(userId);
+        }
+
+        return cart;
+    }
+
     public MultiIdCartAlbum addCart(CartDetail cartDetail, String userId) {
         Album album = albumRepository.findById(cartDetail.getMultiId().getAlbum().getId())
                 .orElseThrow(EntityNotFoundException::new);

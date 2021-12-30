@@ -3,10 +3,8 @@ package org.albumshop.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.albumshop.domain.Cart;
-import org.albumshop.domain.CartDetail;
-import org.albumshop.domain.MultiIdCartAlbum;
-import org.albumshop.domain.User;
+import org.albumshop.domain.*;
+import org.albumshop.persistence.AlbumRepository;
 import org.albumshop.persistence.CartDetailRepository;
 import org.albumshop.persistence.CartRepository;
 import org.albumshop.persistence.UserRepository;
@@ -20,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -34,18 +33,43 @@ public class CartController {
     @Autowired
     CartDetailRepository cartDetailRepository;
     @Autowired
+    AlbumRepository albumRepository;
+    @Autowired
     CartService cartService;
     @Autowired
     CartDetailService cartDetailService;
 
     @RequestMapping(value = "/cart")
-    public String cartAll(Model model, Principal principal) throws JsonProcessingException {
-        User user = userRepository.findById("kosta0").orElse(null);
+    public String cartAll(Model model, Principal principal, HttpSession session) throws JsonProcessingException {
+        //User user = (User) session.getAttribute("user");
+        //System.out.println("user : " + user.getId());
+
+        User user = userRepository.findById("kosta5").get();
 
         List<CartDetailVO> cartDetailList = cartDetailService.getCartList(user);
+        if (cartDetailList == null) {
+            cartService.createCart("kosta5");
+            cartDetailList = cartDetailService.getCartList(user);
+        }
         model.addAttribute("cartlist", cartDetailList);
         return "cart/list";
 
+    }
+
+    @PatchMapping(value = "/cart/insert/{albumId}")
+    public @ResponseBody ResponseEntity insertCartDetail (@PathVariable("albumId") Long albumId, String userId) {
+        Long cartId = 0L;
+        Cart cart = cartRepository.findByUserId(userId);
+        if (cart == null) {
+            cart = cartService.createCart(userId);
+            cartId = cart.getId();
+        }
+        Album album = albumRepository.findById(albumId).get();
+
+        MultiIdCartAlbum multiIdCartAlbum = MultiIdCartAlbum.builder()
+                .cart(cart).album(album).build();
+        CartDetail cartDetail = CartDetail.createCartDetail(cart, album, 1);
+        return new ResponseEntity<Long>(cartId, HttpStatus.OK);
     }
 
     @PatchMapping(value = "/cart/update/{cartId}/{albumId}")

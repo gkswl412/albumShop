@@ -15,7 +15,11 @@
 <body>
 	<!-- content -->
 	<div class="container mt-5" layout:fragment="content">
-		<span id="hidden"></span>
+		<span id="hidden">
+			<input type="hidden" th:value="${album.getId()}" id="albumId">
+			<input type="hidden" th:value="${session.user.id}" id="userId">
+			<input type="hidden" th:value="${session.user.id}" id="cartId">
+		</span>
 	  	<div class="row">
 	    	<div class="col-sm-4" id="cover">
 	      		<img alt="${album.cover}" th:src="@{${album.cover}}" width=350px height=350px>
@@ -68,7 +72,8 @@
 	    
 		    <!-- Review Page -->
 		    <div class="col-sm-4" id="purchaseMenu">
-				<h4>바로구매,장바구니 담기</h4>
+				<button type="button" class="btn-btn default btn-lg">바로 구매</button>
+				<button type="button" class="btn-btn primary btn-lg" onclick="addCart()">장바구니에 담기</button>
 			</div>
 			<div class="col-sm-8" id="reviewAndCatalog">
 				<div id="BtnCollection">
@@ -86,6 +91,9 @@
 	  	</div>
 	</div>
 
+<form id="userdetail" action="@{userDetail}" method="get">
+</form>
+
 	<!-- custom javaScript -->
 	<th:block layout:fragment="script">
 	
@@ -97,7 +105,9 @@
 		<script th:inline="javascript" th:src="@{'/js/albumDetailPageFunctionCollection.js'}"></script>
 		<!-- albumDetail Page Btn Module import -->
 		<script th:inline="javascript" th:src="@{'/js/albumDetailPageBtnModule.js'}"></script>
-		
+		<!--장바구니에 담기 기능-->
+		<script th:inline="javascript" th:src="@{/js/addCart.js}"></script>
+
 		<script th:inline="javascript">
 			$(document).ready(function(e){
 				/* 전체 플레이 시간 계산 */
@@ -124,8 +134,20 @@
 				$(document).on('click',".like",callback);
 				$(document).on('click',".disLike",callback);
 
+				
+				var form = $("#userdetail");
+				$(".userdetail").click(function(e){
+					var userid = $(this).attr("href");
+					console.log(userid);
+					e.preventDefault();
+					form.find($("input")).remove();
+					from.append("<input type='hidden' name='userid' value='" + userid + "'>" );
+					form.submit();
+				});
+				
 			});
 		</script>
+
 	</th:block>
 </body>
 </html>
