@@ -1,0 +1,14 @@
+<meta charset="utf-8">
+<div style="height:48px; display:table; text-align:center; padding-bottom:0 !important; margin-bottom:12px !important">
+	<div width=36px height=36px style="display:table-cell; vertical-align:middle; padding-top:4px !important; padding-right:0 !important">
+		<img th:src="${session.user.photo}!=null? |/images/userProfile/${session.user.photo}|:|/images/userProfile/defaultProfile.png|" style="max-width:36px; max-height:36px; border-radius:8px">
+	</div>
+	<div id="editable" contenteditable="true" dir="auto" style="text-align:left; display:table-cell; width:100%; max-width:600px; height:36px; border-bottom:1px solid #606060">
+		
+	</div>
+</div>
+<div style="text-align:right; padding-top:0 !important">
+	<button id="cancelBtn" style="padding:8px 20px 8px 20px; font-size:14px; color:#606060">취소</button>
+	<button id="reply_reply_create" style="padding:8px 20px 8px 20px; font-size:14px; color:#606060; background-color:#0000000D; color:#909090; border-radius:4px" disabled>답글</button>
+</div>
+

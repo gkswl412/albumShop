@@ -310,7 +310,6 @@ $('#nickName').on("propertychange change keyup paste input", function(){
 
 	var nickName = $('#nickName').val();		
 	var data = {"nickName" : nickName};			
-
 	$.ajax({
 		type : "post",
 		url : "/user/nickCheck",

@@ -16,6 +16,7 @@ import org.albumshop.domain.User;
 import org.albumshop.persistence.AlbumRepository;
 import org.albumshop.persistence.ReviewDisLikeRepository;
 import org.albumshop.persistence.ReviewLikeRepository;
+import org.albumshop.persistence.ReviewReplyRepository;
 import org.albumshop.persistence.ReviewRepository;
 import org.albumshop.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +40,15 @@ public class ReviewService {
 	private AlbumRepository albumRepo;
 	@Autowired
 	private HttpSession session;
+	@Autowired
+	private ReviewReplyRepository replyRepo;
 	
 	//리뷰 목록
 	public Map<String,Object> getReviewListByAlbum(Album album) throws RuntimeException {
 		Map<String, Object> output = new HashMap<>();
 		Map<String, Long> reviewLikeCountList = getReviewLikeCount(album.getId());
 		Map<String, Long> reviewDisLikeCountList = getReviewDisLikeCount(album.getId());
+		Map<String, Long> ReplyCountPerReviewInAlbum = getReplyCountPerReviewInAlbum(album.getId());
 		List<Review> reviews = reviewRepo.findByMultiIdAlbum(album);
 		User user = (User) session.getAttribute("user");
 		List<String> likedReviewList = getLikedReviewList(user.getId(),album.getId());
@@ -54,6 +58,7 @@ public class ReviewService {
 		output.put("reviews", reviews);
 		output.put("likedReviewList", likedReviewList);
 		output.put("disLikedReviewList", disLikedReviewList);
+		output.put("replyCount", ReplyCountPerReviewInAlbum);
 		return output;
 	}
 	
@@ -77,15 +82,18 @@ public class ReviewService {
 	}
 	
 	//리뷰 수정
-	public boolean updateReview(Review review) {
-		if(reviewRepo.save(review) != null) {
-			return true;
+	public void updateReview(Review review) {
+		if(reviewRepo.findById(review.getMultiId()).isPresent()) {
+			reviewRepo.save(review);
+		}else {
+			System.out.println("존재하지 않는 리뷰 입니다.");
 		}
-		return false;
 	}
+
 	
 	//유저 정보 얻기
 	public User getUserInfo(String userId) {
+		System.out.println(userRepo.findById(userId).get());
 		return userRepo.findById(userId).get();
 	}
 	
@@ -123,6 +131,7 @@ public class ReviewService {
 		return reviewDisLikeRepo.getDisLikedReviewList(userId, albumId);
 	}
 	
+	//공감 비공감 테이블 확인
 	public Map<String,Object> checkEmpathyTable(String userId, Long albumId, String job) {
 		MultiIdUserAlbum reviewId = new MultiIdUserAlbum();
 		reviewId.setId(userId, albumId);
@@ -158,5 +167,14 @@ public class ReviewService {
 		output.put("likeCount", reviewLikeRepo.countByMultiIdReview(review));
 		output.put("disLikeCount", reviewDisLikeRepo.countByMultiIdReview(review));
 		return output;
+	}
+	
+	//리뷰별 댓글 개수 가져오기
+	public Map<String, Long> getReplyCountPerReviewInAlbum(Long albumId){
+		Map<String, Long> ReplyCountMap = new HashMap<>();
+		replyRepo.getReplyCountPerReviewInAlbum(albumId).forEach(object->{
+			ReplyCountMap.put((String) object[0], (Long) object[1]);
+		});
+		return ReplyCountMap;
 	}
 }

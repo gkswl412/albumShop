@@ -15,11 +15,7 @@
 <body>
 	<!-- content -->
 	<div class="container mt-5" layout:fragment="content">
-		<span id="hidden">
-			<input type="hidden" th:value="${album.getId()}" id="albumId">
-			<input type="hidden" th:value="${session.user.id}" id="userId">
-			<input type="hidden" th:value="${session.user.id}" id="cartId">
-		</span>
+		<span id="hidden"></span>
 	  	<div class="row">
 	    	<div class="col-sm-4" id="cover">
 	      		<img alt="${album.cover}" th:src="@{${album.cover}}" width=350px height=350px>
@@ -72,16 +68,15 @@
 	    
 		    <!-- Review Page -->
 		    <div class="col-sm-4" id="purchaseMenu">
-				<button type="button" class="btn-btn default btn-lg">바로 구매</button>
-				<button type="button" class="btn-btn primary btn-lg" onclick="addCart()">장바구니에 담기</button>
+				<h4>바로구매,장바구니 담기</h4>
 			</div>
 			<div class="col-sm-8" id="reviewAndCatalog">
 				<div id="BtnCollection">
 					<h2>Catalog</h2>
 					<br>
-					<button class="btnType1" id="addReviewBtn" value="off"><img src="/images/icon/write.png" width=30px height=30px>Add Review</button>
-					<button class="btnType1" id="updateReviewBtn" value="off"><img src="/images/icon/update.png" width=30px height=30px>Update Review</button>
-					<button class="btnType1" id="deleteReviewBtn" value="off"><img src="/images/icon/delete.png" width=30px height=30px>Delete Review</button>
+					<button class="btnType1" id="addReviewBtn" value="off" name="boxing"><img src="/images/icon/write.png" width=30px height=30px>Add Review</button>
+					<button class="btnType1" id="updateReviewBtn" value="off" name="boxing"><img src="/images/icon/update.png" width=30px height=30px>Update Review</button>
+					<button class="btnType1" id="deleteReviewBtn" value="off" name="boxing"><img src="/images/icon/delete.png" width=30px height=30px>Delete Review</button>
 					<div id="btnClickResult"></div>
 				</div>
 				<div class="reviews">
@@ -91,9 +86,6 @@
 	  	</div>
 	</div>
 
-<form id="userdetail" action="@{userDetail}" method="get">
-</form>
-
 	<!-- custom javaScript -->
 	<th:block layout:fragment="script">
 	
@@ -101,13 +93,13 @@
 		
 		<!-- review CRUD Module import -->
 		<script th:inline="javascript" th:src="@{'/js/reviewCRUDModule.js'}"></script>
+		<!-- reply CRUD Module import -->
+		<script th:inline="javascript" th:src="@{'/js/replyCRUDModule.js'}"></script>
 		<!-- albumDetail Page관련 함수 import -->
 		<script th:inline="javascript" th:src="@{'/js/albumDetailPageFunctionCollection.js'}"></script>
 		<!-- albumDetail Page Btn Module import -->
 		<script th:inline="javascript" th:src="@{'/js/albumDetailPageBtnModule.js'}"></script>
-		<!--장바구니에 담기 기능-->
-		<script th:inline="javascript" th:src="@{/js/addCart.js}"></script>
-
+		
 		<script th:inline="javascript">
 			$(document).ready(function(e){
 				/* 전체 플레이 시간 계산 */
@@ -128,26 +120,57 @@
 				$("#deleteReviewBtn").on('click', function(){
 					btnManager.clickDelete([[${session.user.id}]],[[${album.id}]]);
 				});
+				/* 리뷰 공감, 비공감 실시간 표현을 위한 ajax코드를 담고있는 콜백함수, 파라메터로 review id와 job정보를 가진다. */
 				var callback = function(){
-					reviewManager.clickThumb($(this).parent().parent().attr("id"),[[${album.id}]],$(this).attr("class"),onOff,$(this));
+					reviewManager.clickThumb($(this).parent().parent().attr("id"),[[${album.id}]],$(this).attr("class"),$(this));
 				}
-				$(document).on('click',".like",callback);
-				$(document).on('click',".disLike",callback);
-
-				
-				var form = $("#userdetail");
-				$(".userdetail").click(function(e){
-					var userid = $(this).attr("href");
-					console.log(userid);
-					e.preventDefault();
-					form.find($("input")).remove();
-					from.append("<input type='hidden' name='userid' value='" + userid + "'>" );
-					form.submit();
+				/* 댓글 공감, 비공감 실시간 표현을 위한 ajax코드를 담고있는 콜백함수, 파라메터로 reply id와 job정보를 가진다. */
+				var callback2 = function(){
+					replyManager.clickThumb($(this), $(this).parent().parent().attr("id"),$(this).attr("class"));
+				}
+				/* 리뷰 공감, 비공감 btn 클릭시 callback 함수 실행 */
+				$(document).on('click',".review_footer > .like",callback);
+				$(document).on('click',".review_footer > .disLike",callback);
+				/* 댓글 공감, 비공감 btn 클릭시 callback 함수 실행 */
+				$(document).on('click',".reply_footer > .like",callback2);
+				$(document).on('click',".reply_footer > .disLike",callback2);
+				/* review 답글 btn 클릭시 이벤트 */
+				$(document).on('click',".reply",function(){btnManager.clickReply($(this))});
+				/* 답글 보기 btn 클릭시 이벤트 */
+				$(document).on('click',".replyList",function(){
+					replyManager.getAll($(this),[[${album.id}]],$(this).parent().parent().parent().attr("id"),[[${session.user.id}]]);
 				});
-				
+				/* 답글 CRUD */
+				$(document).on('click','#reply_create',function(){
+					replyManager.create($(this),[[${album.id}]],$(this).parent().parent().parent().parent().attr("id"),[[${session.user.id}]],'reply_create');
+				});
+				$(document).on('click','#reply_update',function(){
+					replyManager.loadUpdateForm($(this));
+				});
+				$(document).on('click','#reply_delete',function(){
+					replyManager.remove($(this),[[${album.id}]],$(this).parent().parent().parent().parent().parent().parent().parent().attr("id"),$(this).parent().parent().parent().attr("id"));
+				});
+				$(document).on('click','#reply_cancelBtn',function(){
+					replyManager.cancel($(this));
+				});
+				$(document).on('click','#reply_updateBtn',function(){
+					replyManager.update(
+						$(this),
+						[[${album.id}]],
+						$(this).parent().parent().parent().parent().parent().parent().parent().parent().attr("id"),
+						$(this).parent().parent().parent().parent().attr("id"),
+						$(this).parent().parent().children("#textarea").val(),
+						[[${session.user.id}]]
+					);
+				});
+				/* reply_reply btn 클릭시 이벤트 */
+				$(document).on('click',".reply_reply",function(){btnManager.clickReply_reply($(this))});
+				/* reply_reply create */
+				$(document).on('click','#reply_reply_create',function(){
+					replyManager.create($(this),[[${album.id}]],$(this).parent().parent().parent().parent().parent().parent().parent().parent().attr("id"),[[${session.user.id}]],'reply_reply_create');
+				});
 			});
 		</script>
-
 	</th:block>
 </body>
 </html>

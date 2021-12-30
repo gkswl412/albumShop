@@ -28,7 +28,7 @@ public class AlbumDetailController {
 	public String albumDetail(Model model, Long albumId) {
 		
 		//임시 유저 정보 생성
-		User user = reviewService.getUserInfo("kosta5");
+		User user = reviewService.getUserInfo("kosta4");
 		session.setAttribute("user", user);
 		//model.addAttribute("user",user);
 		

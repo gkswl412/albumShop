@@ -29,4 +29,10 @@ public class MultiIdUserReviewReply implements Serializable {
 	
 	@ManyToOne
 	private ReviewReply reviewReply;
+	
+	public void setId(String userId, Long replyId) {
+		this.user = User.builder().id(userId).build();
+		this.reviewReply = ReviewReply.builder().id(replyId).build();
+	}
+	
 }

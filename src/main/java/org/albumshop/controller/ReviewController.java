@@ -35,4 +35,14 @@ public class ReviewController {
 		model.addAttribute("review",review);
 		return "review/writeReviewForm";
 	}
+	@GetMapping("/replyForm")
+	public String getReplyForm() {
+		
+		return "review/replyForm";
+	}
+	@GetMapping("/reply_replyForm")
+	public String getReplyReplyForm() {
+		
+		return "review/reply_replyForm";
+	}
 }
