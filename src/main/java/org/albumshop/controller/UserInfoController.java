@@ -20,7 +20,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  
 
 @Controller
@@ -53,13 +55,13 @@ public class UserInfoController {
 	}
 	
 	@PostMapping("/passchange")
-	public String updatepass(Model model, String id, String pass) {
+	public String updatepass(Model model, String id,RedirectAttributes re_attr, String pass) {
 		Optional<User> user = uRepo.findById(id);
 	    String pass1 = passwordEncoder.encode(pass);
 		user.get().setPass(pass1);
 		uRepo.save(user.get());
-		model.addAttribute("message", "비밀번호 변경에 성공했습니다.");
-		return "redirect:/userInfo/userDetail";
+		re_attr.addFlashAttribute("message1", "비밀번호 변경에 성공했습니다.");
+		return "redirect:/userInfo/MyInfoUpdate";
 	}
 	
 	
@@ -71,11 +73,11 @@ public class UserInfoController {
 	}
 	
 	
-	@GetMapping(value="userDetail")
+	@GetMapping(value="userInfo")
 	public String UserDetail(Model model, String userid) {
 		Optional<User> user = uRepo.findById(userid);
 		model.addAttribute("UserInfo", user.get());
-		model.addAttribute("review", reRepo.findReviewById(userid));
+		model.addAttribute("review", reRepo.findReviewById(userid));		
 		return "userInfo/userInfo";
 	}
 	
@@ -87,7 +89,7 @@ public class UserInfoController {
 		uRepo.save(user.get());
 		session.setAttribute("user", user.get());
 		model.addAttribute("message", "주소 변경에 성공했습니다.");
-		return "redirect:/userInfo/userDetail";
+		return "redirect:/userInfo/MyInfoUpdate";
 	}
 	
 	@PostMapping("/PhotoChangeForm")
@@ -115,6 +117,18 @@ public class UserInfoController {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
 	    }
-	    return "redirect:/userInfo/userDetail";		
+	    return "redirect:/userInfo/MyInfoUpdate";		
 	}
+	@RequestMapping(value = "/userInfo/MyPage")
+	public String MyPage(String id) {
+		
+		
+		return "/userInfo/Mypage";
+	}
+	@RequestMapping("/userInfo/MyInfoUpdate")
+	public String MyInfoUpdate() {
+		
+		return "/userInfo/MyInfoUpdate";
+	}
+	
 }

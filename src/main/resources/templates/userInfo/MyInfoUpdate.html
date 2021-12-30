@@ -9,7 +9,7 @@
 	
 <head>
 <meta charset="UTF-8">
-<title>개인정보 확인 및 수정 페이지</title>
+<title>[[${session.user.id}]]님의 수정 페이지</title>
 <th:block layout:frgment="style">
 <style>
 #addr1 {
@@ -22,6 +22,7 @@
 	margin-left: 20%;
 	margin-right: 20%;
 }
+#message{color : red;}
 </style>
 </th:block>
 </head>
@@ -29,8 +30,7 @@
 	<div class="container mt-5" layout:fragment="content">
 		<div id="content">
 		<h2>[[${session.user.name}]] 님의 정보</h2>
-		[[${message}]]
-		[[${session.user.photo}]]			
+		<div id="message">[[${message}]]</div>		
 			<table border="1">
 			<tr>
 			<td>
