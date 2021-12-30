@@ -44,10 +44,10 @@ var replyManager = (function() {
 						context
 							+= "<div id='" + reply.id + "'>"
 							+ "<div class='reply_header'>"
-							+ "<a href='/userDetail/" + reply.user.id + "'>"
+							+ "<a href='/userInfo?userid=" + reply.user.id + "'>"
 							+ "<img src='/images/userProfile/" + userPhoto + "'>"
 							+ "</a>"
-							+ "<a href='/userDetail'>"
+							+ "<a href='/userInfo?userid=" + reply.user.id + "'>"
 							+ "<span class='reply_user_id'>" + reply.user.id + "</span>"
 							+ "</a>"
 							+ "<span class='reply_update_date'>"

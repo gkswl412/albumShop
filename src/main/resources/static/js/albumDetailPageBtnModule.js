@@ -114,7 +114,7 @@ var btnManager = (function(){
 				self.parent().children(".reply_replyClickResult").html(form);
 				self.attr("value","on");
 				var tagId = "@" + self.parent().parent().children(".reply_header").children("a").eq(1).children(".reply_user_id").text();
-				self.parent().children(".reply_replyClickResult").children("div").eq(0).children("div").eq(1).html("<a href='/userDetail'>@" + self.parent().parent().children(".reply_header").children("a").eq(1).children(".reply_user_id").text() + "</a>");
+				self.parent().children(".reply_replyClickResult").children("div").eq(0).children("div").eq(1).html("<a href='/userInfo?userid=" + self.parent().parent().children(".reply_header").children("a").eq(1).children(".reply_user_id").text() + "'>@" + self.parent().parent().children(".reply_header").children("a").eq(1).children(".reply_user_id").text() + "</a>");
 				var original = self.parent().children(".reply_replyClickResult").children("div").eq(0).children("div").eq(1).text();
 				self.parent().children(".reply_replyClickResult").children("div").eq(0).children("div").eq(1).keyup(function(e){
 					if($(this).children("a").text().trim() != tagId){
