@@ -40,13 +40,16 @@ public class ReplyService {
 			replies.add(reply);
 		});
 		User user = (User) session.getAttribute("user");
-		List<Long> likedReplyList = getLikedReplyList(albumId, userId, user.getId());
-		List<Long> disLikedReplyList = getDisLikedReplyList(albumId, userId, user.getId());
+		if(user != null) {
+			List<Long> likedReplyList = getLikedReplyList(albumId, userId, user.getId());
+			List<Long> disLikedReplyList = getDisLikedReplyList(albumId, userId, user.getId());
+			result.put("likedReplyList", likedReplyList);
+			result.put("disLikedReplyList", disLikedReplyList);
+			result.put("userId", user.getId());
+		}
 		result.put("replies", replies);
 		result.put("likeCount", likeCount);
 		result.put("disLikeCount", disLikeCount);
-		result.put("likedReplyList", likedReplyList);
-		result.put("disLikedReplyList", disLikedReplyList);
 		return result;
 	}
 	

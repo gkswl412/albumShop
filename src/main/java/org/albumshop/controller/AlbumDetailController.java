@@ -7,9 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.albumshop.domain.Album;
 import org.albumshop.domain.Song;
 import org.albumshop.domain.User;
-import org.albumshop.persistence.CartRepository;
 import org.albumshop.service.AlbumService;
-import org.albumshop.service.CartService;
 import org.albumshop.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,19 +22,10 @@ public class AlbumDetailController {
 	@Autowired
 	private ReviewService reviewService;
 	@Autowired
-	private CartService cartService;
-	@Autowired
 	private HttpSession session;
 	
 	@GetMapping(value="albumdetail")
 	public String albumDetail(Model model, Long albumId) {
-		
-		//임시 유저 정보 생성
-		User user = reviewService.getUserInfo("kosta4");
-		Long cartId = cartService.cartIdFindByUserId("kosta4");
-		session.setAttribute("user", user);
-		model.addAttribute("cartId", cartId);
-		//model.addAttribute("user",user);
 		
 		//앨범정보 저장
 		Album album = albumService.getAlbumDetailInfo(albumId);

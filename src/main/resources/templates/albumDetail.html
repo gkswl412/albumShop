@@ -115,15 +115,15 @@
 				})();
 				/* add Review btn 클릭시 작성폼 Ajax로 불러오기 */
 				$("#addReviewBtn").on('click',function(){
-					btnManager.clickAdd([[${session.user.id}]],[[${album.id}]]);
+					btnManager.clickAdd([[${album.id}]]);
 				});
 				/* update Review btn 클릭시 기존 리뷰 작성폼으로 불러오기 */
 				$("#updateReviewBtn").on('click', function(){
-					btnManager.clickUpdate([[${session.user.id}]],[[${album.id}]]);
+					btnManager.clickUpdate([[${album.id}]]);
 				});
 				/* delete Review btn 클릭시 기존 리뷰 작성폼으로 불러오기 */
 				$("#deleteReviewBtn").on('click', function(){
-					btnManager.clickDelete([[${session.user.id}]],[[${album.id}]]);
+					btnManager.clickDelete([[${album.id}]]);
 				});
 				/* 리뷰 공감, 비공감 실시간 표현을 위한 ajax코드를 담고있는 콜백함수, 파라메터로 review id와 job정보를 가진다. */
 				var callback = function(){
@@ -143,11 +143,11 @@
 				$(document).on('click',".reply",function(){btnManager.clickReply($(this))});
 				/* 답글 보기 btn 클릭시 이벤트 */
 				$(document).on('click',".replyList",function(){
-					replyManager.getAll($(this),[[${album.id}]],$(this).parent().parent().parent().attr("id"),[[${session.user.id}]]);
+					replyManager.getAll($(this),[[${album.id}]],$(this).parent().parent().parent().attr("id"));
 				});
 				/* 답글 CRUD */
 				$(document).on('click','#reply_create',function(){
-					replyManager.create($(this),[[${album.id}]],$(this).parent().parent().parent().parent().attr("id"),[[${session.user.id}]],'reply_create');
+					replyManager.create($(this),[[${album.id}]],$(this).parent().parent().parent().parent().attr("id"),'reply_create');
 				});
 				$(document).on('click','#reply_update',function(){
 					replyManager.loadUpdateForm($(this));
@@ -165,14 +165,13 @@
 						$(this).parent().parent().parent().parent().parent().parent().parent().parent().attr("id"),
 						$(this).parent().parent().parent().parent().attr("id"),
 						$(this).parent().parent().children("#textarea").val(),
-						[[${session.user.id}]]
 					);
 				});
 				/* reply_reply btn 클릭시 이벤트 */
 				$(document).on('click',".reply_reply",function(){btnManager.clickReply_reply($(this))});
 				/* reply_reply create */
 				$(document).on('click','#reply_reply_create',function(){
-					replyManager.create($(this),[[${album.id}]],$(this).parent().parent().parent().parent().parent().parent().parent().parent().attr("id"),[[${session.user.id}]],'reply_reply_create');
+					replyManager.create($(this),[[${album.id}]],$(this).parent().parent().parent().parent().parent().parent().parent().parent().attr("id"),'reply_reply_create');
 				});
 			});
 		</script>

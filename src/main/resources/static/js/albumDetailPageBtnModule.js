@@ -3,7 +3,7 @@
  */
 var btnManager = (function(){
 	
-	var clickAdd = function(userId,albumId){	
+	var clickAdd = function(albumId){	
 		if($("#addReviewBtn").val()=="off"){
 			$("#addReviewBtn").attr("value","on");
 			$("#updateReviewBtn").attr("value","off");
@@ -13,7 +13,6 @@ var btnManager = (function(){
 				type: "GET",
 				data:{
 					"albumId":albumId,
-					"userId":userId,
 					"job":"create"
 				}
 			}).done(function(form){
@@ -25,7 +24,7 @@ var btnManager = (function(){
 		}
 	};
 	
-	var clickUpdate = function(userId,albumId){
+	var clickUpdate = function(albumId){
 		if($("#updateReviewBtn").val()=="off"){
 			$("#updateReviewBtn").attr("value","on");
 			$("#addReviewBtn").attr("value","off");
@@ -35,7 +34,6 @@ var btnManager = (function(){
 				type: "GET",
 				data:{
 					"albumId":albumId,
-					"userId":userId,
 					"job":"update"
 				}
 			}).done(function(form){
@@ -47,7 +45,7 @@ var btnManager = (function(){
 		}
 	};
 	
-	var clickDelete = function(userId,albumId){
+	var clickDelete = function(albumId){
 		if($("#deleteReviewBtn").val()=="off"){
 			$("#deleteReviewBtn").attr("value","on");
 			$("#addReviewBtn").attr("value","off");
@@ -57,7 +55,6 @@ var btnManager = (function(){
 				type: "GET",
 				data:{
 					"albumId":albumId,
-					"userId":userId,
 					"job":"delete"
 				}
 			}).done(function(form){
