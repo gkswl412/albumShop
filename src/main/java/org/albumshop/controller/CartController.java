@@ -38,19 +38,23 @@ public class CartController {
     CartService cartService;
     @Autowired
     CartDetailService cartDetailService;
+    @Autowired
+    HttpSession session;
 
     @RequestMapping(value = "/cart")
-    public String cartAll(Model model, Principal principal, HttpSession session) throws JsonProcessingException {
-        //User user = (User) session.getAttribute("user");
-        //System.out.println("user : " + user.getId());
+    public String cartAll(Model model, Principal principal) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            model.addAttribute("msg", "장바구니에 진입하려면 로그인하세요.");
+            return "redirect:user/login";
+        }
+        System.out.println(user.getId());
+        List<CartDetailVO> cartDetailList = null;
 
-        User user = userRepository.findById("comet").get();
-
-        List<CartDetailVO> cartDetailList = cartDetailService.getCartList(user);
-        if (cartDetailList == null) {
-            cartService.createCart("kosta5");
+        if (user != null) {
             cartDetailList = cartDetailService.getCartList(user);
         }
+
         model.addAttribute("cartlist", cartDetailList);
         return "cart/list";
 

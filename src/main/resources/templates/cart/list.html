@@ -125,7 +125,7 @@
 						success  : function(result, status){
 							location.href = '/cart';
 							showDeleteAlert();
-						},
+						}/*,
 						error : function(jqXHR, status, error){
 
 							if(jqXHR.status == '401'){
@@ -134,7 +134,7 @@
 							} else{
 								alert(jqXHR.responseJSON.message);
 							}
-						}
+						}*/
 					});
 				}
 			}
@@ -152,7 +152,7 @@
 						cache   : false,
 						success  : function(result, status){
 							location.href = '/cart';
-						},
+						}/*,
 						error : function(jqXHR, status, error){
 
 							if(jqXHR.status == '401'){
@@ -161,7 +161,7 @@
 							} else{
 								alert(jqXHR.responseJSON.message);
 							}
-						}
+						}*/
 					});
 					showDeleteAlert();
 				} else {
@@ -187,7 +187,7 @@
 					success  : function(result, status){
 						console.log("cartItem count update success");
 						showQuantityUpdateAlert();
-					},
+					}/*,
 					error : function(jqXHR, status, error){
 
 						if(jqXHR.status == '401'){
@@ -196,7 +196,7 @@
 						} else{
 							alert(jqXHR.responseJSON.message);
 						}
-					}
+					}*/
 				});
 			}
 			function showQuantityUpdateAlert() {
@@ -214,7 +214,7 @@
 		<div id="myAlert" class="alert alert-success" style="display: none"><button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>장바구니에 담긴 앨범의 수량이 수정되었습니다. </div>
 		<div id="myDeleteAlert" class="alert alert-warning" style="display: none"><button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>장바구니에 담긴 앨범을 삭제했습니다.</div>
 		<h1>장바구니</h1>
-		<!--<p th:text="${cartlist.get(0).getUserId()} + '님의 장바구니입니다.'"></p>-->
+		<p>[[${session.user.id}]]님의 장바구니입니다.</p>
 		<div th:if="${cartlist.size()} == 0">
 			<input type="hidden" th:value="0" class="cartId">
 		</div>
