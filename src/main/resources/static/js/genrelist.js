@@ -82,15 +82,38 @@ var jsList = (function() {
 	$("#here3").html(form);
 	});
 	
-	}
-
+	};
+	
+	var mycartlist = function(id){
+	$.ajax({
+	url:"/MyCartList",
+	type:"GET",
+	data:{"id":id}
+	}).done(function(form){
+	$("#a1").html(form);
+	});
+	};
+	
+	var malbumlist = function(id){
+	$.ajax({
+	url:"/MyAlbumList",
+	type:"GET",
+	data:{"id":id}
+	}).done(function(form){
+	$("#a1").html(form);
+	});
+	};
+	
+	
 	return{
 	clicklist: clicklist,
 	passcheckform: passcheckform,
 	addresschform: addresschform,
 	passchange: passchange,
 	address:address,
-	photochangeform:photochangeform
+	photochangeform:photochangeform,
+	mycartlist:mycartlist,
+	malbumlist:malbumlist	
 	}
 	
 })();

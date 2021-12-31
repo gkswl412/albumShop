@@ -20,7 +20,6 @@ table {
 	<!-- content -->
 	<div class="container mt-5" layout:fragment="content">
 		<h2>[[${UserInfo.id}]]님의 정보</h2>
-		[[${userReview}]]
 		<table class="table table-hover">
 			<tr>
 				<td id="1" rowspan="2" width="250px" height="250px"><img
@@ -44,9 +43,11 @@ table {
 					<th>Rating</th>
 				</tr>
 				<tr th:each="reviewlist:${review}">
-					<td width="100px" height="100px"><a class="detailButton"
-						th:href="${reviewlist[0]}"><img alt="${reviewlist[1]}"
-							th:src="@{${reviewlist[1]}}" width="100px" height="100px"></a></td>
+					<td width="100px" height="100px">
+					<a class="detailButton" th:href="${reviewlist[0]}">
+					<img alt="${reviewlist[1]}" th:src="@{${reviewlist[1]}}" width="100px" height="100px">
+					</a>
+					</td>
 					<td><a class="detailButton" th:href="${reviewlist[0]}">[[${reviewlist[2]}]]</a></td>
 					<td th:text="${reviewlist[3]}"></td>
 					<td th:text="${reviewlist[4]}"></td>

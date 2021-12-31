@@ -29,7 +29,7 @@
 <body>
 	<div class="container mt-5" layout:fragment="content">
 		<div id="content">
-		<h2>[[${session.user.name}]] 님의 정보</h2>
+		<h2>[[${session.user.name}]] 님의 정보 수정</h2>
 		<div id="message">[[${message}]]</div>		
 			<table border="1">
 			<tr>
@@ -44,7 +44,8 @@
 				</div><br>
 				<input type="text" id="userpass" style="width:350px;"  placeholder="비밀번호 변경시 기존 비밀번호 입력 바랍니다.">[[${message}]]
 				<button class="pwchange">비밀번호 변경</button>
-				<div id="here1"></div>
+				<div id="here1"></div><br>
+				
 				<div class="form-group">
 					<label for="phone">전화번호</label> 
 					<input type="tel" class="form-control" id="phone" name="phone" th:value="${session.user.phone}" required placeholder="하이픈(-) 뺴고 입력바랍니다." maxlength="11">
@@ -88,13 +89,13 @@
 				<label for="score"></label> 
 				<input type="hidden" id="score" name="score" value="0" /> 
 				<input type="hidden" name="mrole" value="USER"/> 
-
-			<button id="btnupdate" type="button" class="btn btn-warning">수정하기</button>
+			<!-- user info togoUpdate  -->
+			<form id="update" action="/UserUpdate" method="post"></form>
+			<!-- user info togoDelete  -->
+			<form id="delete" action="/UserDelete" method="post"></form>
+			<button id="btnupdate" type="submit" class="btn btn-warning">수정하기</button>
 			<button id="btndelete" type="button" class="btn btn-danger">탈퇴하기</button>
 			
-			<!-- user info togoUpdate  -->
-			<form id="myfrm" action="../albumlist" method="post">
-			</form>
 		</div>
 	</div>
 
@@ -150,6 +151,97 @@ function execution_daum_address(){
 	        }
 	    }).open();    
 }
+
+var arrInput = [false,false];
+function inputCheck(){
+	var ok=true;
+	if(arrInput.every(aa=>aa==true)){
+		$('#btnupdate').removeAttr("disabled");
+	}else{
+		$('#btnupdate').attr("disabled","disabled");
+	}
+}
+
+$('#email').on("propertychange change keyup paste input", function(){
+	var email = $('#email').val();		
+	var data = {"email" : email};			
+	$.ajax({
+		type : "post",
+		url : "/user/emailCheck",
+		data : data,
+		success : function(result){
+			//alert(result);
+			if(result != 'fail'){
+				$('.emailCheck_1').css("display","inline-block");
+				$('.emailCheck_2').css("display", "none");
+				//$('#btn').removeAttr("disabled");
+				arrInput[0] = true;
+			} else {
+				$('.emailCheck_2').css("display","inline-block");
+				$('.emailCheck_1').css("display", "none");		
+				//$('#btn').attr("disabled","disabled");
+				arrInput[0] = false;		
+			}
+			inputCheck();
+		}
+	}); 	
+});
+
+
+$('#nickName').on("propertychange change keyup paste input", function(){
+	var nickName = $('#nickName').val();		
+	var data = {"nickName" : nickName};			
+	$.ajax({
+		type : "post",
+		url : "/user/nickCheck",
+		data : data,
+		success : function(result){
+			//alert(result);
+			if(result != 'fail'){
+				$('.nickCheck_1').css("display","inline-block");
+				$('.nickCheck_2').css("display", "none");
+				//$('#btn').removeAttr("disabled");
+				arrInput[1] = true;
+			} else {
+				$('.nickCheck_2').css("display","inline-block");
+				$('.nickCheck_1').css("display", "none");		
+				//$('#btn').attr("disabled","disabled");
+				arrInput[1] = false;
+			}
+			inputCheck();
+		}
+	}); 	
+});
+
+var form = $("#update");
+$('#btnupdate').click(function(e){
+	var id = [[${session.user.id}]];
+	var name = $("#name").val();
+	var nickName = $("#nickName").val();
+	var email = $("#email").val();
+	var phone = $("#phone").val();
+	var birth = $("#birth").val();
+	var gender = $("#gender").val();
+	e.preventDefault();
+	form.find($("input")).remove();
+	form.append("<input type='hidden' name='id' value='" + id + "'>" );
+	form.append("<input type='hidden' name='name' value='" + name + "'>" );
+	form.append("<input type='hidden' name='nickName' value='" + nickName + "'>" );
+	form.append("<input type='hidden' name='email' value='" + email + "'>" );
+	form.append("<input type='hidden' name='phone' value='" + phone + "'>" );
+	form.append("<input type='hidden' name='birth' value='" + birth + "'>" );
+	form.append("<input type='hidden' name='gender' value='" + gender + "'>" );
+	form.submit();
+});
+
+var form = $("#delete");
+$('#btndelete').click(function(e){
+	var id = [[${session.user.id}]];
+	e.preventDefault();
+	form.find($("input")).remove();
+	form.append("<input type='hidden' name='id' value='" + id + "'>" );
+	form.submit();
+});
 
 
 $(document).ready(function(e){
