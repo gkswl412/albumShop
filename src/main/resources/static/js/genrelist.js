@@ -94,13 +94,26 @@ var jsList = (function() {
 	});
 	};
 	
-	var malbumlist = function(id){
+	var myalbumtitlelist = function(id){
 	$.ajax({
-	url:"/MyAlbumList",
+	url:"/MyAlbumTitleList",
 	type:"GET",
 	data:{"id":id}
 	}).done(function(form){
 	$("#a1").html(form);
+	});
+	};
+	
+	var myalbumlist = function(id, mylisttitle){
+	$.ajax({
+	url:"/MyAlbumList",
+	type:"GET",
+	data:{
+	"id":id,
+	"mylisttitle":mylisttitle
+	}
+	}).done(function(form){
+	$("#a2").html(form);
 	});
 	};
 	
@@ -113,7 +126,8 @@ var jsList = (function() {
 	address:address,
 	photochangeform:photochangeform,
 	mycartlist:mycartlist,
-	malbumlist:malbumlist	
+	myalbumtitlelist:myalbumtitlelist,
+	myalbumlist:myalbumlist	
 	}
 	
 })();
