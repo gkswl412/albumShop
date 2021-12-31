@@ -1,0 +1,19 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>[[${session.user.name}]]님의 장바구니</title>
+</head>
+<body>
+<h5>[[${session.user.name}]]'S Cart</h5>
+<table class="table table-hover">
+<tr>
+<th>AlbumTitle</th>
+<th>Quantity</th>
+</tr>
+<tr th:each="cart:${cartlist}">
+<td th:text="${cart[0]}"></td>
+<td th:text="${cart[1]}"></td>
+</tr>
+</table>
+</body>
+</html>
