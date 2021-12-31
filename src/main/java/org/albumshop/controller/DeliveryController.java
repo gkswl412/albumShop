@@ -30,10 +30,6 @@ public class DeliveryController {
     @Autowired
     HttpSession session;
 
-    @RequestMapping("/delivery")
-    public String delivery() {
-        return "delivery/order";
-    }
 
     @RequestMapping(value = "/delivery/order")
     public String orderAlbum(Model model) {
