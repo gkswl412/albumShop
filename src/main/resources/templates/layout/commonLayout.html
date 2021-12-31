@@ -76,6 +76,9 @@ function scroll_follow( id ){
 		<input id="text" type="text" name="searchKeyword" th:value="${searchKeyword}">
 		<button id="searchBtn">Search</button> 
 	</td>
+	<td>
+	<a href="/cart">Cart</a>
+	</td>
 	<td th:if="${session.user == null}">
 	<a href="/user/login">Login</a>
 	<a href="/user/join">JoinClub</a>

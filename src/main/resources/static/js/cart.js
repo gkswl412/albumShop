@@ -180,3 +180,6 @@ function showQuantityUpdateAlert() {
 function showDeleteAlert() {
     $("#myDeleteAlert").show();
 }
+function addMyList() {
+
+}
