@@ -35,7 +35,6 @@ public class DeliveryController {
     public String orderAlbum(Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            model.addAttribute("msg", "주문창에 진입하려면 로그인하세요.");
             return "redirect:user/login";
         }
         System.out.println(user.getId());
