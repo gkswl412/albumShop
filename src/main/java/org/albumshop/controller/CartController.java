@@ -56,10 +56,9 @@ public class CartController {
 
     }
 
-    @PatchMapping(value = "/cart/insert/{albumId}")
-    public @ResponseBody ResponseEntity insertCartDetail (@PathVariable("albumId") Long albumId, String userId) {
-        Long cartId = 0L;
-        Cart cart = cartRepository.findByUserId(userId);
+    @PatchMapping(value = "/cart/insert/{cartId}/{albumId}")
+    public @ResponseBody ResponseEntity insertCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, String userId) {
+        Cart cart = cartRepository.findById(cartId).get();
         if (cart == null) {
             cart = cartService.createCart(userId);
             cartId = cart.getId();
@@ -69,6 +68,7 @@ public class CartController {
         MultiIdCartAlbum multiIdCartAlbum = MultiIdCartAlbum.builder()
                 .cart(cart).album(album).build();
         CartDetail cartDetail = CartDetail.createCartDetail(cart, album, 1);
+        cartService.addCart(cartDetail, userId);
         return new ResponseEntity<Long>(cartId, HttpStatus.OK);
     }
 

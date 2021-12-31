@@ -35,7 +35,7 @@ public class CartInsertTest {
         });
     }
 
-    @Test
+    //@Test
     public void insertAlbumToCart() {
         //7, 8, 9, 10번 앨범 각 1, 2, 3개 Cart에 담기
         List<Album> albumList = new ArrayList<>();
@@ -55,6 +55,18 @@ public class CartInsertTest {
         });
 
 
-
+    }
+    @Test
+    public void createCartTest() {
+//        Cart cart = cartRepository.findByUserId("kosta1");
+//
+//        System.out.println(cart);
+        Iterable<User> users = userRepository.findAll();
+        users.forEach(u -> {
+//            Cart cart = cartRepository.findByUserId(u.getId());
+//            if (cart == null) {
+                cartRepository.insertIntoCartByUserId(u.getId());
+//            }
+        });
     }
 }
