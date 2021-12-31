@@ -3,8 +3,9 @@ function addCart() {
     if (add_alert == true) {
         alert('장바구니에 담기 준비중');
     }
-/*    var url = "/cart/insert/"
+    var url = "/cart/insert/"
     var paramData = {
+        cartId : '${cartId}',
         albumId : $("#albumId").val()
     };
     var param = JSON.stringify(paramData);
@@ -15,10 +16,10 @@ function addCart() {
         type     : "POST",
         contentType : "application/json",
         data     : param,
-/!*        beforeSend : function(xhr){
+/*        beforeSend : function(xhr){
             /!* 데이터를 전송하기 전에 헤더에 csrf값을 설정 *!/
             xhr.setRequestHeader(header, token);
-        },*!/
+        },*/
         dataType : "json",
         cache   : false,
         success  : function(result, status){
@@ -35,5 +36,5 @@ function addCart() {
             }
 
         }
-    });*/
+    });
 }

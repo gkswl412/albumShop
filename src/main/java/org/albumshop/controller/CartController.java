@@ -44,7 +44,7 @@ public class CartController {
         //User user = (User) session.getAttribute("user");
         //System.out.println("user : " + user.getId());
 
-        User user = userRepository.findById("kosta5").get();
+        User user = userRepository.findById("comet").get();
 
         List<CartDetailVO> cartDetailList = cartDetailService.getCartList(user);
         if (cartDetailList == null) {
