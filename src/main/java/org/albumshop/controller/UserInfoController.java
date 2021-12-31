@@ -125,7 +125,7 @@ public class UserInfoController {
 	public String MyPage(Model model, String id) {
 		User user = (User) session.getAttribute("user");
 		model.addAttribute("review", reRepo.findReviewById(user.getId()));
-		return "/userInfo/Mypage";
+		return "userInfo/Mypage";
 	}
 	
 	@PostMapping("/UserUpdate")
@@ -143,14 +143,14 @@ public class UserInfoController {
 		uRepo.save(user);
 	    session.setAttribute("user", user);
 	    model.addAttribute("message","회원 정보가 수정 되었습니다.");
-		return "/userInfo/Mypage";
+		return "userInfo/MyPage";
 	}
 	
 	@PostMapping("/UserDelete")
 	public String delete(Model model, String id) {
-		User user = uRepo.findById(id).get();
 		
-		return "";
+		
+		return "redirect:/albumlist";
 	} 
 	
 	
@@ -165,11 +165,17 @@ public class UserInfoController {
 		model.addAttribute("cartlist", uRepo.findMyCartById(id));
 		return "/userInfo/MyCartList";
 	}
-	@GetMapping("/MyAlbumList")
-	public String myalbumlist(Model model, String id) {
-		
+	@GetMapping("/MyAlbumTitleList")
+	public String myalbumTitlelist(Model model, String id) {
 		model.addAttribute("albumlist", uRepo.findMyAlbumById(id));
+		return "/userInfo/MyAlbumTitleList";
+	}
+	@GetMapping("/MyAlbumList")
+	public String myalbumlist(Model model, String id, String mylisttitle) {
+		model.addAttribute("album", uRepo.findMyAlbumListById(id, mylisttitle));
 		return "/userInfo/MyAlbumList";
 	}
+	
+	
 	
 }

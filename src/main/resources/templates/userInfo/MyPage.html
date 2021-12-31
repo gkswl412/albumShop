@@ -10,11 +10,10 @@
 <head>
 <style type="text/css">
 table tr td{vertical-align : middle;}
-#message{color : red;}
+#message {color : red;}
 </style>
 <meta charset="UTF-8">
 <title>[[${session.user.id}]]님의 Page</title>
-
 </head>
 <body>
 	<div class="container mt-5" layout:fragment="content">
@@ -44,7 +43,6 @@ table tr td{vertical-align : middle;}
 			</table>
 			</div>
 			<div class="col-sm-5">
-			
 			<button class="mycart">나의 장바구니</button><button class="myalbum">나의 앨범리스트</button>
 			<div id="a1"></div>
 			</div>
@@ -52,22 +50,27 @@ table tr td{vertical-align : middle;}
 			<div class="col-sm-7">
 			<table class="table table-hover">
 				<tr >
+					<th >Album Cover</th>
 					<th >Album Title</th>
 					<th >Content</th>
 					<th >Rating</th>
 				</tr>			
 				<tr class="a" th:each="reviewlist:${review}">
 					<span th:if="${#lists.size(review)}!=0">
-					<td><a class="detailButton" th:href="|../albumdetail?albumid=${reviewlist[0]}|">[[${reviewlist[2]}]]</a></td>
+					<td>
+					<a class="detailButton" th:href="@{/albumdetail(albumId=${reviewlist[0]})}">
+					<img alt="${reviewlist[2]}" th:src="|/${reviewlist[1]}|" width="100px" height="100px">
+					</a>
+					</td>
+					<td>
+					<a class="detailButton" th:href="@{/albumdetail(albumId=${reviewlist[0]})}">
+					[[${reviewlist[2]}]]
+					</a>
+					</td>
 					<td th:text="${reviewlist[3]}"></td>
 					<td th:text="${reviewlist[4]}"></td>
 					</span>
-				</tr>
-				<span th:if="${#lists.size(review)}==0">
-				<tr>
-				<td colspan="4"> [[${session.user.name}]]님이 쓴 리뷰가 없습니다.</td>
-				</tr>
-				</span>
+				</tr>			
 			</table>
 			</div>
 		</div>
@@ -75,6 +78,7 @@ table tr td{vertical-align : middle;}
 	<th:block layout:fragment="script">
 		<script th:inline="javascript" th:src="@{'/js/genrelist.js'}"></script>
 		<script th:inline="javascript">
+		
 		$(document).ready(function(e) {
 			$(".mycart").on('click', function() {
 				var id = [[${session.user.id}]];
@@ -85,9 +89,10 @@ table tr td{vertical-align : middle;}
 		$(document).ready(function(e) {
 			$(".myalbum").on('click', function() {
 				var id = [[${session.user.id}]];
-				jsList.malbumlist(id);
+				jsList.myalbumtitlelist(id);
 			});
 		});
+		
 		</script>
 	</th:block>
 </body>
