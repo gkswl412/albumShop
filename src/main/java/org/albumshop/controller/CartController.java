@@ -38,28 +38,31 @@ public class CartController {
     CartService cartService;
     @Autowired
     CartDetailService cartDetailService;
+    @Autowired
+    HttpSession session;
 
     @RequestMapping(value = "/cart")
-    public String cartAll(Model model, Principal principal, HttpSession session) throws JsonProcessingException {
-        //User user = (User) session.getAttribute("user");
-        //System.out.println("user : " + user.getId());
+    public String cartAll(Model model, Principal principal) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            model.addAttribute("msg", "장바구니에 진입하려면 로그인하세요.");
+            return "redirect:user/login";
+        }
+        System.out.println(user.getId());
+        List<CartDetailVO> cartDetailList = null;
 
-        User user = userRepository.findById("kosta5").get();
-
-        List<CartDetailVO> cartDetailList = cartDetailService.getCartList(user);
-        if (cartDetailList == null) {
-            cartService.createCart("kosta5");
+        if (user != null) {
             cartDetailList = cartDetailService.getCartList(user);
         }
+
         model.addAttribute("cartlist", cartDetailList);
         return "cart/list";
 
     }
 
-    @PatchMapping(value = "/cart/insert/{albumId}")
-    public @ResponseBody ResponseEntity insertCartDetail (@PathVariable("albumId") Long albumId, String userId) {
-        Long cartId = 0L;
-        Cart cart = cartRepository.findByUserId(userId);
+    @PatchMapping(value = "/cart/insert/{cartId}/{albumId}")
+    public @ResponseBody ResponseEntity insertCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, String userId) {
+        Cart cart = cartRepository.findById(cartId).get();
         if (cart == null) {
             cart = cartService.createCart(userId);
             cartId = cart.getId();
@@ -69,6 +72,7 @@ public class CartController {
         MultiIdCartAlbum multiIdCartAlbum = MultiIdCartAlbum.builder()
                 .cart(cart).album(album).build();
         CartDetail cartDetail = CartDetail.createCartDetail(cart, album, 1);
+        cartService.addCart(cartDetail, userId);
         return new ResponseEntity<Long>(cartId, HttpStatus.OK);
     }
 

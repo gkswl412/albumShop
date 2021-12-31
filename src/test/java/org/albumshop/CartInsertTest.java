@@ -45,8 +45,8 @@ public class CartInsertTest {
             });
         });
 
-        userRepository.findById("kosta0").ifPresent(user -> {
-            Cart cart = cartRepository.findByUserId("kosta0");
+        userRepository.findById("comet").ifPresent(user -> {
+            Cart cart = cartRepository.findByUserId("comet");
             cartRepository.save(cart);
             IntStream.range(0, 4).forEach(j -> {
                 CartDetail cartDetail = CartDetail.createCartDetail(cart, albumList.get(j), j+1);
@@ -55,6 +55,18 @@ public class CartInsertTest {
         });
 
 
-
+    }
+    @Test
+    public void createCartTest() {
+//        Cart cart = cartRepository.findByUserId("kosta1");
+//
+//        System.out.println(cart);
+        Iterable<User> users = userRepository.findAll();
+        users.forEach(u -> {
+//            Cart cart = cartRepository.findByUserId(u.getId());
+//            if (cart == null) {
+                cartRepository.insertIntoCartByUserId(u.getId());
+//            }
+        });
     }
 }

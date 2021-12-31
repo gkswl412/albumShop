@@ -1,6 +1,11 @@
 function addCart() {
+    var add_alert = confirm('장바구니에 이 앨범을 담으시겠습니까?');
+    if (add_alert == true) {
+        alert('장바구니에 담기 준비중');
+    }
     var url = "/cart/insert/"
     var paramData = {
+        cartId : '${cartId}',
         albumId : $("#albumId").val()
     };
     var param = JSON.stringify(paramData);

@@ -25,6 +25,10 @@ public class CartService {
     @Autowired
     AlbumRepository albumRepository;
 
+    public Long cartIdFindByUserId(String userId) {
+        return cartRepository.findByUserId(userId).getId();
+    }
+
     public Cart createCart(String userId) {
         Cart cart;
         if (cartRepository.findByUserId(userId) == null) {
@@ -36,6 +40,20 @@ public class CartService {
         }
 
         return cart;
+    }
+    public boolean insertCart(Long cartId, Long albumId, String userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        Cart cart = cartRepository.findById(cartId).orElse(null);
+        Album album = albumRepository.findById(albumId).orElse(null);
+        MultiIdCartAlbum multiIdCartAlbum = MultiIdCartAlbum.builder()
+                .cart(cart).album(album).build();
+        CartDetail cartDetail = cartDetailRepository.findById(multiIdCartAlbum).orElse(null);
+
+        if (cartDetail == null) {
+
+        }
+
+        return true;
     }
 
     public MultiIdCartAlbum addCart(CartDetail cartDetail, String userId) {
