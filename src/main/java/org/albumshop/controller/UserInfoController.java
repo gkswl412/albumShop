@@ -3,6 +3,7 @@ package org.albumshop.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.albumshop.persistence.ReviewRepository;
 import org.albumshop.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -119,16 +121,55 @@ public class UserInfoController {
 	    }
 	    return "redirect:/userInfo/MyInfoUpdate";		
 	}
-	@RequestMapping(value = "/userInfo/MyPage")
-	public String MyPage(String id) {
-		
-		
+	@GetMapping(value = "/userInfo/MyPage")
+	public String MyPage(Model model, String id) {
+		User user = (User) session.getAttribute("user");
+		model.addAttribute("review", reRepo.findReviewById(user.getId()));
 		return "/userInfo/Mypage";
 	}
+	
+	@PostMapping("/UserUpdate")
+	public String update(Model model, String id, String name, 
+			String nickName, String email, String phone, 
+			@RequestParam(value = "birth", required=false)@DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate birth, 
+			String gender) {
+		User user = uRepo.findById(id).get();
+		user.setName(name);
+		user.setNickName(nickName);
+		user.setEmail(email);
+		user.setPhone(phone);
+		user.setBirth(birth);
+		user.setGender(gender);
+		uRepo.save(user);
+	    session.setAttribute("user", user);
+	    model.addAttribute("message","회원 정보가 수정 되었습니다.");
+		return "/userInfo/Mypage";
+	}
+	
+	@PostMapping("/UserDelete")
+	public String delete(Model model, String id) {
+		User user = uRepo.findById(id).get();
+		
+		return "";
+	} 
+	
+	
 	@RequestMapping("/userInfo/MyInfoUpdate")
 	public String MyInfoUpdate() {
 		
 		return "/userInfo/MyInfoUpdate";
+	}
+	
+	@GetMapping("/MyCartList")
+	public String mycartlist(Model model, String id) {
+		model.addAttribute("cartlist", uRepo.findMyCartById(id));
+		return "/userInfo/MyCartList";
+	}
+	@GetMapping("/MyAlbumList")
+	public String myalbumlist(Model model, String id) {
+		
+		model.addAttribute("albumlist", uRepo.findMyAlbumById(id));
+		return "/userInfo/MyAlbumList";
 	}
 	
 }

@@ -8,28 +8,87 @@
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
 <head>
+<style type="text/css">
+table tr td{vertical-align : middle;}
+#message{color : red;}
+</style>
 <meta charset="UTF-8">
 <title>[[${session.user.id}]]님의 Page</title>
 
 </head>
 <body>
 	<div class="container mt-5" layout:fragment="content">
-		<div id="content">
-			<h1>[[${session.user.name}]]의 정보</h1>
+		<div class="row" id="content">
+			<h1>[[${session.user.name}]]님의 정보</h1>
+			<div id="message">[[${message}]]</div>
+			<div class="col-sm-7">
 			<table class="table table-hover" >
-				<tr>
-					<td style="text-align:center; vertical-align : middle;" width="230px" height="230px">
-					<img th:alt="${session.user.photo}" th:src="|/images/userProfile/${session.user.photo}|" width="210px" height="210px">
-					<br> 
-					<a href="/userInfo/MyInfoUpdate">[[${session.user.name}]]</a>
+				<tr height="150px">
+					<td style="text-align: center; vertical-align: middle;"	rowspan="3">
+						<img th:alt="${session.user.photo}" th:src="|/images/userProfile/${session.user.photo}|" width="100px" height="100px"> 
+						<br> 
+						<a href="/userInfo/MyInfoUpdate">[[${session.user.name}]]</a>
 					</td>
-					<td></td>
+					<td>NickName : [[${session.user.nickName}]]</td>
+					<td>Gender : [[${session.user.gender}]]</td>
+					<td>Birth : [[${session.user.birth}]]</td>
 				</tr>
-
+				<tr height="150px">
+					<td colspan="2">E-mail : [[${session.user.email}]]</td>
+					<td>Phone : [[${session.user.phone}]]</td>
+				</tr>
+				<tr height="150px">
+					<td colspan="2">Address : <br>[[${session.user.address}]]</td>
+					<td>Score : [[${session.user.score}]]</td>
+				</tr>
 			</table>
-
-
+			</div>
+			<div class="col-sm-5">
+			
+			<button class="mycart">나의 장바구니</button><button class="myalbum">나의 앨범리스트</button>
+			<div id="a1"></div>
+			</div>
+			<h5>내가쓴 리뷰</h5><br>
+			<div class="col-sm-7">
+			<table class="table table-hover">
+				<tr >
+					<th >Album Title</th>
+					<th >Content</th>
+					<th >Rating</th>
+				</tr>			
+				<tr class="a" th:each="reviewlist:${review}">
+					<span th:if="${#lists.size(review)}!=0">
+					<td><a class="detailButton" th:href="|../albumdetail?albumid=${reviewlist[0]}|">[[${reviewlist[2]}]]</a></td>
+					<td th:text="${reviewlist[3]}"></td>
+					<td th:text="${reviewlist[4]}"></td>
+					</span>
+				</tr>
+				<span th:if="${#lists.size(review)}==0">
+				<tr>
+				<td colspan="4"> [[${session.user.name}]]님이 쓴 리뷰가 없습니다.</td>
+				</tr>
+				</span>
+			</table>
+			</div>
 		</div>
 	</div>
+	<th:block layout:fragment="script">
+		<script th:inline="javascript" th:src="@{'/js/genrelist.js'}"></script>
+		<script th:inline="javascript">
+		$(document).ready(function(e) {
+			$(".mycart").on('click', function() {
+				var id = [[${session.user.id}]];
+				jsList.mycartlist(id);
+			});
+		});
+		
+		$(document).ready(function(e) {
+			$(".myalbum").on('click', function() {
+				var id = [[${session.user.id}]];
+				jsList.malbumlist(id);
+			});
+		});
+		</script>
+	</th:block>
 </body>
 </html>

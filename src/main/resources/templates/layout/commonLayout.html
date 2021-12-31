@@ -50,7 +50,7 @@ function scroll_follow( id ){
 	$(window).scroll(function(){
 	       var position = $(document).scrollTop();
 	       $("#scroll").css('top',  position );});}
- scroll_follow( "#scroll" );
+ scroll_follow( "#scroll" ); 
  </script> 
 <div id="scroll" style="position:absolute;top:0;z-index:2;">
 <form th:action="@{SearchResult}" method="get">
@@ -78,10 +78,10 @@ function scroll_follow( id ){
 	</td>
 	<td th:if="${session.user == null}">
 	<a href="/user/login">Login</a>
-	<a href="#">JoinClub</a>
+	<a href="/user/join">JoinClub</a>
 	</td>
 	<td th:if="${session.user != null}">
-	<a id="logout" href="/albumlist">LogOut</a>
+	<a id="logout" href="/logout">LogOut</a>
 	<a href="/userInfo/MyPage">MyPage</a>
 	</td>
 	</tr>

@@ -1,0 +1,18 @@
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+<h5>[[${session.user.name}]]'S Album List</h5>
+<table class="table table-hover">
+<tr>
+<th>MyListTitle</th>
+<th>AlbumCount</th>
+</tr>
+<tr th:each="album:${albumlist}">
+<td th:text="${album[0]}"></td>
+<td th:text="${album[1]}"></td>
+</tr>
+</table>
+</body>
+</html>
