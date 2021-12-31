@@ -117,7 +117,12 @@ h2, .table th {
 }
 
 .review_body pre{
-	margin-bottom:10px
+	margin-bottom:10px;
+	white-space: pre-wrap
+}
+
+pre {
+	white-space: pre-wrap
 }
 
 .reply_body pre{
