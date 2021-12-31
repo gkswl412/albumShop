@@ -27,11 +27,6 @@ public class AlbumDetailController {
 	@GetMapping(value="albumdetail")
 	public String albumDetail(Model model, Long albumId) {
 		
-		//임시 유저 정보 생성
-		User user = reviewService.getUserInfo("kosta4");
-		session.setAttribute("user", user);
-		//model.addAttribute("user",user);
-		
 		//앨범정보 저장
 		Album album = albumService.getAlbumDetailInfo(albumId);
 		model.addAttribute("album",album);

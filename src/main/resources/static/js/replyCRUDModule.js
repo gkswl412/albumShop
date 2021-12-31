@@ -1,7 +1,7 @@
 
 var replyManager = (function() {
 	
-	function printReplies(self,result,loginUser,job,job2) {
+	function printReplies(self,result,job,job2) {
 					var context = "";
 					for (var i = 0; i < result.replies.length; i++) {
 						var reply = result.replies[i];
@@ -38,7 +38,7 @@ var replyManager = (function() {
 						if (reply.user.photo == null) {
 							userPhoto = "defaultProfile.png";
 						}
-						if (reply.user.id == loginUser) {
+						if (reply.user.id == result.userId) {
 							loginComplete = "<div id='replyUpdateDelete'><button id='reply_update' value='off' name='boxing'>수정</button><button id='reply_delete' value='off' name='boxing'>삭제</button></div>";
 						}
 						context
@@ -104,12 +104,12 @@ var replyManager = (function() {
 	/* 가져온 댓글 목록 화면에 */
 
 	/* 댓글 목록 가져오기 */
-	var getAll = function(self, albumId, userId, loginUser) {
+	var getAll = function(self, albumId, userId) {
 		if (self.attr("name") ==  'boxing') {
 			self.attr("name", "unboxing");
 			$.ajax("/reply/" + albumId + "/" + userId).done(
 				function(result){
-					printReplies(self,result,loginUser,"all");
+					printReplies(self,result,"all");
 				}	
 			);
 		}
@@ -122,7 +122,7 @@ var replyManager = (function() {
 		}
 	};
 
-	var create = function(self, albumId, userId, loginUser, job) {
+	var create = function(self, albumId, userId, job) {
 		var reviewReply = {
 			"review": {
 				"multiId": {
@@ -144,7 +144,7 @@ var replyManager = (function() {
 			contentType: "application/json"
 		}).done(
 			function(result){
-				printReplies(self,result,loginUser,"add",job);
+				printReplies(self,result,"add",job);
 			}
 		);
 	};
@@ -189,14 +189,14 @@ var replyManager = (function() {
 		});
 	};
 	
-	var update = function(self, albumId, userId, replyId, content, loginUser){
+	var update = function(self, albumId, userId, replyId, content){
 		$.ajax({
 			type:"put",
 			url:"/reply/" + replyId + "/" + userId + "/" + albumId,
 			data: {"content":content}
 		}).done(
 			function(result){
-				printReplies(self,result,loginUser,"modify");
+				printReplies(self,result,"modify");
 			}
 		);
 		alert("댓글이 수정 되었습니다.");

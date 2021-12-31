@@ -51,13 +51,15 @@ public class ReviewService {
 		Map<String, Long> ReplyCountPerReviewInAlbum = getReplyCountPerReviewInAlbum(album.getId());
 		List<Review> reviews = reviewRepo.findByMultiIdAlbum(album);
 		User user = (User) session.getAttribute("user");
-		List<String> likedReviewList = getLikedReviewList(user.getId(),album.getId());
-		List<String> disLikedReviewList = getDisLikedReviewList(user.getId(),album.getId());
+		if(user != null) {
+			List<String> likedReviewList = getLikedReviewList(user.getId(),album.getId());
+			List<String> disLikedReviewList = getDisLikedReviewList(user.getId(),album.getId());
+			output.put("likedReviewList", likedReviewList);
+			output.put("disLikedReviewList", disLikedReviewList);
+		}
 		output.put("likeCount", reviewLikeCountList);
 		output.put("disLikeCount", reviewDisLikeCountList);
 		output.put("reviews", reviews);
-		output.put("likedReviewList", likedReviewList);
-		output.put("disLikedReviewList", disLikedReviewList);
 		output.put("replyCount", ReplyCountPerReviewInAlbum);
 		return output;
 	}

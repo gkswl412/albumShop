@@ -1,5 +1,7 @@
 package org.albumshop.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.albumshop.domain.Album;
 import org.albumshop.domain.Review;
 import org.albumshop.domain.User;
@@ -17,13 +19,14 @@ public class ReviewController {
 	ReviewService reviewService;
 	@Autowired
 	AlbumService albumService;
+	@Autowired
+	HttpSession session;
 	
 	@GetMapping("/writeReviewForm")
-	public String getWriteReviewForm(Model model, Long albumId, String userId, String job) {
+	public String getWriteReviewForm(Model model, Long albumId, String job) {
 		System.out.println(job);
 		System.out.println(albumId);
-		System.out.println(userId);
-		User user = reviewService.getUserInfo(userId);
+		User user = (User) session.getAttribute("user");
 		Album album = Album.builder().id(albumId).build();
 		Review review = new Review();
 		if(job.equals("update") || job.equals("delete")) {
