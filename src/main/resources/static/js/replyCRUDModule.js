@@ -160,6 +160,7 @@ var replyManager = (function() {
 				self.parent().parent().parent().children(".reply_body")
 				.append("<div id='replyForm' style='padding:0 !important'><textarea id='textarea' wrap=virtual style='width:100%; height:36px;'>" + content + "</textarea>"
 				+ '<div style="text-align:right; padding: 5px 0 0 0 !important; margin-right:0 !important">' 
+					+ '<span class="NOC" style="float:left"></span>'
 					+ '<button id="reply_cancelBtn" style="padding:6px 15px 6px 15px; font-size:11px; color:#606060">취소</button>'
 					+ '<button id="reply_updateBtn" style="padding:6px 15px 6px 15px; font-size:11px; color:#606060; background-color:#0000000D; color:#909090; border-radius:4px" disabled>수정</button>'
 				+ '</div><br></div>');
@@ -172,6 +173,11 @@ var replyManager = (function() {
 				self.parent().parent().parent().children(".reply_body").children("#replyForm").css("display","block");
 				self.parent().parent().parent().children(".reply_body").children("#replyForm").children("#textarea").keyup(function(e){
 					var context = $(this).val();
+					self.parent().parent().parent().children(".reply_body").children("#replyForm").children("div").children(".NOC").html("최대글자수:1500/" + context.length);
+					if(context.length > 1500){
+						self.parent().parent().parent().children(".reply_body").children("#replyForm").children("div").children(".NOC").html("최대글자수:1500/1500");
+						$(this).val(context.substring(0,1500));
+					}
 					if(context.length >= 1 & context != content){
 						self.parent().parent().parent().children(".reply_body").children("#replyForm").children("div").children("#reply_updateBtn").attr("disabled",false);
 						self.parent().parent().parent().children(".reply_body").children("#replyForm").children("div").children("#reply_updateBtn").css({"color":"white","background-color":"slateblue"});

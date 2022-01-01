@@ -107,6 +107,12 @@
 
 		<script th:inline="javascript">
 			$(document).ready(function(e){
+				$(document).on('click','button',function(){
+					if([[${session.user}]]==null && $(this).attr("class") != 'replyList'){
+						alert("로그인 후 이용 부탁드립니다.");
+						window.location.replace("/user/login");
+					}
+				});
 				/* 전체 플레이 시간 계산 */
 				calcTotalPlayTime();
 				/* 리뷰 목록 가져오기 */
