@@ -122,7 +122,8 @@ h2, .table th {
 }
 
 pre {
-	white-space: pre-wrap
+	white-space: pre-wrap;
+	word-break:break-word
 }
 
 .reply_body pre{
@@ -230,4 +231,8 @@ pre {
 
 .reply_replyClickResult div {
 	padding:4px !important
+}
+
+#writeReviewForm > div, #writeReviewForm > div > div {
+	padding:0 !important
 }

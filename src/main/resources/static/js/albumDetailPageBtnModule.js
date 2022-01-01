@@ -77,6 +77,11 @@ var btnManager = (function(){
 				self.attr("value","on");
 				self.parent().children(".replyClickResult").children("div").eq(0).children("div").eq(1).children("#textarea").keyup(function(e){
 					var content = $(this).val();
+					self.parent().children(".replyClickResult").children("div").eq(1).children(".NOC").html('최대글자수: 1500/' + content.length);
+					if(content.length > 1500){
+						self.parent().children(".replyClickResult").children("div").eq(1).children(".NOC").html('최대글자수: 1500/1500');
+						$(this).val(content.substring(0,1500));
+					}
 					if(content.replace(/(\s*)/g,"").length >= 1){
 						self.parent().children(".replyClickResult").children("div").eq(1).children("#reply_create").attr("disabled",false);
 						self.parent().children(".replyClickResult").children("div").eq(1).children("#reply_create").css({"color":"white","background-color":"slateblue"});
@@ -128,8 +133,13 @@ var btnManager = (function(){
 						$(this).children("a").remove();
 					}
 					var content = $(this).text();
-					
-					if(content.replace(/(\s*)/g,"").length >= 1 && content.replace(/(\s*)/g,"") != original){
+					self.parent().children(".reply_replyClickResult").children("div").eq(1).children(".flu").children(".NOC").html('최대글자수: 1500/' + content.length);
+					if(content.length > 1500){
+						self.parent().children(".reply_replyClickResult").children("div").eq(1).children(".flu").children(".alert").html('최대글자수를 초과했습니다!!');
+					}else{
+						self.parent().children(".reply_replyClickResult").children("div").eq(1).children(".flu").children(".alert").html('');
+					}
+					if(content.replace(/(\s*)/g,"").length >= 1 && content.replace(/(\s*)/g,"") != original && content.length <= 1500){
 						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_reply_create").attr("disabled",false);
 						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_reply_create").css({"color":"white","background-color":"slateblue"});
 					}else{
