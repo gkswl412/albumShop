@@ -1,14 +1,12 @@
 package org.albumshop.service.manager;
 
-
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import org.albumshop.domain.Delivery;
 import org.albumshop.domain.User;
-
 import org.albumshop.persistence.UserRepository;
+import org.albumshop.security.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,15 +24,21 @@ public class AccountService {
 
     Pageable paging = PageRequest.of(0, 10, Sort.Direction.DESC, "id");
 
-    //create account
-    public User createUser(User User){
-        String id = User.getId();
-        userRepo.save(User);
-        Optional<User> optional = userRepo.findById(id);
-        return optional.orElse(null);
+    // create user
+    public User createUser(String id, String name, String nickName, String pass,
+        String address, String email, String phone, String photo, String grade,
+        Integer score, LocalDate birth, String gender, UserRole userRole) {
+        // validation
+        if(userRepo.findById(id).isPresent()
+            || userRepo.findByNickName(nickName).isPresent()
+            || userRepo.findByEmail(email).isPresent()
+            || userRepo.findByPhone(phone).isPresent()) return null;
+
+        return getUser(id, name, nickName, pass, address, email,
+            phone, photo, grade, score, birth, gender, userRole);
     }
 
-    //read accountInfo
+    // read user
     public User readUser(String id) {
         Optional<User> optional = userRepo.findById(id);
         return optional.orElse(null);
@@ -49,25 +53,48 @@ public class AccountService {
         return null;
     }
 
-    //update account
-    public User updateUser(User user){
-        String id = user.getId();
+    //update user
+    public User updateUser(String id, String name, String nickName, String pass,
+        String address, String email, String phone, String photo, String grade,
+        Integer score, LocalDate birth, String gender, UserRole userRole) {
         Optional<User> optional = userRepo.findById(id);
         if (optional.isPresent()) {
-            userRepo.save(user);
-            return user;
-        }
-        return null;
+            return getUser(id, name, nickName, pass, address, email,
+                phone, photo, grade, score, birth, gender, userRole);
+        } else return null;
     }
 
-    //delete account
+    private User getUser(String id, String name, String nickName, String pass, String address,
+        String email, String phone, String photo, String grade, Integer score, LocalDate birth,
+        String gender, UserRole userRole) {
+        User user = User.builder()
+            .id(id)
+            .name(name)
+            .nickName(nickName)
+            .pass(pass)
+            .address(address)
+            .email(email)
+            .phone(phone)
+            .photo(photo)
+            .grade(grade)
+            .score(score)
+            .birth(birth)
+            .gender(gender)
+            .urole(userRole)
+            .build();
+        userRepo.save(user);
+        return user;
+    }
+
+    // delete user
     public boolean deleteUser(String id) {
         Optional<User> optional = userRepo.findById(id);
         if (optional.isPresent()) {
             userRepo.deleteById(optional.get().getId());
-            return true;
-        } else {
-            return false;
+            Optional<User> check = userRepo.findById(id);
+            return !check.isPresent();
         }
+        return false;
     }
+    
 }
