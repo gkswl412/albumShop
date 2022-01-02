@@ -1,6 +1,8 @@
 
 package org.albumshop.security;
 
+
+import org.albumshop.security.oauth.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 
 @Log
@@ -23,8 +24,10 @@ import lombok.extern.java.Log;
 @EnableWebSecurity // security설정을 담당하는 Bean이다.
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	
-	
+	@Autowired
+	private CustomOAuth2UserService customOAuth2UserService ;
+
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(); // Spring Security에서 제공하는 비밀번호 암호화 객체
@@ -66,7 +69,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//.passwordParameter("password") 
 				.defaultSuccessUrl("/albumlist") // 로그인 성공 후 리다이렉트 주소
 				.permitAll(); // 접근전부허용
-
+				
+		
+				
 		http.logout() // 로그아웃에 관한 설정을 의미
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/user/login") // 로그아웃 성공시
 																											// 리다이렉트 주소
@@ -75,8 +80,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.exceptionHandling().accessDeniedPage("/accessDenied"); // 403 예외처리 핸들링 권한이 없는 대상이 접속을시도했을 때
 		
 		//구글인증
-	//http.oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
-    // http.oauth2Login().defaultSuccessUrl("/user/login");
+		
+		 http.oauth2Login().userInfoEndpoint() //OAuth2 로그인 성공후 사용자정보를 가져오기 위함
+		 .userService(customOAuth2UserService).and() ;
+		//소셜로그인후 사용자정보 가져오기
+
+    http.oauth2Login().defaultSuccessUrl("/albumlist");
 		 
 		
 		// 토큰을 활용하면 세션이 필요 없으므로 STATELESS로 설정하여 Session을 사용하지 않는다.

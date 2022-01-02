@@ -15,6 +15,15 @@ body {
     min-height: 100%;
 }
 
+img {
+	text-align: center;
+	display : block;
+     margin : auto;
+}
+
+
+
+
 #content{
      margin-bottom: 10%;
 	margin-top: 5%;
@@ -66,17 +75,28 @@ color: red;
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-     <br> <button type="submit" class="btn btn-secondary">로그인</button>
+     <br> 
+     <div class="d-grid">
+
+     <button type="submit" class="btn btn-secondary">로그인</button>
+     </div>
+     <div class="d-grid">
       <button type="button" class="btn btn-secondary" onClick="location.href='/user/join'">회원가입</button>
+      </div>
+       <a href="/oauth2/authorization/google"><img src="/images/icon/btn_google_signin_light_normal_web@2x.png" alt="" width="300"
+	 height="50"></a>
+       <a href="/oauth2/authorization/naver"><img src="/images/icon/btnG_official.png" alt="" width="300" height="50"></a>
+       <a href="/oauth2/authorization/kakao"><img src="/images/icon/kakao_login_large_narrow.png" alt="" width="300" height="50"></a>
     </div>
   </div>
 </form>		 
 			 
-			 
+			 <div th:if="${session.user!=null}">
+<input th:text="${session.user}">
 			 
 			 
 			</div>
-		
+		</div>
 		</div>
 	</div>
 	
