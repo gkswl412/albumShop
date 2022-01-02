@@ -3,67 +3,98 @@
  */
 var btnManager = (function(){
 	
-	var clickAdd = function(albumId){	
-		if($("#addReviewBtn").val()=="off"){
-			$("#addReviewBtn").attr("value","on");
-			$("#updateReviewBtn").attr("value","off");
-			$("#deleteReviewBtn").attr("value","off");
-			$.ajax({
-				url: "/writeReviewForm",
-				type: "GET",
-				data:{
-					"albumId":albumId,
-					"job":"create"
-				}
-			}).done(function(form){
-				$("#btnClickResult").html(form);
-			});
+	function check(albumId){
+		var result;
+		$.ajax({
+			url: "/checkReview",
+			type:"GET",
+			async:false,
+			data:{
+				"albumId":albumId
+			}
+		}).done(function(data){
+			result = data;
+		});
+		return result;
+	};
+	
+	var clickAdd = function(albumId){
+		if(check(albumId)==true){
+			alert("이미 작성한 리뷰가 있습니다!! 하나의 앨범에 하나의 리뷰만 작성할 수 있습니다.");
 		}else{
-			$("#addReviewBtn").attr("value","off");
-			$("#btnClickResult").html("");
-		}
+			if($("#addReviewBtn").val()=="off"){
+				$("#addReviewBtn").attr("value","on");
+				$("#updateReviewBtn").attr("value","off");
+				$("#deleteReviewBtn").attr("value","off");
+				$.ajax({
+					url: "/writeReviewForm",
+					type: "GET",
+					data:{
+						"albumId":albumId,
+						"job":"create"
+					}
+				}).done(function(form){
+					$("#btnClickResult").html(form);
+				});
+			}else{
+				$("#addReviewBtn").attr("value","off");
+				$("#btnClickResult").html("");
+			}
+		}		
 	};
 	
 	var clickUpdate = function(albumId){
-		if($("#updateReviewBtn").val()=="off"){
-			$("#updateReviewBtn").attr("value","on");
-			$("#addReviewBtn").attr("value","off");
-			$("#deleteReviewBtn").attr("value","off");
-			$.ajax({
-				url: "/writeReviewForm",
-				type: "GET",
-				data:{
-					"albumId":albumId,
-					"job":"update"
-				}
-			}).done(function(form){
-				$("#btnClickResult").html(form);
-			});
+		if(check(albumId)==true){
+			if($("#updateReviewBtn").val()=="off"){
+				$("#updateReviewBtn").attr("value","on");
+				$("#addReviewBtn").attr("value","off");
+				$("#deleteReviewBtn").attr("value","off");
+				$.ajax({
+					url: "/writeReviewForm",
+					type: "GET",
+					data:{
+						"albumId":albumId,
+						"job":"update"
+					}
+				}).done(function(form){
+					$("#btnClickResult").html(form);
+				});
+			}else{
+				$("#updateReviewBtn").attr("value","off");
+				$("#btnClickResult").html("");
+			}
 		}else{
-			$("#updateReviewBtn").attr("value","off");
-			$("#btnClickResult").html("");
+			alert("작성한 리뷰가 없습니다. 리뷰 수정은 작성한 리뷰가 있어야만 수행 가능 합니다.");
 		}
 	};
 	
 	var clickDelete = function(albumId){
-		if($("#deleteReviewBtn").val()=="off"){
-			$("#deleteReviewBtn").attr("value","on");
-			$("#addReviewBtn").attr("value","off");
-			$("#updateReviewBtn").attr("value","off");
-			$.ajax({
-				url: "/writeReviewForm",
-				type: "GET",
-				data:{
-					"albumId":albumId,
-					"job":"delete"
-				}
-			}).done(function(form){
-				$("#btnClickResult").html(form);
-			});
+		if(check(albumId)==true){
+			if($("#deleteReviewBtn").val()=="off"){
+				$("#deleteReviewBtn").attr("value","on");
+				$("#addReviewBtn").attr("value","off");
+				$("#updateReviewBtn").attr("value","off");
+				$.ajax({
+					url: "/writeReviewForm",
+					type: "GET",
+					data:{
+						"albumId":albumId,
+						"job":"delete"
+					}
+				}).done(function(form){
+					$("#btnClickResult").html(form);
+				});
+			}else{
+				$("#deleteReviewBtn").attr("value","off");
+				$("#btnClickResult").html("");
+			}
 		}else{
-			$("#deleteReviewBtn").attr("value","off");
-			$("#btnClickResult").html("");
+			alert("작성한 리뷰가 없습니다. 리뷰 삭제는 작성한 리뷰가 있어야만 수행 가능 합니다.");
 		}
+	};
+	
+	var clickMyList = function(albumId){
+		alert("구현중");
 	};
 	
 	var clickReply = function(self){
@@ -167,6 +198,7 @@ var btnManager = (function(){
 		clickAdd:clickAdd,
 		clickUpdate:clickUpdate,
 		clickDelete:clickDelete,
+		clickMyList:clickMyList,
 		clickReply:clickReply,
 		clickReply_reply:clickReply_reply
 	}

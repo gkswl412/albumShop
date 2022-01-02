@@ -31,6 +31,14 @@ public class ReviewTest {
 	@Autowired
 	ReviewLikeRepository reviewLikeRepo;
 	
+	@Test
+	public void test4() {
+		User user = User.builder().id("zzzz").build();
+		Album album = Album.builder().id(1L).build();
+		MultiIdUserAlbum id = MultiIdUserAlbum.builder().user(user).album(album).build();
+		System.out.println(reviewRepo.findById(id).isPresent());
+	}
+	
 	//@Test
 	public void test3() {
 		MultiIdUserAlbum multiId = new MultiIdUserAlbum();

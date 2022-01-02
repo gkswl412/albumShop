@@ -25,7 +25,7 @@
 		var content = $("textarea[name='content']").val();
 		$("textarea[name='content']").keyup(function(){
 			$('.NOC2').html("최대글자수:1500/" + $(this).val().length);
-			if($(this).val().length <= 1500 && $(this).val().length > 0 && content != $(this).val()){
+			if($(this).val().length <= 1500 && $(this).val().replace(/(\s*)/g,"").length > 0 && content != $(this).val()){
 				$('.alert2').html("");
 				$('#jobBtn').css({"color":"white","background-color":"slateblue"});
 				$('#jobBtn').attr("disabled",false);

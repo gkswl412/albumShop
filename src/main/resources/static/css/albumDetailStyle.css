@@ -236,3 +236,8 @@ pre {
 #writeReviewForm > div, #writeReviewForm > div > div {
 	padding:0 !important
 }
+
+.averageRating {
+	font-size:30px;
+	font-weight:bold
+}
