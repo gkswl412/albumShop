@@ -18,6 +18,10 @@ var btnManager = (function(){
 		return result;
 	};
 	
+	var clickMakeMyList = function(){
+		alert("구현 예정");
+	}
+	
 	var clickAdd = function(albumId){
 		if(check(albumId)==true){
 			alert("이미 작성한 리뷰가 있습니다!! 하나의 앨범에 하나의 리뷰만 작성할 수 있습니다.");
@@ -91,10 +95,6 @@ var btnManager = (function(){
 		}else{
 			alert("작성한 리뷰가 없습니다. 리뷰 삭제는 작성한 리뷰가 있어야만 수행 가능 합니다.");
 		}
-	};
-	
-	var clickMyList = function(albumId){
-		alert("구현중");
 	};
 	
 	var clickReply = function(self){
@@ -195,10 +195,10 @@ var btnManager = (function(){
 	};
 	
 	return {
+		clickMakeMyList:clickMakeMyList,
 		clickAdd:clickAdd,
 		clickUpdate:clickUpdate,
 		clickDelete:clickDelete,
-		clickMyList:clickMyList,
 		clickReply:clickReply,
 		clickReply_reply:clickReply_reply
 	}
