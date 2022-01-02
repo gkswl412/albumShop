@@ -10,13 +10,14 @@ function calcTotalPlayTime() {
 	$("#track").append('<li class="list-group-item" id="totalPlayTime">'
 		+ '<span></span>'
 		+ '<span>' + '총 재생 시간:' + '</span>'
-		+ '<span>' + totalPlayTime + '</span>' + '</li>');
+		+ '<span style="font-size:15px; color:black; font-weight:bold">' + totalPlayTime + '</span>' + '</li>');
 }
 
 /* albumDetailPage 리뷰 목록 출력 method */
 function printList(output) {
 	var header = "<h2>" + output.reviews.length + " Reviews</h2><br>";
 	var reviewObj;
+	var averageRating = 0;
 	for (var i = 0; i < output.reviews.length; i++) {
 		reviewObj = output.reviews[i];
 		var likeCnt;
@@ -26,6 +27,9 @@ function printList(output) {
 		var likeOnOff = "off";
 		var disLikeOnOff = "off";
 		var replyCount=0;
+		
+		averageRating += parseInt(reviewObj.rating.toFixed(1));
+		
 		for(const key in output.likedReviewList){
 			if(output.likedReviewList[key]==reviewObj.multiId.user.id){
 				thumbUpImgUrl = "images/icon/thumbsUpFilled.png";
@@ -77,5 +81,7 @@ function printList(output) {
 			+ "</div>"
 			+ "</div>";
 	}
+	averageRating = (averageRating / output.reviews.length).toFixed(1);
+	$(".averageRating").text(averageRating);
 	$(".reviews").html(header);
 }
