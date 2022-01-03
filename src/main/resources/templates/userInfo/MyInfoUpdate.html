@@ -89,12 +89,16 @@
 				<label for="score"></label> 
 				<input type="hidden" id="score" name="score" value="0" /> 
 				<input type="hidden" name="mrole" value="USER"/> 
+			
+			
+			<button id="btnupdate" type="submit" class="btn btn-warning">수정하기</button>
+			<button id="btndelete" type="submit" class="btn btn-danger">탈퇴하기</button>
 			<!-- user info togoUpdate  -->
 			<form id="update" action="/UserUpdate" method="post"></form>
+			
 			<!-- user info togoDelete  -->
 			<form id="delete" action="/UserDelete" method="post"></form>
-			<button id="btnupdate" type="submit" class="btn btn-warning">수정하기</button>
-			<button id="btndelete" type="button" class="btn btn-danger">탈퇴하기</button>
+			
 			
 		</div>
 	</div>
@@ -213,7 +217,7 @@ $('#nickName').on("propertychange change keyup paste input", function(){
 	}); 	
 });
 
-var form = $("#update");
+var form1 = $("#update");
 $('#btnupdate').click(function(e){
 	var id = [[${session.user.id}]];
 	var name = $("#name").val();
@@ -223,24 +227,24 @@ $('#btnupdate').click(function(e){
 	var birth = $("#birth").val();
 	var gender = $("#gender").val();
 	e.preventDefault();
-	form.find($("input")).remove();
-	form.append("<input type='hidden' name='id' value='" + id + "'>" );
-	form.append("<input type='hidden' name='name' value='" + name + "'>" );
-	form.append("<input type='hidden' name='nickName' value='" + nickName + "'>" );
-	form.append("<input type='hidden' name='email' value='" + email + "'>" );
-	form.append("<input type='hidden' name='phone' value='" + phone + "'>" );
-	form.append("<input type='hidden' name='birth' value='" + birth + "'>" );
-	form.append("<input type='hidden' name='gender' value='" + gender + "'>" );
-	form.submit();
+	form1.find($("input")).remove();
+	form1.append("<input type='hidden' name='id' value='" + id + "'>" );
+	form1.append("<input type='hidden' name='name' value='" + name + "'>" );
+	form1.append("<input type='hidden' name='nickName' value='" + nickName + "'>" );
+	form1.append("<input type='hidden' name='email' value='" + email + "'>" );
+	form1.append("<input type='hidden' name='phone' value='" + phone + "'>" );
+	form1.append("<input type='hidden' name='birth' value='" + birth + "'>" );
+	form1.append("<input type='hidden' name='gender' value='" + gender + "'>" );
+	form1.submit();
 });
 
-var form = $("#delete");
+var form2 = $("#delete");
 $('#btndelete').click(function(e){
 	var id = [[${session.user.id}]];
 	e.preventDefault();
-	form.find($("input")).remove();
-	form.append("<input type='hidden' name='id' value='" + id + "'>" );
-	form.submit();
+	form2.find($("input")).remove();
+	form2.append("<input type='hidden' name='id' value='" + id + "'>" );
+	form2.submit();
 });
 
 

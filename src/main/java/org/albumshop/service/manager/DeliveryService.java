@@ -1,10 +1,11 @@
 package org.albumshop.service.manager;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.albumshop.domain.Delivery;
+import org.albumshop.domain.User;
+import org.albumshop.persistence.DeliveryRepository;
 import org.albumshop.persistence.DeliveryRepository;
 import org.albumshop.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,62 +21,72 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeliveryService {
 
     @Autowired
-    DeliveryRepository deliRepo;
-    @Autowired
     UserRepository userRepo;
+    @Autowired
+    DeliveryRepository deliveryRepo;
 
     Pageable paging = PageRequest.of(0, 10, Sort.Direction.DESC, "id");
 
-    //create order
-    public Delivery createDelivery(Delivery delivery){
-        Long id = delivery.getId();
-        deliRepo.save(delivery);
-        Optional<Delivery> optional = deliRepo.findById(id);
+    // create delivery
+    public Delivery createDelivery(String userId, String destinationAddress,
+        String deliveryRequest, String orderState) {
+        Optional<User> optional = userRepo.findById(userId);
         if (optional.isPresent()) {
-            return optional.get();
-        } else {
-            return null;
-        }
+            User user = optional.get();
+            Delivery delivery = Delivery.builder()
+                .user(user)
+                .destinationAddress(destinationAddress)
+                .deliveryRequest(deliveryRequest)
+                .deliveryRegDate(new Timestamp(System.currentTimeMillis()))
+                .deliveryUpdateDate(new Timestamp(System.currentTimeMillis()))
+                .orderState(orderState)
+                .build();
+            deliveryRepo.save(delivery);
+            return delivery;
+        } else return null;
     }
 
+    // read delivery
     public Delivery readDelivery(Long id) {
-        Optional<Delivery> optional = deliRepo.findById(id);
-        if(optional.isPresent()) {
-            return optional.get();
-        }
-        return null;
+        Optional<Delivery> optional = deliveryRepo.findById(id);
+        return optional.orElse(null);
     }
 
-    public List<Delivery> readAllDeliveries() {
-        Page<Delivery> page = deliRepo.findAll(paging);
+    //read all delivery
+    public List<Delivery> readAllDeliverys() {
+        Page<Delivery> page = deliveryRepo.findAll(paging);
         if(page.hasContent()){
             return page.getContent();
         }
         return null;
     }
 
-    public Delivery updateDelivery(Delivery delivery){
-        Long id = delivery.getId();
-        Optional<Delivery> optional = deliRepo.findById(id);
+    //update delivery
+    public Delivery updateDelivery(Long deliveryId, String destinationAddress,
+        String deliveryRequest, String orderState) {
+        Optional<Delivery> optional = deliveryRepo.findById(deliveryId);
         if (optional.isPresent()) {
-            Delivery target = optional.get();
-            target.setOrderState(delivery.getOrderState());
-            target.setDeliveryUpdateDate(Timestamp.valueOf(LocalDateTime.now()));
-            deliRepo.save(target);
-            return target;
-        }
-        return null;
+            Delivery delivery = optional.get();
+            delivery = Delivery.builder()
+                .destinationAddress(destinationAddress)
+                .deliveryRequest(deliveryRequest)
+                .deliveryUpdateDate(new Timestamp(System.currentTimeMillis()))
+                .orderState(orderState)
+                .build();
+            deliveryRepo.save(delivery);
+            return delivery;
+        } else return null;
     }
 
-    //delete order
+    // delete delivery
     public boolean deleteDelivery(Long id) {
-        Optional<Delivery> optional = deliRepo.findById(id);
+        Optional<Delivery> optional = deliveryRepo.findById(id);
         if (optional.isPresent()) {
-            deliRepo.deleteById(optional.get().getId());
-            return true;
-        } else {
-            return false;
+            deliveryRepo.deleteById(optional.get().getId());
+            Optional<Delivery> check = deliveryRepo.findById(id);
+            return !check.isPresent();
         }
+        return false;
     }
 
 }

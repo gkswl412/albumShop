@@ -3,66 +3,97 @@
  */
 var btnManager = (function(){
 	
-	var clickAdd = function(albumId){	
-		if($("#addReviewBtn").val()=="off"){
-			$("#addReviewBtn").attr("value","on");
-			$("#updateReviewBtn").attr("value","off");
-			$("#deleteReviewBtn").attr("value","off");
-			$.ajax({
-				url: "/writeReviewForm",
-				type: "GET",
-				data:{
-					"albumId":albumId,
-					"job":"create"
-				}
-			}).done(function(form){
-				$("#btnClickResult").html(form);
-			});
+	function check(albumId){
+		var result;
+		$.ajax({
+			url: "/checkReview",
+			type:"GET",
+			async:false,
+			data:{
+				"albumId":albumId
+			}
+		}).done(function(data){
+			result = data;
+		});
+		return result;
+	};
+	
+	var clickMakeMyList = function(){
+		alert("구현 예정");
+	}
+	
+	var clickAdd = function(albumId){
+		if(check(albumId)==true){
+			alert("이미 작성한 리뷰가 있습니다!! 하나의 앨범에 하나의 리뷰만 작성할 수 있습니다.");
 		}else{
-			$("#addReviewBtn").attr("value","off");
-			$("#btnClickResult").html("");
-		}
+			if($("#addReviewBtn").val()=="off"){
+				$("#addReviewBtn").attr("value","on");
+				$("#updateReviewBtn").attr("value","off");
+				$("#deleteReviewBtn").attr("value","off");
+				$.ajax({
+					url: "/writeReviewForm",
+					type: "GET",
+					data:{
+						"albumId":albumId,
+						"job":"create"
+					}
+				}).done(function(form){
+					$("#btnClickResult").html(form);
+				});
+			}else{
+				$("#addReviewBtn").attr("value","off");
+				$("#btnClickResult").html("");
+			}
+		}		
 	};
 	
 	var clickUpdate = function(albumId){
-		if($("#updateReviewBtn").val()=="off"){
-			$("#updateReviewBtn").attr("value","on");
-			$("#addReviewBtn").attr("value","off");
-			$("#deleteReviewBtn").attr("value","off");
-			$.ajax({
-				url: "/writeReviewForm",
-				type: "GET",
-				data:{
-					"albumId":albumId,
-					"job":"update"
-				}
-			}).done(function(form){
-				$("#btnClickResult").html(form);
-			});
+		if(check(albumId)==true){
+			if($("#updateReviewBtn").val()=="off"){
+				$("#updateReviewBtn").attr("value","on");
+				$("#addReviewBtn").attr("value","off");
+				$("#deleteReviewBtn").attr("value","off");
+				$.ajax({
+					url: "/writeReviewForm",
+					type: "GET",
+					data:{
+						"albumId":albumId,
+						"job":"update"
+					}
+				}).done(function(form){
+					$("#btnClickResult").html(form);
+				});
+			}else{
+				$("#updateReviewBtn").attr("value","off");
+				$("#btnClickResult").html("");
+			}
 		}else{
-			$("#updateReviewBtn").attr("value","off");
-			$("#btnClickResult").html("");
+			alert("작성한 리뷰가 없습니다. 리뷰 수정은 작성한 리뷰가 있어야만 수행 가능 합니다.");
 		}
 	};
 	
 	var clickDelete = function(albumId){
-		if($("#deleteReviewBtn").val()=="off"){
-			$("#deleteReviewBtn").attr("value","on");
-			$("#addReviewBtn").attr("value","off");
-			$("#updateReviewBtn").attr("value","off");
-			$.ajax({
-				url: "/writeReviewForm",
-				type: "GET",
-				data:{
-					"albumId":albumId,
-					"job":"delete"
-				}
-			}).done(function(form){
-				$("#btnClickResult").html(form);
-			});
+		if(check(albumId)==true){
+			if($("#deleteReviewBtn").val()=="off"){
+				$("#deleteReviewBtn").attr("value","on");
+				$("#addReviewBtn").attr("value","off");
+				$("#updateReviewBtn").attr("value","off");
+				$.ajax({
+					url: "/writeReviewForm",
+					type: "GET",
+					data:{
+						"albumId":albumId,
+						"job":"delete"
+					}
+				}).done(function(form){
+					$("#btnClickResult").html(form);
+				});
+			}else{
+				$("#deleteReviewBtn").attr("value","off");
+				$("#btnClickResult").html("");
+			}
 		}else{
-			$("#deleteReviewBtn").attr("value","off");
-			$("#btnClickResult").html("");
+			alert("작성한 리뷰가 없습니다. 리뷰 삭제는 작성한 리뷰가 있어야만 수행 가능 합니다.");
 		}
 	};
 	
@@ -77,6 +108,11 @@ var btnManager = (function(){
 				self.attr("value","on");
 				self.parent().children(".replyClickResult").children("div").eq(0).children("div").eq(1).children("#textarea").keyup(function(e){
 					var content = $(this).val();
+					self.parent().children(".replyClickResult").children("div").eq(1).children(".NOC").html('최대글자수: 1500/' + content.length);
+					if(content.length > 1500){
+						self.parent().children(".replyClickResult").children("div").eq(1).children(".NOC").html('최대글자수: 1500/1500');
+						$(this).val(content.substring(0,1500));
+					}
 					if(content.replace(/(\s*)/g,"").length >= 1){
 						self.parent().children(".replyClickResult").children("div").eq(1).children("#reply_create").attr("disabled",false);
 						self.parent().children(".replyClickResult").children("div").eq(1).children("#reply_create").css({"color":"white","background-color":"slateblue"});
@@ -128,8 +164,13 @@ var btnManager = (function(){
 						$(this).children("a").remove();
 					}
 					var content = $(this).text();
-					
-					if(content.replace(/(\s*)/g,"").length >= 1 && content.replace(/(\s*)/g,"") != original){
+					self.parent().children(".reply_replyClickResult").children("div").eq(1).children(".flu").children(".NOC").html('최대글자수: 1500/' + content.length);
+					if(content.length > 1500){
+						self.parent().children(".reply_replyClickResult").children("div").eq(1).children(".flu").children(".alert").html('최대글자수를 초과했습니다!!');
+					}else{
+						self.parent().children(".reply_replyClickResult").children("div").eq(1).children(".flu").children(".alert").html('');
+					}
+					if(content.replace(/(\s*)/g,"").length >= 1 && content.replace(/(\s*)/g,"") != original && content.length <= 1500){
 						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_reply_create").attr("disabled",false);
 						self.parent().children(".reply_replyClickResult").children("div").eq(1).children("#reply_reply_create").css({"color":"white","background-color":"slateblue"});
 					}else{
@@ -154,6 +195,7 @@ var btnManager = (function(){
 	};
 	
 	return {
+		clickMakeMyList:clickMakeMyList,
 		clickAdd:clickAdd,
 		clickUpdate:clickUpdate,
 		clickDelete:clickDelete,

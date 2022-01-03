@@ -117,7 +117,13 @@ h2, .table th {
 }
 
 .review_body pre{
-	margin-bottom:10px
+	margin-bottom:10px;
+	white-space: pre-wrap
+}
+
+pre {
+	white-space: pre-wrap;
+	word-break:break-word
 }
 
 .reply_body pre{
@@ -225,4 +231,13 @@ h2, .table th {
 
 .reply_replyClickResult div {
 	padding:4px !important
+}
+
+#writeReviewForm > div, #writeReviewForm > div > div {
+	padding:0 !important
+}
+
+.averageRating {
+	font-size:30px;
+	font-weight:bold
 }

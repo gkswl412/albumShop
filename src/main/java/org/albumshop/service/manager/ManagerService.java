@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 // 1. "basic CRUD" between controller and repository.
 // 2. "verification of CRUD action" with boolean return value.
 // 3. detecting  "abnormal value" of Domain member.
-// etc??
+// 4. handling various "input" format into
 @Service
 @Transactional
 public interface ManagerService<T, R extends CrudRepository<T, ?>> {
