@@ -31,19 +31,18 @@ public class DeliveryController {
     HttpSession session;
 
 
-    @RequestMapping(value = "/delivery/order")
+    @RequestMapping("/delivery")
     public String orderAlbum(Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:user/login";
         }
-        System.out.println(user.getId());
         List<CartDetailVO> cartDetailList = null;
 
         if (user != null) {
             cartDetailList = cartDetailService.getCartList(user);
         }
-        System.out.println("delivery");
+        model.addAttribute("user", user);
         model.addAttribute("cartlist", cartDetailList);
         return "delivery/order";
     }

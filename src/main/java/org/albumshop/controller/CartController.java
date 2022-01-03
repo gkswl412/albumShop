@@ -42,7 +42,7 @@ public class CartController {
     HttpSession session;
 
     @RequestMapping(value = "/cart")
-    public String cartAll(Model model, Principal principal) {
+    public String cartAll(Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             model.addAttribute("msg", "장바구니에 진입하려면 로그인하세요.");
@@ -69,15 +69,13 @@ public class CartController {
         }
         Album album = albumRepository.findById(albumId).get();
 
-        MultiIdCartAlbum multiIdCartAlbum = MultiIdCartAlbum.builder()
-                .cart(cart).album(album).build();
         CartDetail cartDetail = CartDetail.createCartDetail(cart, album, 1);
         cartService.addCart(cartDetail, userId);
         return new ResponseEntity<Long>(cartId, HttpStatus.OK);
     }
 
-    @PatchMapping(value = "/cart/update/{cartId}/{albumId}")
-    public @ResponseBody ResponseEntity updateCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, int count/*, Principal principal*/) {
+    @RequestMapping(value = "/cart/update/{cartId}/{albumId}")
+    public @ResponseBody ResponseEntity updateCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, int count) {
         if (count <= 0) {
             return new ResponseEntity<String>("최소 1개 이상 담아주세요.", HttpStatus.BAD_REQUEST);
         } else if (!cartService.validateCartItem(cartId, albumId, "kosta0"/*principal.getName()*/)) {
@@ -89,7 +87,7 @@ public class CartController {
     }
 
     @RequestMapping(value = "/cart/delete/{cartId}/{albumId}", method = RequestMethod.DELETE)
-    public @ResponseBody ResponseEntity deleteCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId/*, Principal principal*/) {
+    public @ResponseBody ResponseEntity deleteCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId) {
         if(!cartService.validateCartItem(cartId, albumId, "kosta0" /*principal.getName()*/)) {
             return new ResponseEntity<String>("삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
