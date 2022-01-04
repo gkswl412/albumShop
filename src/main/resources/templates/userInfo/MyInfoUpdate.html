@@ -44,9 +44,9 @@
 				</div><br>
 				<input type="text" id="userpass" style="width:350px;"  placeholder="비밀번호 변경시 기존 비밀번호 입력 바랍니다.">[[${message}]]
 				<button class="pwchange">비밀번호 변경</button>
-				<div id="here1"></div><br>
+				<div id="here1"></div>
 				
-				<div class="form-group">
+				<div class="form-group"><br><br>
 					<label for="phone">전화번호</label> 
 					<input type="tel" class="form-control" id="phone" name="phone" th:value="${session.user.phone}" required placeholder="하이픈(-) 뺴고 입력바랍니다." maxlength="11">
 				</div><br>
@@ -156,16 +156,6 @@ function execution_daum_address(){
 	    }).open();    
 }
 
-var arrInput = [false,false];
-function inputCheck(){
-	var ok=true;
-	if(arrInput.every(aa=>aa==true)){
-		$('#btnupdate').removeAttr("disabled");
-	}else{
-		$('#btnupdate').attr("disabled","disabled");
-	}
-}
-
 $('#email').on("propertychange change keyup paste input", function(){
 	var email = $('#email').val();		
 	var data = {"email" : email};			
@@ -174,17 +164,12 @@ $('#email').on("propertychange change keyup paste input", function(){
 		url : "/user/emailCheck",
 		data : data,
 		success : function(result){
-			//alert(result);
 			if(result != 'fail'){
 				$('.emailCheck_1').css("display","inline-block");
 				$('.emailCheck_2').css("display", "none");
-				//$('#btn').removeAttr("disabled");
-				arrInput[0] = true;
 			} else {
 				$('.emailCheck_2').css("display","inline-block");
-				$('.emailCheck_1').css("display", "none");		
-				//$('#btn').attr("disabled","disabled");
-				arrInput[0] = false;		
+				$('.emailCheck_1').css("display", "none");			
 			}
 			inputCheck();
 		}
@@ -203,11 +188,9 @@ $('#nickName').on("propertychange change keyup paste input", function(){
 			if(result != 'fail'){
 				$('.nickCheck_1').css("display","inline-block");
 				$('.nickCheck_2').css("display", "none");
-				arrInput[1] = true;
 			} else {
 				$('.nickCheck_2').css("display","inline-block");
 				$('.nickCheck_1').css("display", "none");		
-				arrInput[1] = false;
 			}
 			inputCheck();
 		}
@@ -247,17 +230,20 @@ $('#btndelete').click(function(e){
 
 $(document).ready(function(e){
 	$(".pwchange").on('click', function(){
+		$("#here1").toggle();
 		var userid = [[${session.user.id}]];
 		var pass = $("#userpass").val();
 		jsList.passcheckform(userid,pass);
 	});
 	
 	$(".addresschange1").on('click',function(){
+		$("#here2").toggle();
 		var id = [[${session.user.id}]];
 		jsList.addresschform(id);
 	});
 	
 	$(".photochange").on('click',function(){
+		$("#here3").toggle();
 		var id = [[${session.user.id}]];
 		var photo = [[${session.user.photo}]];
 		jsList.photochangeform(id,photo);
