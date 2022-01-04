@@ -34,7 +34,6 @@ public class AlbumDetailController {
 		//노래정보 저장
 		List<Song> songs = albumService.getSongsOfAlbum(album);
 		model.addAttribute("songs",songs);
-	
 		
 		return "albumDetail";
 	}

@@ -78,7 +78,6 @@
 				<div class="modal" id="myModal">
 					<div class="modal-dialog">
 						<div class="modal-content" style="padding:0; width:300px">
-
 							<!-- Modal Header -->
 							<div class="modal-header">
 								<h4 class="modal-title">마이리스트</h4>
@@ -86,7 +85,13 @@
 							</div>
 
 							<!-- Modal body -->
-							<div class="modal-body">만들어진 리스트가 없습니다..</div>
+							<div style='padding:10px' class="modal-body">
+								<ul th:if=${session.user!=null} style='list-style:none; padding:0; margin:0'>
+									<li th:each="mylist:${session.user.mylists}">
+										<input type='checkbox' th:value="${mylist.id}">&nbsp;[[${mylist.myListTitle}]]</input>
+									</li>
+								</ul>
+							</div>
 
 							<!-- Modal footer -->
 							<div class="modal-body" style="border-top:1px solid #dee2e6">
@@ -154,10 +159,14 @@
 				$("#deleteReviewBtn").on('click', function(){
 					btnManager.clickDelete([[${album.id}]]);
 				});
-				/* addMyList 버튼 클릭시 myList 목록 가져오기 */
+				/* addMyList 버튼 클릭시 myList 추가 폼 가져오기 */
 				$("#addMyList").on('click', function(){
-					$(this).parent().html("<form action='/addMyList'>이름<br><input required style='width:248px; border:1px solid white; border-bottom:1px solid black' placeholder='리스트 이름 입력'></input><br><br><button style='color:#065FD4; background-color:white; border:1px solid white; float:right'>만들기</button></form>");
+					$(this).parent().html("이름<br><input required style='width:248px; border:1px solid white; border-bottom:1px solid black' placeholder='리스트 이름 입력'></input><br><br><button id='makeMyList' style='color:#065FD4; background-color:white; border:1px solid white; float:right'>만들기</button>");
 				});
+				$(document).on('click','#makeMyList',function(){
+					btnManager.clickMakeMyList();
+				});
+		
 				/* 리뷰 공감, 비공감 실시간 표현을 위한 ajax코드를 담고있는 콜백함수, 파라메터로 review id와 job정보를 가진다. */
 				var callback = function(){
 					reviewManager.clickThumb($(this).parent().parent().attr("id"),[[${album.id}]],$(this).attr("class"),$(this));
