@@ -18,8 +18,21 @@ var btnManager = (function(){
 		return result;
 	};
 	
-	var clickMakeMyList = function(){
-		alert("구현 예정");
+	var clickMakeMyList = function(self){
+		if(self.parent().children("#myListTitle").val() <= 0){
+			alert("리스트 이름은 필수 입력 사항 입니다.");
+		}else{
+			$.ajax({
+				url:"/makeMyList",
+				type:"post",
+				data:{
+					"myListTitle":self.parent().children("#myListTitle").val()
+				}
+			}).done(function(){
+				/*self.parent().parent().children("div").eq(1).children("ul").append("<li>차</li>");*/
+				console.log("통신성공");
+			});
+		}
 	}
 	
 	var clickAdd = function(albumId){
@@ -147,7 +160,10 @@ var btnManager = (function(){
 				self.parent().children(".reply_replyClickResult").html(form);
 				self.attr("value","on");
 				var tagId = "@" + self.parent().parent().children(".reply_header").children("a").eq(1).children(".reply_user_id").text();
-				self.parent().children(".reply_replyClickResult").children("div").eq(0).children("div").eq(1).html("<a href='/userInfo?userid=" + self.parent().parent().children(".reply_header").children("a").eq(1).children(".reply_user_id").text() + "'>@" + self.parent().parent().children(".reply_header").children("a").eq(1).children(".reply_user_id").text() + "</a>&nbsp;");
+				self.parent().children(".reply_replyClickResult").children("div").eq(0).children("div").eq(1)
+				.html("<a href='/userInfo?userid=" + self.parent().parent().children(".reply_header").children("a")
+				.eq(1).children(".reply_user_id").text() + "'>@" + self.parent().parent().children(".reply_header")
+				.children("a").eq(1).children(".reply_user_id").text() + "</a>&nbsp;");
 				    var el = self.parent().children(".reply_replyClickResult").children("div").eq(0).children("div").eq(1)[0];
 				    var range = document.createRange();
 				    var sel = window.getSelection();
