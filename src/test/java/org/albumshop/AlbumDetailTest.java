@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.albumshop.domain.Album;
+import org.albumshop.domain.MyList;
 import org.albumshop.domain.Review;
 import org.albumshop.persistence.AlbumRepository;
+import org.albumshop.persistence.MyListRepository;
 import org.albumshop.persistence.ReviewRepository;
 import org.albumshop.persistence.SongRepository;
 import org.albumshop.persistence.UserRepository;
@@ -25,6 +27,17 @@ public class AlbumDetailTest {
 	ReviewRepository reRepo;
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
+	MyListRepository mylistRepo;
+	
+	@Test
+	public void test() {
+		userRepo.findById("zzzz").ifPresent(user->{
+			MyList mylist = MyList.builder().user(user).myListTitle("만들어져라").build();
+			mylistRepo.save(mylist);
+		});
+		
+	}
 	
 	//@Test
 	public void selectAlbumById() {
