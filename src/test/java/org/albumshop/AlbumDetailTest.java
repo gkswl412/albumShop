@@ -54,7 +54,7 @@ public class AlbumDetailTest {
 		});
 	}
 	
-	@Test
+	// @Test
 	public void findReviewById() {
 		reRepo.findReviewById("kosta2").forEach(item->{
 			System.out.println(Arrays.toString(item));

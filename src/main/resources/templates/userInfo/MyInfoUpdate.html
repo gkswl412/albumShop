@@ -200,16 +200,13 @@ $('#nickName').on("propertychange change keyup paste input", function(){
 		url : "/user/nickCheck",
 		data : data,
 		success : function(result){
-			//alert(result);
 			if(result != 'fail'){
 				$('.nickCheck_1').css("display","inline-block");
 				$('.nickCheck_2').css("display", "none");
-				//$('#btn').removeAttr("disabled");
 				arrInput[1] = true;
 			} else {
 				$('.nickCheck_2').css("display","inline-block");
 				$('.nickCheck_1').css("display", "none");		
-				//$('#btn').attr("disabled","disabled");
 				arrInput[1] = false;
 			}
 			inputCheck();
