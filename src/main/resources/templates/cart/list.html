@@ -258,9 +258,41 @@
 			</div>
 			<tr>
 				<td colspan="5">
-					<!--<button type="button" class="btn btn-warning btn-xs">선택삭제</button>-->
-					<button type="button" class="btn btn-danger btn-xs" id="deleteAll" onclick="deleteCartAlbumAll()">전체삭제</button>
-					<button type="button" class="btn btn-default btn-xs">마이리스트에 담기</button>
+					<div>
+						<button type="button" class="btn btn-danger btn-xs" id="deleteAll" onclick="deleteCartAlbumAll()">전체삭제</button>
+					</div>
+					<div id="reviewAndCatalog">
+						<!-- The Modal -->
+						<div class="modal" id="myModal">
+							<div class="modal-dialog">
+								<div class="modal-content" style="padding:0; width:300px">
+									<!-- Modal Header -->
+									<div class="modal-header">
+										<h4 class="modal-title">마이리스트</h4>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+									</div>
+
+									<!-- Modal body -->
+									<div style='padding:10px' class="modal-body">
+										<ul th:if=${session.user!=null} style='list-style:none; padding:0; margin:0'>
+											<li th:each="mylist:${session.user.mylists}">
+												<input type='checkbox' th:value="${mylist.id}">&nbsp;[[${mylist.myListTitle}]]</input>
+											</li>
+										</ul>
+									</div>
+
+									<!-- Modal footer -->
+									<div class="modal-body" style="border-top:1px solid #dee2e6">
+										<button id="addMyList" style="border:1px solid white; background-color:white;"><img src="images/icon/makeNewList.png" width=15px height=15px> 새 리스트 만들기</button>										<div id="clickAddMyListBtnResult" style="padding:0"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="BtnCollection">
+							<button type="button" class="btn btn-primary btn-xs" value="off" name="boxing" data-bs-toggle="modal" data-bs-target="#myModal">마이리스트에 담기</button>
+							<div id="btnClickResult"></div>
+						</div>
+					</div>
 				</td>
 				<td><b>총수량 / 총금액</b></td>
 				<td><div id="totalQuantity"></div></td>
