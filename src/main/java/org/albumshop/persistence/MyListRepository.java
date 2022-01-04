@@ -5,5 +5,4 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface MyListRepository extends CrudRepository<MyList, Long>{
 
-    
 }
