@@ -26,11 +26,13 @@
 	<script type="text/javascript">
 	$(document).ready(function(e) {
 		$(".mylist").on('click', function() {
+			$("#a2").toggle();
 			var id = '[[${session.user.id}]]';
 			var mylisttitle = $(this).text();
 			jsList.myalbumlist(id, mylisttitle);
 		});
 		$("#a4").on('click',function(){
+			$("#a5").toggle();
 			var id = '[[${session.user.id}]]';
 			jsList.listmakeform(id);
 		});
