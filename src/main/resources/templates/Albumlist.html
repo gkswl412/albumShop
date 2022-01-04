@@ -21,14 +21,10 @@
 	</tr>
 	</table>	
 		<h4>전체 앨범</h4>
-		<div th:if="${session.user != null}">
-		[[${session.user}]]
-		
-		</div>
 		<div class="a" th:each="album:${albumlist}">
 		<table class="table table-hover" >
 			<tr style="text-align:center;vertical-align : middle;">
-				<td rowspan="4" width="250px" height="250px"><a class="detailButton" th:href="${album.id}" ><img alt="${album.cover}" th:src="@{${album.cover}}" width="210px" height="210px"></a></td>
+				<td rowspan="4" width="250px" height="250px"><a class="detailButton" th:href="${album.id}" ><img alt="${album.cover}" th:src="|/@{${album.cover}}|" width="210px" height="210px"></a></td>
 			</tr>
 			<tr>
 				<td style="vertical-align : middle;"><a class="detailButton" th:href="${album.id}">[[${album.title}]]</a> / [[${album.releaseDate}]]</td>
@@ -83,12 +79,12 @@
 	<th:block layout:fragment="script">
 		<script>
 			$(function(){
-				$(".a").slice(0, 3).show(); // select the first ten
-	            $("#load").click(function(e){ // click event for load more
+				$(".a").slice(0, 3).show(); 
+	            $("#load").click(function(e){ 
 	                e.preventDefault();
-	                $(".a:hidden").slice(0, 3).show(); // select next 10 hidden divs and show them
-	                if($(".a:hidden").length == 0){ // check if any hidden divs still exist
-	                    alert("마지막 앨범 목록입니다."); // alert if there are none left
+	                $(".a:hidden").slice(0, 3).show(); 
+	                if($(".a:hidden").length == 0){ 
+	                    alert("마지막 앨범 목록입니다."); 
 	                }
 	            });
 				

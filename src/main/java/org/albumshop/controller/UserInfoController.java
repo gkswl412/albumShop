@@ -9,7 +9,9 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.albumshop.domain.MyList;
 import org.albumshop.domain.User;
+import org.albumshop.persistence.MyListRepository;
 import org.albumshop.persistence.ReviewRepository;
 import org.albumshop.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,8 @@ public class UserInfoController {
 	PasswordEncoder passwordEncoder;
 	@Autowired
 	HttpSession session;
+	@Autowired
+	MyListRepository mylistRepo;
 	
 	@PostMapping("/PassWordChangeForm")
 	public String updateUserPass(Model model, String id, String pass, String job) {
@@ -113,10 +117,8 @@ public class UserInfoController {
 	    try {
 	        file.transferTo(new File(fileName)); // 파일을 위에 지정 경로로 업로드
 	    } catch (IllegalStateException e) {
-	        // TODO Auto-generated catch block
 	        e.printStackTrace();
 	    } catch (IOException e) {
-	        // TODO Auto-generated catch block
 	        e.printStackTrace();
 	    }
 	    return "redirect:/userInfo/MyInfoUpdate";		
@@ -167,7 +169,7 @@ public class UserInfoController {
 	}
 	@GetMapping("/MyAlbumTitleList")
 	public String myalbumTitlelist(Model model, String id) {
-		model.addAttribute("albumlist", uRepo.findMyAlbumById(id));
+		model.addAttribute("albumlist", mylistRepo.findMyAlbumById1(id));
 		return "/userInfo/MyAlbumTitleList";
 	}
 	@GetMapping("/MyAlbumList")
@@ -176,6 +178,29 @@ public class UserInfoController {
 		return "/userInfo/MyAlbumList";
 	}
 	
+	@GetMapping("/AlbumListMakeForm")
+	public String albumlistmakeform(Model model, String id) {
+		System.out.println(id);
+		User user = uRepo.findById(id).get();
+		model.addAttribute("user",user);
+		return "/userInfo/MakeMyListForm";
+	}
 	
+	@PostMapping("/AlbumListMake")
+	public String albumlistmake(Model model, String id, String titlename) {
+		System.out.println(id);
+		System.out.println(titlename);
+		User user = uRepo.findById(id).get();
+		MyList mylist = MyList.builder().user(user).myListTitle(titlename).build();
+		mylistRepo.save(mylist);
+		return "redirect:/userInfo/MyPage"; 
+	}
+	
+	@GetMapping("/MyListDelete")
+	public String mylistdelete(Model model, Long id) {
+		System.out.println(id);
+		mylistRepo.deleteById(id);
+		return "redirect:/userInfo/MyPage";
+	}
 	
 }

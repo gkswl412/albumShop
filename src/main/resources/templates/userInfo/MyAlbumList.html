@@ -9,6 +9,7 @@
 			<th>Cover</th>
 			<th>Title</th>
 			<th>Genre</th>
+			<th></th>
 		</tr>
 		<tr th:each="al:${album}">
 			<td>
@@ -22,7 +23,11 @@
 			</a>
 			</td>
 			<td>[[${al[2]}]]</td>
+			<td><button class="mylistalbumdelete">삭제</button></td>
 		</tr>
 	</table>
 </body>
 </html>
+<script>
+
+</script>
