@@ -28,9 +28,8 @@ var btnManager = (function(){
 				data:{
 					"myListTitle":self.parent().children("#myListTitle").val()
 				}
-			}).done(function(){
-				/*self.parent().parent().children("div").eq(1).children("ul").append("<li>차</li>");*/
-				console.log("통신성공");
+			}).done(function(data){
+				self.parent().parent().children("div").eq(1).children("ul").append("<li>차</li>");
 			});
 		}
 	}
