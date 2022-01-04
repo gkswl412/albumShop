@@ -8,11 +8,13 @@ import org.albumshop.domain.Album;
 import org.albumshop.domain.Song;
 import org.albumshop.domain.User;
 import org.albumshop.service.AlbumService;
+import org.albumshop.service.MyListService;
 import org.albumshop.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AlbumDetailController {
@@ -23,6 +25,8 @@ public class AlbumDetailController {
 	private ReviewService reviewService;
 	@Autowired
 	private HttpSession session;
+	@Autowired
+	private MyListService myListService;
 	
 	@GetMapping(value="albumdetail")
 	public String albumDetail(Model model, Long albumId) {
@@ -36,6 +40,12 @@ public class AlbumDetailController {
 		model.addAttribute("songs",songs);
 		
 		return "albumDetail";
+	}
+	
+	@PostMapping(value="makeMyList")
+	public String  makeMyList(String myListTitle) {
+		myListService.makeMyList(myListTitle);
+		return myListTitle;
 	}
 
 }
