@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.albumshop.domain.User;
+import org.albumshop.persistence.CartRepository;
 import org.albumshop.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,7 +30,8 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	PasswordEncoder passwordEncoder; // security config에서 Bean생성
 	
-	
+	@Autowired
+	CartRepository cartRepository; // 회원가입 시 자동으로 Cart 생성
 
 
 	// 회원가입
@@ -38,7 +40,9 @@ public class UserService implements UserDetailsService{
 		// 비밀번호 암호화...암호화되지않으면 로그인되지않는다.
 		      String pass = passwordEncoder.encode(user.getPass());
 		      user.setPass(pass);
+			  //cartRepository.save(user);
 		System.out.println("암호화된 pass:" + pass);
+
 		return urepo.save(user);
 	}
 
@@ -57,8 +61,5 @@ public class UserService implements UserDetailsService{
 		httpSession.setAttribute("user", user);
 		return user2;
 	}
-
-	 
-	
 }
  

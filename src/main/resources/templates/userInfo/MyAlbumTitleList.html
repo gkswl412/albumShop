@@ -1,0 +1,29 @@
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<h5>[[${session.user.name}]]'S Album List</h5>
+	<table class="table table-hover">
+		<tr>
+			<th>MyListTitle</th>
+			<th>AlbumCount</th>
+		</tr>
+		<tr th:each="albumlist:${albumlist}">
+			<td><button class="mylist">[[${albumlist[0]}]]</button></td>
+			<td th:text="${albumlist[1]}"></td>
+		</tr>
+	</table>
+	<div id="a2"></div>
+	
+	<script type="text/javascript">
+	$(document).ready(function(e) {
+		$(".mylist").on('click', function() {
+			var id = '[[${session.user.id}]]';
+			var mylisttitle = $(this).text();
+			jsList.myalbumlist(id, mylisttitle);
+		});
+	});
+	</script>
+</body>
+</html>

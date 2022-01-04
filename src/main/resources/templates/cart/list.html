@@ -24,9 +24,11 @@
 	<th:block layout:frgment="script">
 		<script th:inline="javascript">
 			var cartId;
+			var totalOrderPrice = 0;
+			var totalMileage = 0;
 			$(function () {
-
-				cartId = $("#cartId").val();
+				cartId = Number.parseInt($(".cartId").val());
+				console.log("cartId" + cartId);
 				$("input[name^=item]").prop("checked", true);
 				getOrderTotalPrice();
 				getMileage();
@@ -38,7 +40,7 @@
 			});
 
 			function checkAll(){
-				if($("input[name=itemCheckAll]").prop("checked")){
+				if($("input[name=checkAll]").prop("checked")){
 					$("input[name=itemChk]").prop("checked",true);
 				}else{
 					$("input[name=itemChk]").prop("checked",false);
@@ -57,10 +59,16 @@
 					var quantity = $('#quantity_' + checkedItemId).val();
 
 					orderTotalPrice += price * quantity;
-
+					totalOrderPrice = orderTotalPrice;
+					console.log("totalOrderPrice : " + totalOrderPrice);
 				});
 				$("#orderTotalPrice").html(orderTotalPrice + '원');
-				$("#finalOrderTotalPrice").html(orderTotalPrice + deliveryFee + '원');
+				if (orderTotalPrice == 0) {
+					$("#finalOrderTotalPrice").html(orderTotalPrice + '원');
+				} else {
+					$("#finalOrderTotalPrice").html(orderTotalPrice + deliveryFee + '원');
+				}
+				getMileage();
 			};
 
 			function getCartTotalPrice() {
@@ -83,27 +91,19 @@
 				var itemId = obj.id.split('_')[1];
 				var price = $("#price_" + itemId).data("price");
 				var totalPrice = price * quantity;
-				$("#price_" + itemId).html(totalPrice + '원');
+				$("#total_price_" + itemId).html(totalPrice + '원');
 				getCartTotalPrice();
 				getOrderTotalPrice();
 				getMileage();
 				updateCartAlbumCount(cartId, itemId, quantity);
 			}
 			function getMileage() {
-				var orderTotalPrice = 0;
-				var mileage = 0;
-				$("input[name=itemChk]:checked").each(function (){
-					var checkedItemId = $(this).val();
-					var price = $('#price_' + checkedItemId).attr("data-price");
-					var quantity = $('#quantity_' + checkedItemId).val();
-					console.log('price : ' + price);
-					console.log('quantity : ' + quantity);
-					orderTotalPrice += price * quantity;
-					mileage = Math.floor(price * 0.05);
-				});
-				console.log('orderTotalPrice : ' + orderTotalPrice);
-				console.log('mileage : ' + mileage);
+				var mileage = Math.floor(totalOrderPrice * 0.05);
+				if ($('input[name="itemChk"]:checked').length == 0) {
+					mileage = totalMileage;
+				}
 
+				console.log(mileage);
 				$("#mileage").html("적립 예정 마일리지 : " + mileage + "점 (5%)");
 			}
 			function deleteCartAlbum (obj) {
@@ -125,7 +125,7 @@
 						success  : function(result, status){
 							location.href = '/cart';
 							showDeleteAlert();
-						},
+						}/*,
 						error : function(jqXHR, status, error){
 
 							if(jqXHR.status == '401'){
@@ -134,7 +134,7 @@
 							} else{
 								alert(jqXHR.responseJSON.message);
 							}
-						}
+						}*/
 					});
 				}
 			}
@@ -152,7 +152,7 @@
 						cache   : false,
 						success  : function(result, status){
 							location.href = '/cart';
-						},
+						}/*,
 						error : function(jqXHR, status, error){
 
 							if(jqXHR.status == '401'){
@@ -161,7 +161,7 @@
 							} else{
 								alert(jqXHR.responseJSON.message);
 							}
-						}
+						}*/
 					});
 					showDeleteAlert();
 				} else {
@@ -171,23 +171,23 @@
 			}
 			function updateCartAlbumCount(cartId, albumId, count) {
 				/*var token = $("meta[name='_csrf']").attr("content");
-				var header = $("meta[name='_csrf_header']").attr("content");*/
+                var header = $("meta[name='_csrf_header']").attr("content");*/
 
 				var url = "/cart/update/" + cartId + "/" + albumId + "?count=" + count;
 
 				$.ajax({
 					url      : url,
 					type     : "PATCH",
-/*					beforeSend : function(xhr){
-						/!* 데이터를 전송하기 전에 헤더에 csrf값을 설정 *!/
-						xhr.setRequestHeader(header, token);
-					},*/
+					/*					beforeSend : function(xhr){
+                                            /!* 데이터를 전송하기 전에 헤더에 csrf값을 설정 *!/
+                                            xhr.setRequestHeader(header, token);
+                                        },*/
 					dataType : "json",
 					cache   : false,
 					success  : function(result, status){
 						console.log("cartItem count update success");
 						showQuantityUpdateAlert();
-					},
+					}/*,
 					error : function(jqXHR, status, error){
 
 						if(jqXHR.status == '401'){
@@ -196,7 +196,7 @@
 						} else{
 							alert(jqXHR.responseJSON.message);
 						}
-					}
+					}*/
 				});
 			}
 			function showQuantityUpdateAlert() {
@@ -204,6 +204,9 @@
 			}
 			function showDeleteAlert() {
 				$("#myDeleteAlert").show();
+			}
+			function addMyList() {
+
 			}
 		</script>
 	</th:block>
@@ -214,47 +217,54 @@
 		<div id="myAlert" class="alert alert-success" style="display: none"><button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>장바구니에 담긴 앨범의 수량이 수정되었습니다. </div>
 		<div id="myDeleteAlert" class="alert alert-warning" style="display: none"><button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>장바구니에 담긴 앨범을 삭제했습니다.</div>
 		<h1>장바구니</h1>
-		<!--<p th:text="${cartlist.get(0).getUserId()} + '님의 장바구니입니다.'"></p>-->
+		<p>[[${session.user.id}]]님의 장바구니입니다.</p>
+		<div th:if="${cartlist.size()} == 0">
+			<input type="hidden" th:value="0" class="cartId">
+		</div>
+		<div th:unless="${cartlist.size()} == 0">
+			<input type="hidden" th:value="${cartlist.get(0).getCartId()}" class="cartId">
+		</div>
 		<div>
 		<table class="table table-hover">
 			<tr>
-				<th th:width="10px"><input type="checkbox" name="itemCheckAll" onclick="checkAll()"></th>
-				<th th:width="15px">#</th>
-				<th th:width="80px">커버</th>
-				<th>앨범명</th>
-				<th th:width="200px">아티스트</th>
-				<th th:width="120px">가격</th>
-				<th th:width="70px">수량</th>
-				<th th:width="50px">삭제</th>
+				<th class="text-center" th:width="10px"><input type="checkbox" name="checkAll" onclick="checkAll()"></th>
+				<th class="text-center" th:width="15px">#</th>
+				<th class="text-center" th:width="80px">커버</th>
+				<th class="text-center">앨범명</th>
+				<th class="text-center" th:width="200px">아티스트</th>
+				<th class="text-center" th:width="120px">단가</th>
+				<th class="text-center" th:width="70px">수량</th>
+				<th class="text-center" th:width="120px">합계</th>
+				<th class="text-center" th:width="50px">삭제</th>
 			</tr>
 
-			<div th:if="${cartlist} == null">
+			<div th:if="${cartlist.size()} == 0">
 				<tr>
-					<td><div id="listIsEmpty">장바구니가 비어있습니다.</div></td>
+					<td colspan="9"><div id="listIsEmpty">장바구니가 비어있습니다.</div></td>
 				</tr>
 			</div>
-			<div th:unless="${cartlist} == null">
-				<input type="hidden" th:value="${cartlist.get(0).getCartId()}" id="cartId">
+			<div th:unless="${cartlist.size()} == 0">
 				<tr th:each="cartDetail:${cartlist}">
 					<td class="text-center align-middle"><input type="checkbox" name="itemChk" th:value="${cartDetail.getAlbumId()}"> </td>
 					<td class="text-center align-middle" th:text="${cartlist.indexOf(cartDetail)+1}"></td>
-					<td><img th:src="${cartDetail.getCover()}" th:width="60px" th:height="60px"></td>
-					<td class="align-middle" th:text="${cartDetail.getAlbumTitle()}"></td>
+					<td><a th:href="@{/albumdetail(albumId=${cartDetail.getAlbumId()})}" th:target="_blank"><img th:src="${cartDetail.getCover()}" th:width="60px" th:height="60px" ></a></td>
+					<td class="align-middle"><a th:href="@{/albumdetail(albumId=${cartDetail.getAlbumId()})}" th:target="_blank" th:text="${cartDetail.getAlbumTitle()}"></a></td>
 					<td class="align-middle" th:text="${cartDetail.getArtistName()}"></td>
 					<td class="align-middle text-right" th:id="'price_' + ${cartDetail.getAlbumId()}" th:data-price="${cartDetail.getPrice()}" th:text="${cartDetail.getPrice()} + '원'"></td>
 					<td><input type="number" class="form-control align-middle" onchange="changeQuantity(this)" th:id="'quantity_' + ${cartDetail.getAlbumId()}" th:data-quantity="${cartDetail.getQuantity()}" th:value="${cartDetail.getQuantity()}" min="1" th:max="${cartDetail.getRemaining()}"></td>
+					<td class="align-middle text-right" th:id="'total_price_' + ${cartDetail.getAlbumId()}" th:data-price="${cartDetail.getQuantity()} * ${cartDetail.getPrice()}" th:text="${cartDetail.getQuantity()} * ${cartDetail.getPrice()} + '원'"></td>
 					<td class="text-center align-middle"><button type="button" th:id="${cartDetail.getAlbumId()}" class="close" aria-label="Close"><span aria-hidden="true" th:id="${cartDetail.getAlbumId()}" th:data-albumId="${cartDetail.getAlbumId()}" onclick="deleteCartAlbum(this)">&times;</span></button></td>
 				</tr>
 			</div>
 			<tr>
-				<td colspan="4">
+				<td colspan="5">
 					<!--<button type="button" class="btn btn-warning btn-xs">선택삭제</button>-->
 					<button type="button" class="btn btn-danger btn-xs" id="deleteAll" onclick="deleteCartAlbumAll()">전체삭제</button>
 					<button type="button" class="btn btn-default btn-xs">마이리스트에 담기</button>
 				</td>
-				<td><b>총금액 / 총수량</b></td>
-				<td><div class="text-right" id="totalPrice"></div></td>
+				<td><b>총수량 / 총금액</b></td>
 				<td><div id="totalQuantity"></div></td>
+				<td><div class="text-right" id="totalPrice"></div></td>
 				<td></td>
 			</tr>
 		</table>

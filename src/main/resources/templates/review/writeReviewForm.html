@@ -13,13 +13,32 @@
 		</select>
 	</span>
 	<textarea th:text=${review.content} name="content" style="width:400px; height:500px; border:1px solid #dddddd"></textarea>
-	<button id="jobBtn">Register Review</button><button id="cancelBtn" style="float:right">Cancel</button> 
+	<div style="text-align:right">
+		<div class='flu' style="float:left"><span class='NOC2'></span><br><span class='alert2' style='padding:0; color:red; font-size:10px'></span></div>
+		<button id="cancelBtn" style="padding:8px 20px 8px 20px; font-size:14px; color:#606060">취소</button>
+		<button id="jobBtn" style="padding:8px 20px 8px 20px; font-size:14px; color:#606060; background-color:#0000000D; color:#909090; border-radius:4px" disabled>작성</button> 
+	</div>
 </div>
 
 <script>
 	$(function(){
+		var content = $("textarea[name='content']").val();
+		$("textarea[name='content']").keyup(function(){
+			$('.NOC2').html("최대글자수:1500/" + $(this).val().length);
+			if($(this).val().length <= 1500 && $(this).val().replace(/(\s*)/g,"").length > 0 && content != $(this).val()){
+				$('.alert2').html("");
+				$('#jobBtn').css({"color":"white","background-color":"slateblue"});
+				$('#jobBtn').attr("disabled",false);
+			}else{
+				$('#jobBtn').css({"color":"#909090","background-color":"#0000000D"});
+				$('#jobBtn').attr("disabled",true);
+			}
+			if($(this).val().length > 1500){
+				$('.alert2').html("최대 글자수를 초과 하였습니다!!");
+			}
+		});
 		if("[[${job}]]"=="update"){
-			$("#jobBtn").html("Update Review");
+			$("#jobBtn").html("수정");
 			$("select[name='rating'] > option").each(function(){
 				if($(this).val() == [[${review.rating}]]){
 					$(this).attr("selected","selected");
@@ -27,7 +46,9 @@
 			});
 		}
 		if("[[${job}]]"=="delete"){
-			$("#jobBtn").html("Delete Review");
+			$("#jobBtn").html("삭제");
+			$('#jobBtn').css({"color":"white","background-color":"slateblue"});
+			$('#jobBtn').attr("disabled",false);
 			$("textarea[name='content']").attr("readonly","readonly");
 			$("#ratingZone").html([[${review.rating}]]);
 		}
@@ -35,6 +56,7 @@
 			$("#btnClickResult").html("");
 			$("#addReviewBtn").attr("value","off");
 			$("#updateReviewBtn").attr("value","off");
+			$("#deleteReviewBtn").attr("value","off");
 		});
 		
 		$("#jobBtn").on('click',function(){

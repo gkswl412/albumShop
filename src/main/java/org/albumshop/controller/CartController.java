@@ -1,10 +1,10 @@
 package org.albumshop.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.albumshop.domain.Cart;
-import org.albumshop.domain.CartDetail;
-import org.albumshop.domain.MultiIdCartAlbum;
-import org.albumshop.domain.User;
+import org.albumshop.domain.*;
+import org.albumshop.persistence.AlbumRepository;
 import org.albumshop.persistence.CartDetailRepository;
 import org.albumshop.persistence.CartRepository;
 import org.albumshop.persistence.UserRepository;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -32,24 +33,47 @@ public class CartController {
     @Autowired
     CartDetailRepository cartDetailRepository;
     @Autowired
+    AlbumRepository albumRepository;
+    @Autowired
     CartService cartService;
     @Autowired
     CartDetailService cartDetailService;
+    @Autowired
+    HttpSession session;
 
     @RequestMapping(value = "/cart")
-    public String cartAll(Model model) {
-        User user = userRepository.findById("kosta0").orElse(null);
-
-        List<CartDetailVO> cartDetailList = cartDetailService.getCartList(user);
-/*        IntStream.rangeClosed(0, cartDetailList.size()-1).forEach(i -> {
-            System.out.println(cartDetailList.get(i));
-        });*/
-        if (cartDetailList != null) {
-            model.addAttribute("cartlist", cartDetailList);
-            return "cart/list";
-        } else {
-            return "cart/empty";
+    public String cartAll(Model model, Principal principal) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            model.addAttribute("msg", "장바구니에 진입하려면 로그인하세요.");
+            return "redirect:user/login";
         }
+        System.out.println(user.getId());
+        List<CartDetailVO> cartDetailList = null;
+
+        if (user != null) {
+            cartDetailList = cartDetailService.getCartList(user);
+        }
+
+        model.addAttribute("cartlist", cartDetailList);
+        return "cart/list";
+
+    }
+
+    @PatchMapping(value = "/cart/insert/{cartId}/{albumId}")
+    public @ResponseBody ResponseEntity insertCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, String userId) {
+        Cart cart = cartRepository.findById(cartId).get();
+        if (cart == null) {
+            cart = cartService.createCart(userId);
+            cartId = cart.getId();
+        }
+        Album album = albumRepository.findById(albumId).get();
+
+        MultiIdCartAlbum multiIdCartAlbum = MultiIdCartAlbum.builder()
+                .cart(cart).album(album).build();
+        CartDetail cartDetail = CartDetail.createCartDetail(cart, album, 1);
+        cartService.addCart(cartDetail, userId);
+        return new ResponseEntity<Long>(cartId, HttpStatus.OK);
     }
 
     @PatchMapping(value = "/cart/update/{cartId}/{albumId}")

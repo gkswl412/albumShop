@@ -22,7 +22,7 @@ public class Cart {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@NotNull
 	private User user;
 

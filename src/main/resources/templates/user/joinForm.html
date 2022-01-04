@@ -310,7 +310,6 @@ $('#nickName').on("propertychange change keyup paste input", function(){
 
 	var nickName = $('#nickName').val();		
 	var data = {"nickName" : nickName};			
-
 	$.ajax({
 		type : "post",
 		url : "/user/nickCheck",
@@ -353,17 +352,14 @@ $('#id').on("propertychange change keyup paste input", function(){
 		data : data,
 		success : function(result){
 			console.log(result);
-			//alert(result);
 			if(result != 'fail'){
 				$('.id_input_re_1').css("display","inline-block");
 				$('.id_input_re_2').css("display", "none");
-				//$('#btn').removeAttr("disabled");
 				arrInput[0] = true;
 				
 			} else {
 				$('.id_input_re_2').css("display","inline-block");
 				$('.id_input_re_1').css("display", "none");		
-				//$('#btn').attr("disabled","disabled");
 				arrInput[0] = false;
 		
 			}

@@ -10,18 +10,16 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ReviewLikeRepository extends CrudRepository<ReviewLike, MultiIdUserReview>{
 	
-	/*
-	 * select review_user_id, count(review_user_id) from review_like where
-	 * review_album_id =1 group by review_user_id;
-	 */
-	
 	@Query("select rl.multiId.review.multiId.user.id, count(rl.multiId.review.multiId.user.id) "
 			+ "from ReviewLike rl where rl.multiId.review.multiId.album.id = ?1 "
 			+ "group by rl.multiId.review.multiId.user.id")
 	public List<Object[]> getLikeCount(Long albumId);
 	
-	@Query("select rl.multiId.review.multiId.user.id from ReviewLike rl where rl.multiId.user.id  = ?1 and rl.multiId.review.multiId.album.id = ?2")
+	@Query("select rl.multiId.review.multiId.user.id "
+		+ "from ReviewLike rl "
+		+ "where rl.multiId.user.id  = ?1 and rl.multiId.review.multiId.album.id = ?2")
 	public List<String> getLikedReviewList(String userId, Long albumId);
 	
-	public Integer countByMultiIdReview(Review review);
+	//좋아요 혹은 싫어요 클릭후 DB에서 바뀐 공감개수 가져오기위한 Counting
+	public Long countByMultiIdReview(Review review);
 }

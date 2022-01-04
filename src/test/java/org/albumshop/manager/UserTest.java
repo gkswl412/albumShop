@@ -13,8 +13,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional
 @Commit
 public class UserTest {
 
@@ -44,7 +46,7 @@ public class UserTest {
             userRepo.save(user);
         }
     }
-    @Test
+    //@Test
     public void userFindAllTest(){
         Page<User> allUsers = userRepo.findAll(paging);
         List<User> allUsersList = allUsers.getContent();
@@ -52,7 +54,7 @@ public class UserTest {
     }
     //@Test
     public void userFindByIdTest(){
-        Optional<User> optionalUser = userRepo.findById("userTestId0");
+        Optional<User> optionalUser = userRepo.findById("zzzz");
         optionalUser.ifPresent(u-> {
             System.out.println(u);
         });
@@ -63,10 +65,10 @@ public class UserTest {
         for (String string : x) {
             userRepo.deleteById(string);
         }
-        userRepo.deleteById("userTestId0");
-        Optional<User> optionalUser = userRepo.findById("userTestId0");
-        optionalUser.ifPresent(u-> {
-            System.out.println(u);
-        });
+//        userRepo.deleteById("userTestId0");
+//        Optional<User> optionalUser = userRepo.findById("userTestId0");
+//        optionalUser.ifPresent(u-> {
+//            System.out.println(u);
+//        });
     }
 }

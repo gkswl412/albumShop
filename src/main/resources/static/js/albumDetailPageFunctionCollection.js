@@ -10,13 +10,14 @@ function calcTotalPlayTime() {
 	$("#track").append('<li class="list-group-item" id="totalPlayTime">'
 		+ '<span></span>'
 		+ '<span>' + '총 재생 시간:' + '</span>'
-		+ '<span>' + totalPlayTime + '</span>' + '</li>');
+		+ '<span style="font-size:15px; color:black; font-weight:bold">' + totalPlayTime + '</span>' + '</li>');
 }
 
 /* albumDetailPage 리뷰 목록 출력 method */
 function printList(output) {
 	var header = "<h2>" + output.reviews.length + " Reviews</h2><br>";
 	var reviewObj;
+	var averageRating = 0;
 	for (var i = 0; i < output.reviews.length; i++) {
 		reviewObj = output.reviews[i];
 		var likeCnt;
@@ -25,6 +26,10 @@ function printList(output) {
 		var thumbDownImgUrl = "images/icon/thumbsDown.png";
 		var likeOnOff = "off";
 		var disLikeOnOff = "off";
+		var replyCount=0;
+		
+		averageRating += parseInt(reviewObj.rating.toFixed(1));
+		
 		for(const key in output.likedReviewList){
 			if(output.likedReviewList[key]==reviewObj.multiId.user.id){
 				thumbUpImgUrl = "images/icon/thumbsUpFilled.png";
@@ -35,6 +40,11 @@ function printList(output) {
 			if(output.disLikedReviewList[key]==reviewObj.multiId.user.id){
 				thumbDownImgUrl = "images/icon/thumbsDownFilled.png";
 				disLikeOnOff = "on";
+			}
+		}
+		for(const key in output.replyCount){
+			if(key==reviewObj.multiId.user.id){
+				replyCount = output.replyCount[key];
 			}
 		}
 		if(output.likeCount[reviewObj.multiId.user.id]==undefined){
@@ -48,8 +58,8 @@ function printList(output) {
 			disLikeCnt = output.disLikeCount[reviewObj.multiId.user.id];
 		}
 		header += "<div id='" + reviewObj.multiId.user.id + "'>"
-			+ "<div class='review_header'><a href='/userDetail/" + reviewObj.multiId.user.id + "'><img src='"
-			+ reviewObj.multiId.user.photo + "'></a><span class='user_id'><a href='/userDetail'>"
+			+ "<div class='review_header'><a href='/userInfo?userid=" + reviewObj.multiId.user.id + "'><img src='/images/userProfile/"
+			+ reviewObj.multiId.user.photo + "'></a><span class='user_id'><a href='/userInfo?userid=" + reviewObj.multiId.user.id + "'>"
 			+ reviewObj.multiId.user.id + "</a></span><span class='update_date'>"
 			+ new Date(reviewObj.updateDate).getFullYear() + ". "
 			+ (new Date(reviewObj.updateDate).getMonth()+1) + ". "
@@ -65,21 +75,13 @@ function printList(output) {
 					+ "<img src='" + thumbDownImgUrl + "' width=15px; height=15px>" 
 				+ "</button>" 
 				+ "<div class='disLikeCount'>" + disLikeCnt + "</div>" 
-				+ "<button class='reply'>답글</button>" 
+				+ "<button class='reply' value='off' name='boxing'>답글</button><br>"
+				+ "<div class='replyClickResult'></div>" 
+				+ "<div class='replyZone'>" + "<button class='replyList' value='off' name='boxing'>답글 " + replyCount + "개 보기</button><br><div class='replyContent'></div>" + "</div>"
 			+ "</div>"
-			+ "</div>"
-		$(".reviews").html(header);
+			+ "</div>";
 	}
+	averageRating = (averageRating / output.reviews.length).toFixed(1);
+	$(".averageRating").text(averageRating);
+	$(".reviews").html(header);
 }
-
-
-function onOff(output){
-	
-	$("#hidden").html("<input type='hidden' name='job' value='" + output.job + "'><input type='hidden' name='likeCount' value='" + output.likeCount + "'><input type='hidden' name='disLikeCount' value='" + output.disLikeCount + "'>");
-	console.log(output.job);
-	console.log(output.likeCount);
-	console.log(output.disLikeCount);
-	
-}
-
-
