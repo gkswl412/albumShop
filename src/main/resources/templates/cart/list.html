@@ -107,9 +107,9 @@
 				$("#mileage").html("적립 예정 마일리지 : " + mileage + "점 (5%)");
 			}
 			function deleteCartAlbum (obj) {
-				var albumId = parseInt(obj.id);
+				var albumId = Number.parseInt(obj.id);
 				var url = "/cart/delete/" + cartId + "/" + albumId;
-
+				console.log("delete id type : " + typeof albumId)
 				console.log("delete id : " + albumId);
 
 				if (confirm("장바구니에서 해당 앨범을 삭제하시겠습니까?") == true) {
@@ -170,8 +170,8 @@
 
 			}
 			function updateCartAlbumCount(cartId, albumId, count) {
-				var token = $("meta[name='_csrf']").attr("content");
-                var header = $("meta[name='_csrf_header']").attr("content");
+/*				var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr("content");*/
 
 				var url = "/cart/update/" + cartId + "/" + albumId + "?count=" + count;
 

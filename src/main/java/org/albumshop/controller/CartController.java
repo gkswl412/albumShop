@@ -88,12 +88,12 @@ public class CartController {
 
     @RequestMapping(value = "/cart/delete/{cartId}/{albumId}", method = RequestMethod.DELETE)
     public @ResponseBody ResponseEntity deleteCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId) {
-        if(!cartService.validateCartItem(cartId, albumId, "kosta0" /*principal.getName()*/)) {
+/*        if(!cartService.validateCartItem(cartId, albumId, session.getId())) {
             return new ResponseEntity<String>("삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);
-        }
+        }*/
 
         cartService.deleteCartDetail(cartId, albumId);
-        return new ResponseEntity<Long>(albumId, HttpStatus.OK);
+        return new ResponseEntity<Long>(cartId, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/cart/delete/{cartId}/all", method = RequestMethod.DELETE)

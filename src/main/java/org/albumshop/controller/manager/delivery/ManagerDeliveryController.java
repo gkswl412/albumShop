@@ -22,8 +22,8 @@ public class ManagerDeliveryController {
 
     @GetMapping("/deliveryList")
     public void deliveryList(Model model){
-        List<Delivery> deliveryList = deliveryService.readAllDeliveries();
-        model.addAttribute("deliveryList", deliveryList);
+/*        List<Delivery> deliveryList = deliveryService.readAllDeliveries();
+        model.addAttribute("deliveryList", deliveryList);*/
         log.info("DeliveryList called...");
     }
 
