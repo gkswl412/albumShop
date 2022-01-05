@@ -1,7 +1,7 @@
 package org.albumshop.security;
 
 
-public enum Role {
+public enum UserRole {
 
     USER
   

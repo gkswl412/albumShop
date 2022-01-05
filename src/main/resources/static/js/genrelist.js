@@ -117,6 +117,39 @@ var jsList = (function() {
 	});
 	};
 	
+	var listmakeform = function(id){
+	$.ajax({
+	url:"/AlbumListMakeForm",
+	type:"GET",
+	data:{"id":id}
+	}).done(function(form){
+	$("#a5").html(form);
+	});
+	};
+	
+	var listmake = function(id,titlename){
+	$.ajax({
+	url:"/AlbumListMake",
+	type:"POST",
+	data:{
+	"id":id,
+	"titlename":titlename
+	}
+	}).done(function(form){
+	$("#a5").html("");
+	});
+	};
+	
+	var mylistdelete = function(id){
+	$.ajax({
+	url:"/MyListDelete",
+	type:"GET",
+	data:{"id":id}
+	}).done(function(form){
+	$("#a1").html("")
+	})
+	};
+	
 	
 	return{
 	clicklist: clicklist,
@@ -127,7 +160,11 @@ var jsList = (function() {
 	photochangeform:photochangeform,
 	mycartlist:mycartlist,
 	myalbumtitlelist:myalbumtitlelist,
-	myalbumlist:myalbumlist	
+	myalbumlist:myalbumlist,
+	listmakeform:listmakeform,
+	listmake:listmake,
+	mylistdelete:mylistdelete
+	
 	}
 	
 })();

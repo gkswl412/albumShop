@@ -14,14 +14,10 @@ public interface UserRepository extends CrudRepository<User, String>{
 
 	
 	Optional<User> findByNickName(String nickName);
-	Optional<User> findByName(String name);
 	Optional<User> findByEmail(String email);
 	Optional<User> findByPhone(String phone);
 	Optional<User> findById(String id);
-	
-	
-	  @Query("select u.id from User u where u.name=?1 and u.email=?2")
-	   String findid(String name , String email);
+	Optional<User> findByNameAndEmail(String name , String email);
 	
 	
 	

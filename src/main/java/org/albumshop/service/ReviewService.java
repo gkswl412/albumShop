@@ -179,14 +179,11 @@ public class ReviewService {
 		});
 		return ReplyCountMap;
 	}
-
+	// 작성한 리뷰 있는지 확인
 	public Boolean checkResult(Long albumId) {
 		User user = (User) session.getAttribute("user");
 		Album album = albumRepo.findById(albumId).get();
-		System.out.println(user);
-		System.out.println(album);
 		MultiIdUserAlbum multiId = MultiIdUserAlbum.builder().user(user).album(album).build();
-		System.out.println(reviewRepo.findById(multiId).isPresent());
 		return reviewRepo.findById(multiId).isPresent();
 	}
 	

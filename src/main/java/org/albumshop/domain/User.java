@@ -64,7 +64,7 @@ public class User {
 	
 
 	@Enumerated(EnumType.STRING)
-	org.albumshop.security.Role urole;
+	org.albumshop.security.UserRole urole;
 	
 	
 	

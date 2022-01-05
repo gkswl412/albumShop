@@ -87,7 +87,7 @@ public class OAuthAttributes {
     	user.setName(name);
     	user.setEmail(email);
     	user.setPicture(picture);
-    	user.setRole(UserRole.GUEST);
+    	user.setRole(UserRole.SOCIAL);
         return user;
     }
 }

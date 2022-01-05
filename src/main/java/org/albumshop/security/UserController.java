@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 
+
 @Controller
 public class UserController {
       
@@ -152,12 +153,17 @@ public class UserController {
 	
 }
 	
-	@RequestMapping(value = "/findid", method = RequestMethod.GET)
+	@RequestMapping(value = "/findid", method = RequestMethod.POST)
+	@ResponseBody
 	public String findid(String name,String email,Model model) {
 		
-		String id = urepo.findid(name,email);
-		model.addAttribute("id", id);
-		return "user/login";
+		Optional<User> user = urepo.findByNameAndEmail(name, email);
+		if(user.isEmpty()) {
+			return "입력하신 정보로 가입 된 회원 아이디는 존재하지 않습니다.";
+		}else {
+			return user.get().getId();
+		}
+		 
 	}
 	
 

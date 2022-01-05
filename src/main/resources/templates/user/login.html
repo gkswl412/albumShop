@@ -128,6 +128,7 @@ color: red;
          <label>이메일</label>
             <input type="text"
 						class="form-control" id="email" name="email" value="" >
+	
       </div>
 
       <!-- Modal footer -->
@@ -146,89 +147,28 @@ color: red;
 
 <th:block layout:fragment="script">
 <script>
-
-
-
-var arrInput = [false,false];
-
-function inputCheck(){
-	var ok=true;
+$("#check").click(function(){
 	var email = $('#email').val();	
-	var name = $('#name').val();	
-	
-	if(email=="" || name=="") {
-	
-		arrInput[0] = false;
-	}else{
-	
-		arrInput[0] = true;
-	} 
-	
-if(arrInput.every(aa=>aa==true)){
-	alert("[[${id}]]")
-	
-	
-}else{
-	alert("빈칸이 있거나 정보가 일치하지 않습니다.")
-
-}
-}
-
-
-$("#check").click(function(){
-	var email = $('#email').val();		
-	var data = {"email" : email};	
+	var name = $('#name').val();
+	var data = {"email" : email, "name" : name};	
 	
 		$.ajax({
 			type : "post",
-			url : "/user/emailCheck",
+			url : "/findid",
 			data : data,
 			success : function(result){
-				//console.log(result);
-				//alert(result);
-			 if(result != 'fail'){				
-					arrInput[1] = false;
-				
-				} else {
-					
-					arrInput[1] = true;
-				
+				alert("아이디 찾기가 완료했습니다.\n\n회원의 아이디: " + result);
 						
-					}
-					
-				}
-				})
+				
+				 $("#myModal").modal("hide");
+				 $("#username").val(result);
+				 
+				} 
 	
 	});
 
 
-$("#check").click(function(){
-	var name = $('#name').val();		
-	var data = {"name" : name};	
-	
-		$.ajax({
-			type : "post",
-			url : "/user/nameCheck",
-			data : data,
-			success : function(result){
-				//console.log(result);
-				//alert(result);
-		     if(result != 'fail'){
-					arrInput[0] = false;
-				} else {
-					
-					arrInput[0] = true;
-				
-					
-				}
-				
-				
-				inputCheck();
-				}
-		})	
-	});
-
-
+});
 
 
 
