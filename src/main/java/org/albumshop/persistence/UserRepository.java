@@ -8,13 +8,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+
+
 public interface UserRepository extends CrudRepository<User, String>{
 
 	
 	Optional<User> findByNickName(String nickName);
+	Optional<User> findByName(String name);
 	Optional<User> findByEmail(String email);
 	Optional<User> findByPhone(String phone);
 	Optional<User> findById(String id);
+	
+	
+	  @Query("select u.id from User u where u.name=?1 and u.email=?2")
+	   String findid(String name , String email);
+	
+	
+	
+	
     Page<User> findAll(Pageable paging);
 
     void deleteById(String s);

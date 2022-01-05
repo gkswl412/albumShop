@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/commonLayout}">
+<head>
+<th:block layout:fragment="style">
+<style>
+html {
+    position: relative;
+    min-height: 100%;
+    margin: 0;
+} 
+body {
+    min-height: 100%;
+}
+
+img {
+	text-align: center;
+	display : block;
+     margin : auto;
+}
+
+
+
+
+#content{
+     margin-bottom: 10%;
+	margin-top: 5%;
+	margin-left: 30%;
+	margin-right: 30%; 
+	
+}
+
+h3{
+color: red;
+}
+
+
+
+</style>
+</th:block>
+
+<title>로그인</title>
+<meta charset="utf-8" />
+</head>
+<body>
+	<div class="panel panel-default" layout:fragment="content">
+	 <div id="content">
+		<div class="panel-body">
+			<h2>LOGIN</h2>
+			
+			 
+			<div th:if="${param.error != null}">
+			    <h3>아이디 또는 비밀번호가 틀립니다.</h3>
+			    <h2 th:value="${param.error}"></h2>
+			</div>
+			<div th:if="${param.logout!= null}">
+			    <h2>로그아웃됨</h2>    
+			</div>
+			 
+			 
+	<form class="form-horizontal" method="post">
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="username">ID:</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="username" name="username" value="" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="password">Password:</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="password" name="password" value="" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+     <br> 
+     <div class="d-grid">
+
+     <button type="submit" class="btn btn-secondary">로그인</button>
+     </div>
+     <div class="d-grid">
+      <button type="button" class="btn btn-secondary" onClick="location.href='/user/join'">회원가입</button>
+      </div>
+      <br>
+       <a href="/oauth2/authorization/google"><img src="/images/icon/btn_google_signin_light_normal_web@2x.png" alt="" width="300"
+	 height="50"></a>
+       <a href="/oauth2/authorization/naver"><img src="/images/icon/btnG_official.png" alt="" width="300" height="50"></a>
+       <a href="/oauth2/authorization/kakao"><img src="/images/icon/kakao_login_large_narrow.png" alt="" width="300" height="50"></a>
+    </div>
+  </div>
+</form>		 
+			 
+			 <div th:if="${session.user!=null}">
+<input th:text="${session.user}">
+			 
+			 
+			</div>
+		</div>
+		</div>
+	</div>
+	
+	   
+        
+    
+</body>
+</html>
+
+

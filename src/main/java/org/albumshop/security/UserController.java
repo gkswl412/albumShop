@@ -1,5 +1,8 @@
 package org.albumshop.security;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.http.HttpSession;
 
 import org.albumshop.domain.User;
@@ -16,9 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 
+
 @Controller
 public class UserController {
-    
+      
 	
 	@Autowired
     UserRepository urepo;
@@ -130,4 +134,36 @@ public class UserController {
 			}	
 	
 }
+	
+	@RequestMapping(value = "/user/nameCheck", method = RequestMethod.POST)
+	@ResponseBody
+	 public String nameCheck (String name) throws Exception { 
+
+		User user = urepo.findByName(name).orElse(null);
+			if(user != null) {
+				
+				return "fail";	
+				 
+			} else {
+				
+				return "success";	
+				
+			}	
+	
+}
+	
+	@RequestMapping(value = "/findid", method = RequestMethod.GET)
+	public String findid(String name,String email,Model model) {
+		
+		String id = urepo.findid(name,email);
+		model.addAttribute("id", id);
+		return "user/login";
+	}
+	
+
+		
+	
+	
+	
+	
 	}

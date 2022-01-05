@@ -36,7 +36,15 @@ h3{
 color: red;
 }
 
+.emailCheck_1 {
+	color: red;
+	display: none;
+}
 
+.emailCheck_2 {
+	color: red;
+	display: none;
+}
 
 </style>
 </th:block>
@@ -80,9 +88,6 @@ color: red;
 
      <button type="submit" class="btn btn-secondary">로그인</button>
      </div>
-     <div class="d-grid">
-      <button type="button" class="btn btn-secondary" onClick="location.href='/user/join'">회원가입</button>
-      </div>
       <br>
        <a href="/oauth2/authorization/google"><img src="/images/icon/btn_google_signin_light_normal_web@2x.png" alt="" width="300"
 	 height="50"></a>
@@ -90,20 +95,147 @@ color: red;
        <a href="/oauth2/authorization/kakao"><img src="/images/icon/kakao_login_large_narrow.png" alt="" width="300" height="50"></a>
     </div>
   </div>
+  <br>
+                      <button type="button" class="btn btn-link" 
+                      data-bs-toggle="modal" data-bs-target="#myModal"
+                       >아이디 찾기</button>
+                        /
+               <button type="button" class="btn btn-link" onclick="location.href='/#'">비밀번호 찾기</button>
+                        /
+           <button type="button" class="btn btn-link" onclick="location.href='/user/join'">회원가입</button>
+                   
 </form>		 
+			
+			
 			 
-			 <div th:if="${session.user!=null}">
-<input th:text="${session.user}">
-			 
-			 
+		<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">아이디 찾기</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+       
+		<label>이름</label>
+            <input type="text"
+						class="form-control" id="name" name="name" value="" >										
+         <label>이메일</label>
+            <input type="text"
+						class="form-control" id="email" name="email" value="" >
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"
+						data-dismiss="modal" id="check">확인</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div> 
 			</div>
 		</div>
 		</div>
-	</div>
+
+<th:block layout:fragment="script">
+<script>
+
+
+
+var arrInput = [false,false];
+
+function inputCheck(){
+	var ok=true;
+	var email = $('#email').val();	
+	var name = $('#name').val();	
 	
+	if(email=="" || name=="") {
+	
+		arrInput[0] = false;
+	}else{
+	
+		arrInput[0] = true;
+	} 
+	
+if(arrInput.every(aa=>aa==true)){
+	alert("[[${id}]]")
+	
+	
+}else{
+	alert("빈칸이 있거나 정보가 일치하지 않습니다.")
+
+}
+}
+
+
+$("#check").click(function(){
+	var email = $('#email').val();		
+	var data = {"email" : email};	
+	
+		$.ajax({
+			type : "post",
+			url : "/user/emailCheck",
+			data : data,
+			success : function(result){
+				//console.log(result);
+				//alert(result);
+			 if(result != 'fail'){				
+					arrInput[1] = false;
+				
+				} else {
+					
+					arrInput[1] = true;
+				
+						
+					}
+					
+				}
+				})
+	
+	});
+
+
+$("#check").click(function(){
+	var name = $('#name').val();		
+	var data = {"name" : name};	
+	
+		$.ajax({
+			type : "post",
+			url : "/user/nameCheck",
+			data : data,
+			success : function(result){
+				//console.log(result);
+				//alert(result);
+		     if(result != 'fail'){
+					arrInput[0] = false;
+				} else {
+					
+					arrInput[0] = true;
+				
+					
+				}
+				
+				
+				inputCheck();
+				}
+		})	
+	});
+
+
+
+
+
+</script>	
 	   
-        
-    
+       
+</th:block>
 </body>
 </html>
 
