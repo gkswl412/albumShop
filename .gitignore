@@ -34,3 +34,4 @@ build/
 
 ### oauth2 ###
 application-oauth.properties
+application-oauth.properties.text
