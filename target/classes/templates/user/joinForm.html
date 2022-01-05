@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/commonLayout}">
+<head>
+<title>회원가입</title>
+<meta charset="utf-8" />
+<th:block layout:fragment="style">
+	<style>
+.emailCheck_1 {
+	color: green;
+	display: none;
+}
+
+.emailCheck_2 {
+	color: red;
+	display: none;
+}
+
+.id_input_re_1 {
+	color: green;
+	display: none;
+}
+
+.id_input_re_2 {
+	color: red;
+	display: none;
+}
+
+.nickCheck_1 {
+	color: green;
+	display: none;
+}
+
+.nickCheck_2 {
+	color: red;
+	display: none;
+}
+
+h2 {
+	text-align: center
+}
+
+html {
+	position: relative;
+	min-height: 100%;
+	margin: 0;
+}
+
+body {
+	min-height: 100%;
+}
+
+#content {
+	/* margin-bottom: 100px;
+	margin-top: 50px;
+	margin-left: 450px;
+	margin-right: 450px; */
+	
+    margin-bottom: 10%;
+	margin-top: 5%;
+	margin-left: 30%;
+	margin-right: 30%; 
+	
+	
+	
+}
+</style>
+</th:block>
+
+
+</head>
+<body>
+	<div class="panel-body" layout:fragment="content">
+		<div id="content">
+
+			<h2>회원가입</h2>
+			<form method="post" action="joinProc" id="join">
+
+				<div class="form-group">
+					<label for="id">아이디</label> <input type="text" class="form-control"
+						id="id" name="id" value="" placeholder="영문,한글,숫자 조합 15자리 이내.." maxlength="15"  required> <span
+						class="id_input_re_1">사용 가능한 아이디입니다.</span> <span
+						class="id_input_re_2">아이디가 이미 존재합니다.</span>
+				</div>
+
+				<div class="form-group">
+					<label for="pass">비밀번호</label> <input type="text"
+						class="form-control" id="pass" name="pass" value="" placeholder="영문,한글,숫자 조합 15자리 이내.." maxlength="15" required >
+				</div>
+
+				<div class="form-group">
+					<label for="pass2">비밀번호 재확인</label> <input type="text"
+						class="form-control" id="pass2" name="pass2"  maxlength="15" required>
+				</div>
+
+
+				<div class="form-group">
+					<label for="name">이름</label> <input type="text"
+						class="form-control" id="name" name="name" value="" maxlength="5" required>
+				</div>
+				<div class="form-group">
+					<label for="phone">전화번호</label> <input type="text"
+						class="form-control" id="phone" name="phone" value="" required  maxlength="13"> 
+				</div>
+				<div class="form-group">
+					<label for="address">주소</label><br> <input class="form-control"
+						style="width: 40%; display: inline;" placeholder="우편번호"
+						name="address" id="addr1" type="text" value="" readonly="readonly">
+					<button type="button" class="btn btn-primary"
+						onclick="execution_daum_address()">
+						<i class="fa fa-search"></i> 우편번호 찾기
+					</button>
+				</div>
+				<div class="form-group">
+					<input class="form-control" style="top: 5px;" placeholder="도로명 주소"
+						name="address" id="addr2" type="text" value="" readonly="readonly" />
+				</div>
+				<div class="form-group">
+					<input class="form-control" placeholder="상세주소" name="address"
+						id="addr3" type="text" value=""/>
+				</div>
+
+				<div class="form-group">
+					<label for="email">이메일</label> <input type="text"
+						class="form-control" id="email" name="email" value=""> <span
+						class="emailCheck_1">가입 가능한 이메일입니다.</span> <span
+						class="emailCheck_2">이미 가입한 이메일입니다.</span>
+				</div>
+
+				<div class="form-group">
+					<label for="birth">생년월일</label> <input type="date"
+						class="form-control" id="birth" name="birth" value="" required
+						onchange="inputCheck();">
+				</div>
+				<div class="form-group">
+					<label for="gender">성별</label> <select class="form-select"
+						id="gender" name="gender">
+						<option selected>남자</option>
+						<option>여자</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="nickName">닉네임</label> <input type="text"
+						class="form-control" id="nickName" name="nickName" value="" maxlength="15"
+						required> <span class="nickCheck_1">사용 가능한 닉네임입니다.</span>
+					<span class="nickCheck_2">이미 존재하는 닉네임입니다.</span>
+				</div>
+
+				<label for="grade"></label> <input type="hidden" id="grade"
+					name="grade" value="Bronze" /> <label for="score"></label> <input
+					type="hidden" id="score" name="score" value="0" /> <input
+					type="hidden" name="urole" value="USER"/> 
+					<div class="d-grid gap-3">
+				<button type="submit" class="btn btn-primary btn-block" id="btn">가입하기</button>
+                 </div>
+			</form>
+
+		</div>
+
+	</div>
+
+<th:block layout:fragment="script">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>	
+<script>
+
+
+
+$('#phone').on("propertychange change keyup paste input", function() { $(this).val( $(this).val().replace(/[^0-9]/g, "").replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/,"$1-$2-$3").replace("--", "-") ); });
+
+
+
+
+
+/* 다음 주소 연동 */
+function execution_daum_address(){
+    
+	 new daum.Postcode({
+	        oncomplete: function(data) {
+	        	// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+ 
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+ 
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 주소변수 문자열과 참고항목 문자열 합치기
+                    addr += extraAddr;
+                
+                } else {
+                    document.getElementById("sample6_extraAddress").value = '';
+                }
+ 
+                $("#addr1").val(data.zonecode);
+                //$("[name=memberAddr1]").val(data.zonecode);    // 대체가능
+                $("#addr2").val(addr);
+                //$("[name=memberAddr2]").val(addr);            // 대체가능
+                // 커서를 상세주소 필드로 이동한다.
+                // 상세주소 입력란 disabled 속성 변경 및 커서를 상세주소 필드로 이동한다.
+                $("#addr3").attr("readonly",false);
+                 $("#addr3").focus();
+      
+   
+	            
+	 
+	        }
+	    }).open();    
+	
+	
+	
+}
+
+
+
+
+
+
+
+
+var arrInput = [false,false,false,false];
+
+function inputCheck(){
+	var ok=true;
+	var birth = $("#birth").val();
+	if(birth=="") {
+		arrInput[2] = false;
+	}else{
+		arrInput[2] = true;
+	}
+ 
+	 
+	if(arrInput.every(aa=>aa==true)){
+		$('#btn').removeAttr("disabled");
+	}else{
+		$('#btn').attr("disabled","disabled");
+	}
+}
+
+
+$('#email').on("propertychange change keyup paste input", function(){
+
+	var email = $('#email').val();		
+	var data = {"email" : email};			
+	$.ajax({
+		type : "post",
+		url : "/user/emailCheck",
+		data : data,
+		success : function(result){
+			console.log(result);
+			//alert(result);
+			if(result != 'fail'){
+				$('.emailCheck_1').css("display","inline-block");
+				$('.emailCheck_2').css("display", "none");
+				//$('#btn').removeAttr("disabled");
+				arrInput[3] = true;
+				
+			} else {
+				$('.emailCheck_2').css("display","inline-block");
+				$('.emailCheck_1').css("display", "none");		
+				//$('#btn').attr("disabled","disabled");
+				arrInput[3] = false;
+				
+				
+				
+				
+			}
+			inputCheck();
+			
+		}
+	}); 	
+});
+
+
+$("#join").submit(function(){
+	 var pwd1 = $("#pass").val();
+	    var pwd2 = $("#pass2").val();
+	    
+	    if (pwd1 != pwd2) {
+	       	 alert("비밀번호가 일치하지 않습니다.")
+	         	return false;
+	        } else {
+	        	 alert("회원가입에 성공하였습니다!.")
+	        }
+});
+	
+
+$('#nickName').on("propertychange change keyup paste input", function(){
+
+	var nickName = $('#nickName').val();		
+	var data = {"nickName" : nickName};			
+	$.ajax({
+		type : "post",
+		url : "/user/nickCheck",
+		data : data,
+		success : function(result){
+			console.log(result);
+			//alert(result);
+			if(result != 'fail'){
+				$('.nickCheck_1').css("display","inline-block");
+				$('.nickCheck_2').css("display", "none");
+				//$('#btn').removeAttr("disabled");
+				arrInput[1] = true;
+				
+			} else {
+				$('.nickCheck_2').css("display","inline-block");
+				$('.nickCheck_1').css("display", "none");		
+				//$('#btn').attr("disabled","disabled");
+				arrInput[1] = false;
+				
+				
+				
+				
+			}
+			inputCheck();
+			
+		}
+	}); 	
+});
+
+
+
+$('#id').on("propertychange change keyup paste input", function(){
+
+	var id = $('#id').val();		
+	var data = {"id" : id};			
+
+	$.ajax({
+		type : "post",
+		url : "/user/IdCheck",
+		data : data,
+		success : function(result){
+			console.log(result);
+			if(result != 'fail'){
+				$('.id_input_re_1').css("display","inline-block");
+				$('.id_input_re_2').css("display", "none");
+				arrInput[0] = true;
+				
+			} else {
+				$('.id_input_re_2').css("display","inline-block");
+				$('.id_input_re_1').css("display", "none");		
+				arrInput[0] = false;
+		
+			}
+			inputCheck();
+			
+		}
+	}); 	
+});
+
+
+</script>
+	</th:block>
+</body>
+</html>

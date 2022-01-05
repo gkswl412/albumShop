@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/commonLayout}">
+<head>
+<meta charset="UTF-8">
+<title>SearchResult</title>
+<th:block layout:frgment="style">
+</th:block>
+</head>
+<body>
+	<div class="container mt-5" layout:fragment="content">
+		<h1>"[[${searchType}]]의 [[${searchKeyword}]]" 검색 결과</h1>
+		<div th:if="${Artist}!=null">
+		<div th:if="${#lists.size(Artist)}!=0">
+		<h4>가수검색</h4>
+		<table class="table table-striped table-bordered table-hover" >
+			<tr>
+				<th>Photo</th>
+				<th>Name</th>
+				<th>Gender</th>
+				<th>BirthDay</th>
+				<th>DebutDate</th>
+				<th>GroupName</th>
+			</tr>
+			<tr th:each="artist:${Artist}">
+				<th width="80px" height="80px">
+				<a class="artistdetail" th:href=${artist.id}>
+				<img alt="${artist.photo}" th:src="@{${artist.photo}}" width="80px" height="80px">
+				</a>
+				</th>
+				<th><a class="artistdetail" th:href=${artist.id} >[[${artist.name}]]</a></th>
+				<th>[[${artist.gender}]]</th>
+				<th>[[${artist.birth}]]</th>
+				<th>[[${artist.debutDate}]]</th>
+				<span th:if="${artist.artistGroup}!=null">
+				<th th:each="artistgroup:${artist.artistGroup}">[[${artistgroup.name}]]</th>
+				</span>
+				<span th:if="${artist.artistGroup}==null">
+				<th>그룹이 아닙니다.</th>
+				</span>
+			</tr>
+		</table>
+		</div>
+		</div>
+		<div th:if="${ArtistGroup}!=null">
+		<div th:if="${#lists.size(ArtistGroup)}!=0">
+		<hr>
+		<h4>그룹검색</h4>
+		<table class="table table-striped table-bordered table-hover" >
+			<tr>
+				<th>GroupPhoto</th>
+				<th>Name</th>
+				<th>DebutDate</th>
+				<th>Artist</th>
+			</tr>
+			<tr th:each="artistg:${ArtistGroup}">
+				<th width="80px" height="80px">
+				<a class="artistgdetail" th:href=${artistg.id}>
+				<img alt="${artistg.photo}" th:src="@{${artistg.photo}}" width="80px" height="80px">
+				</a>
+				</th>
+				<th>
+				<a class="artistgdetail" th:href=${artistg.id} >[[${artistg.name}]]</a>
+				</th>
+				<th>[[${artistg.debutDate}]]</th>
+				<th>
+				<span th:each="aa:${artistg.artist}">
+				<a class="artistdetail" th:href=${aa.id} >[[${aa.name}]]</a>   
+				</span>
+				</th>
+			</tr>
+		</table>
+		</div>
+		</div>
+		<div th:if="${Album}!=null">
+		<div th:if="${#lists.size(Album)}!=0">
+		<hr>
+		<h4>앨범검색</h4>
+		<table class="table table-striped table-bordered table-hover" >
+			<tr>
+				<th>AlbumCover</th>
+				<th>AlbumTitle</th>
+				<th>Genre</th>
+				<th>AlbumArtist</th>
+				<th>Description</th>
+				<th>ReleaseDate</th>
+			</tr>
+			<tr th:each="album:${Album}">
+				<th width="80px" height="80px">
+				<a class="detailButton" th:href="${album.id}">
+				<img alt="${album.cover}" th:src="@{${album.cover}}" width="80px" height="80px">
+				</a>
+				</th>
+				<th>
+				<a class="detailButton" th:href="${album.id}">[[${album.title}]]</a>
+				</th>
+				<th>
+				[[${album.genre}]]
+				</th>
+				<th>
+				<span th:each="albuma:${album.albumartist}"> 
+				<span th:if=${albuma.artist!=null}>
+				<a class="artistdetail" th:href=${albuma.artist.id}>[[${albuma.artist.name}]]</a><br>
+				</span> 
+				<span th:if=${albuma.artistGroup!=null}>
+				<a class="artistgdetail" th:href=${albuma.artistGroup.id}>
+				[[${albuma.artistGroup.name}]]
+				</a>
+				</span>
+				</span>
+				</th>
+				<th>[[${album.description}]]</th>
+				<th>[[${album.releaseDate}]]</th>
+			</tr>
+		</table>
+		</div>
+		</div>
+		<div th:if="${Song}!=null">
+		<div th:if="${#lists.size(Song)}!=0">
+		<hr>
+		<h4>곡 검색</h4>
+		<table class="table table-striped table-bordered table-hover" >
+			<tr>
+				<th width="120px">SongTitle</th>
+				<th width="50px">PlayTime</th>
+				<th width="110px">AlbumTitle</th>
+				<th width="110px">Artist</th>
+				<th>Lyrics</th>
+			</tr>
+			<tr th:each="song:${Song}">
+				<th>[[${song.title}]]</th>
+				<th>
+				<span th:text="${song.playTime/60} + ':' + ${song.playTime%60}"></span>
+				</th>
+				<th>
+				<a class="detailButton" th:href="${song.album.id}">
+				<img alt="${song.album.cover}"th:src="@{${song.album.cover}}"width="80px" height="80px">
+				</a>&nbsp;
+				<a class="detailButton" th:href="${song.album.id}">
+				[[${song.album.title}]]
+				</a>
+				</th>
+				<th>
+				<span th:each="albumartist:${song.album.albumartist}">
+					<span th:if=${albumartist.artist!=null}>
+					<a th:href="@{/ArtistDetail(Id=${albumartist.artist.Id})}">
+					[[${albumartist.artist.name}]]
+					</a>
+					<br>
+					</span>
+					<span th:if=${albumartist.artistGroup!=null}>
+					<a th:href="@{/ArtistGroupDetail(Id=${albumartist.artistGroup.Id})}">
+					[[${albumartist.artistGroup.name}]]
+					</a>
+					</span>
+				</span>
+				</th>
+				<th class="a">
+				[[${song.lyrics}]]
+				</th>
+			</tr>
+		</table>
+		<!-- Form : goto Detail Page -->
+		<form id="artistdetail" action="ArtistDetail" method="get"></form>
+		<form id="artistgdetail" action="ArtistGroupDetail" method="get"></form>
+		<form id="gotoDetail" th:action="@{albumdetail}" method="get"></form>
+	</div>
+	</div>
+	</div>
+	<th:block layout:fragment="script">
+		<script>
+		
+		  $(function(){		  
+			  var searchType = "[[${searchType}]]";
+			  var a = "[[${song}]]";
+			  console.log(a);
+			  if(searchType == "Select All"){
+					$('#SelectAll').attr('selected','selected');
+				}else if(searchType=="Artist"){
+					$('#Artist').attr('selected','selected');
+				}else if(searchType=="ArtistGroup"){
+					$('#ArtistGroup').attr('selected','selected');
+				}else if(searchType=="AlbumTitle"){
+					$('#AlbumTitle').attr('selected','selected');
+				}else if(searchType=="SongTitle"){
+					$('#SongTitle').attr('selected','selected');
+				}else if(searchType=="Genre"){
+					$('#Genre').attr('selected','selected');
+				}else if(searchType=="Lyrics"){
+					$('#Lyrics').attr('selected','selected');
+					$(document).ready(function(){
+						fnKeyWordHighlights('.a',"[[${searchKeyword}]]");
+						});
+					function fnKeyWordHighlights(obj,keyword){
+			            $(obj).each(function(){ 
+			                $(this).html($(this).html().replace(eval("/"+keyword+"/gi"),
+			                		"<span style='background-color:yellow; color:blue;font-weight:bold;'>"+keyword+"</span>")
+			                		);
+			            });
+			        }
+				}      
+			  
+			  var form1 = $("#artistdetail");
+			  var form2 = $("#artistgdetail");
+			  var form3 = $("#gotoDetail");
+			  
+				$(".artistdetail").click(function(e){
+					var artistId = $(this).attr("[[href]]");
+					e.preventDefault();
+					form1.find($("input")).remove();
+					form1.append("<input type='hidden' name='Id' value='"+artistId+"'> ");
+					form1.submit();
+					});
+			  
+				$(".artistgdetail").click(function(e){
+					var artistgId = $(this).attr("[[href]]");
+					e.preventDefault();
+					form2.find($("input")).remove();
+					form2.append("<input type='hidden' name='Id' value='"+artistgId+"'> ");
+					form2.submit();
+					});
+				
+				$(".detailButton").click(function(e){
+					var albumId = $(this).attr("href");
+					e.preventDefault();
+					form3.find($("input")).remove();
+					form3.append("<input type='hidden' name='albumId' value='" + albumId + "'>" );
+					form3.submit();
+					});
+			});	 
+		</script>
+	</th:block>
+</body>
+</html>

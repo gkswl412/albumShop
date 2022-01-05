@@ -1,0 +1,46 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+#a3{text-align:center;}
+</style>
+</head>
+<body>
+	<h5>[[${session.user.name}]]'S Album List</h5>
+	<table class="table table-hover">
+		<tr>
+			<th>MyListTitle</th>
+			<th></th>
+		</tr>
+		<tr th:each="list:${albumlist}">
+			<td><button class="mylist">[[${list[1]}]]</button></td>
+			<td><button class="mylistdelete" th:value="${list[0]}">삭제</button></td>
+		</tr>
+		<tr>
+		<td id="a3" colspan="2"><button id="a4" >나의 앨범리스트 만들기</button></td>
+		</tr>
+	</table>
+	
+	<div id="a2"></div>
+	<div id="a5"></div>
+	<script type="text/javascript">
+	$(document).ready(function(e) {
+		$(".mylist").on('click', function() {
+			$("#a2").toggle();
+			var id = '[[${session.user.id}]]';
+			var mylisttitle = $(this).text();
+			jsList.myalbumlist(id, mylisttitle);
+		});
+		$("#a4").on('click',function(){
+			$("#a5").toggle();
+			var id = '[[${session.user.id}]]';
+			jsList.listmakeform(id);
+		});
+		$(".mylistdelete").on('click', function() {
+			var id = $(this).val();
+			jsList.mylistdelete(id);
+		});
+	});
+	</script>
+</body>
+</html>
