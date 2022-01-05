@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators.IntSequenceGenerator;
 
 import lombok.AllArgsConstructor;
@@ -30,7 +31,9 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(generator = IntSequenceGenerator.class, property = "user")
+/*
+ * @JsonIdentityInfo(generator = IntSequenceGenerator.class, property = "user")
+ */
 public class MyList {
 	
 	@Id
@@ -39,6 +42,7 @@ public class MyList {
 	@ManyToOne
 	@NotNull
 	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JsonIgnore
 	private User user;
 	@NotNull
 	private String myListTitle;
