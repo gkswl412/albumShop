@@ -92,7 +92,7 @@ body {
 
 				<div class="form-group">
 					<label for="pass2">비밀번호 재확인</label> <input type="text"
-						class="form-control" id="pass2" name="pass2" placeholder="영문,한글,숫자 조합 15자리 이내.." maxlength="15" required>
+						class="form-control" id="pass2" name="pass2"  maxlength="15" required>
 				</div>
 
 
@@ -293,7 +293,7 @@ $('#email').on("propertychange change keyup paste input", function(){
 });
 
 
-$("form").submit(function(){
+$("#join").submit(function(){
 	 var pwd1 = $("#pass").val();
 	    var pwd2 = $("#pass2").val();
 	    
@@ -352,17 +352,14 @@ $('#id').on("propertychange change keyup paste input", function(){
 		data : data,
 		success : function(result){
 			console.log(result);
-			//alert(result);
 			if(result != 'fail'){
 				$('.id_input_re_1').css("display","inline-block");
 				$('.id_input_re_2').css("display", "none");
-				//$('#btn').removeAttr("disabled");
 				arrInput[0] = true;
 				
 			} else {
 				$('.id_input_re_2').css("display","inline-block");
 				$('.id_input_re_1').css("display", "none");		
-				//$('#btn').attr("disabled","disabled");
 				arrInput[0] = false;
 		
 			}

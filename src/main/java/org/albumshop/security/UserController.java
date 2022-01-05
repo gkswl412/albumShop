@@ -1,5 +1,8 @@
 package org.albumshop.security;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.http.HttpSession;
 
 import org.albumshop.domain.User;
@@ -16,9 +19,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 
+
+
 @Controller
 public class UserController {
-    
+      
 	
 	@Autowired
     UserRepository urepo;
@@ -130,4 +135,26 @@ public class UserController {
 			}	
 	
 }
+	
+
+	
+	@RequestMapping(value = "/findid", method = RequestMethod.POST)
+	@ResponseBody
+	public String findid(String name,String email,Model model) {
+		
+		Optional<User> user = urepo.findByNameAndEmail(name, email);
+		if(user.isEmpty()) {
+			return "입력하신 정보로 가입 된 회원 아이디는 존재하지 않습니다.";
+		}else {
+			return user.get().getId();
+		}
+		 
+	}
+	
+
+		
+	
+	
+	
+	
 	}
