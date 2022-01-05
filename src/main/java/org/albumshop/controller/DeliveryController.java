@@ -54,4 +54,16 @@ public class DeliveryController {
         model.addAttribute("cartlist", cartDetailList);
         return "delivery/orderPage";
     }
+
+    @PostMapping(value = "/delivery/order/pay")
+    public String orderSuccess(Model model) {
+
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) {
+            return "redirect:user/login";
+        }
+
+        return "delivery/orderSuccess";
+    }
 }
