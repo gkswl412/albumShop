@@ -136,22 +136,7 @@ public class UserController {
 	
 }
 	
-	@RequestMapping(value = "/user/nameCheck", method = RequestMethod.POST)
-	@ResponseBody
-	 public String nameCheck (String name) throws Exception { 
 
-		User user = urepo.findByName(name).orElse(null);
-			if(user != null) {
-				
-				return "fail";	
-				 
-			} else {
-				
-				return "success";	
-				
-			}	
-	
-}
 	
 	@RequestMapping(value = "/findid", method = RequestMethod.POST)
 	@ResponseBody
