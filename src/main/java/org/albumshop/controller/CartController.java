@@ -60,6 +60,21 @@ public class CartController {
 
     }
 
+/*    @RequestMapping(value = "/cart/order/{cartId}")
+    public String orderAll(Model model) {
+        User user = (User) session.getAttribute("user");
+
+        List<CartDetailVO> cartDetailList = null;
+
+        if (user != null) {
+            cartDetailList = cartDetailService.getCartList(user);
+        }
+
+        model.addAttribute("cartlist", cartDetailList);
+
+        return "delivery/order";
+    }*/
+
     @PatchMapping(value = "/cart/insert/{cartId}/{albumId}")
     public @ResponseBody ResponseEntity insertCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, String userId) {
         Cart cart = cartRepository.findById(cartId).get();
@@ -76,11 +91,11 @@ public class CartController {
 
     @RequestMapping(value = "/cart/update/{cartId}/{albumId}")
     public @ResponseBody ResponseEntity updateCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, int count) {
-        if (count <= 0) {
+/*        if (count <= 0) {
             return new ResponseEntity<String>("최소 1개 이상 담아주세요.", HttpStatus.BAD_REQUEST);
-        } else if (!cartService.validateCartItem(cartId, albumId, "kosta0"/*principal.getName()*/)) {
+        } else if (!cartService.validateCartItem(cartId, albumId, "kosta0"*//*principal.getName()*//*)) {
             return new ResponseEntity<String>("수정 권한이 없습니다.", HttpStatus.FORBIDDEN);
-        }
+        }*/
 
         cartService.updateCartDetailCount(cartId, albumId, count);
         return new ResponseEntity<Long>(cartId, HttpStatus.OK);
@@ -88,10 +103,6 @@ public class CartController {
 
     @RequestMapping(value = "/cart/delete/{cartId}/{albumId}", method = RequestMethod.DELETE)
     public @ResponseBody ResponseEntity deleteCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId) {
-/*        if(!cartService.validateCartItem(cartId, albumId, session.getId())) {
-            return new ResponseEntity<String>("삭제 권한이 없습니다.", HttpStatus.FORBIDDEN);
-        }*/
-
         cartService.deleteCartDetail(cartId, albumId);
         return new ResponseEntity<Long>(cartId, HttpStatus.OK);
     }

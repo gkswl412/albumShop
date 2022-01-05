@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/commonLayout}">
+<head>
+    <meta charset="UTF-8">
+    <title>주문하기</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/js/common.js"></script>
+    <th:block layout:frgment="style">
+        <style>
+            a{text-decoration:none}
+        </style>
+    </th:block>
+    <th:block layout:frgment="script">
+        <script th:inline="javascript">
+            /*var cartId;
+            var totalOrderPrice = 0;
+            var totalMileage = 0;
+            $(function () {
+                cartId = Number.parseInt($(".cartId").val());
+                console.log("cartId" + cartId);
+                getOrderTotalPrice();
+                getMileage();
+            });
+
+            function getOrderTotalPrice() {
+                var orderTotalPrice = 0;
+                //var deliveryFeeString = $("#deliveryFee").text();
+                //var deliveryFee = Number(deliveryFeeString.substring(0, deliveryFeeString.length-1));
+                $("#total_price").each(function (){
+                    var checkedItemId = $(this).val();
+                    var price = $('#price_' + checkedItemId).attr("data-price");
+                    var quantity = $('#quantity_' + checkedItemId).val();
+
+                    orderTotalPrice += price * quantity;
+                    totalOrderPrice = orderTotalPrice;
+                    console.log("totalOrderPrice : " + totalOrderPrice);
+                });
+                $("#orderTotalPrice").html(orderTotalPrice + '원');
+                if (orderTotalPrice == 0) {
+                    $("#finalOrderTotalPrice").html(orderTotalPrice + '원');
+                } else {
+                    $("#finalOrderTotalPrice").html(orderTotalPrice + deliveryFee + '원');
+                }
+                getMileage();
+            };*/
+        </script>
+    </th:block>
+</head>
+<body>
+    <div class="container mt-5" layout:fragment="content">
+        <h1>주문하기</h1>
+        <p>[[${session.user.id}]]님의 결제 페이지입니다.</p>
+        <div th:if="${cartlist.size()} == 0">
+            <input type="hidden" th:value="0" class="cartId">
+        </div>
+        <div th:unless="${cartlist.size()} == 0">
+            <input type="hidden" th:value="${cartlist.get(0).getCartId()}" class="cartId">
+        </div>
+        <div>
+            <table class="table table-hover">
+                <tr>
+                    <th class="text-center" th:width="15px">#</th>
+                    <th class="text-center" th:width="80px">커버</th>
+                    <th class="text-center">앨범명</th>
+                    <th class="text-center" th:width="200px">아티스트</th>
+                    <th class="text-center" th:width="120px">단가</th>
+                    <th class="text-center" th:width="70px">수량</th>
+                    <th class="text-center" th:width="120px">합계</th>
+                </tr>
+
+                <div th:if="${cartlist.size()} == 0">
+                    <tr>
+                        <td colspan="7"><div id="listIsEmpty">장바구니가 비어있습니다.</div></td>
+                    </tr>
+                </div>
+                <div th:unless="${cartlist.size()} == 0">
+                    <tr th:each="cartDetail:${cartlist}">
+                        <td class="text-center align-middle" th:text="${cartlist.indexOf(cartDetail)+1}"></td>
+                        <td><a th:href="@{/albumdetail(albumId=${cartDetail.getAlbumId()})}" th:target="_blank"><img th:src="'../' + ${cartDetail.getCover()}" th:width="60px" th:height="60px" ></a></td>
+                        <td class="align-middle"><a th:href="@{/albumdetail(albumId=${cartDetail.getAlbumId()})}" th:target="_blank" th:text="${cartDetail.getAlbumTitle()}"></a></td>
+                        <td class="align-middle" th:text="${cartDetail.getArtistName()}"></td>
+                        <td class="align-middle text-right" th:id="'price_' + ${cartDetail.getAlbumId()}" th:data-price="${cartDetail.getPrice()}" th:text="${cartDetail.getPrice()} + '원'"></td>
+                        <td class="align-middle text-center" th:id="'quantity_' + ${cartDetail.getAlbumId()}" th:data-quantity="${cartDetail.getQuantity()}" th:text="${cartDetail.getQuantity()}"></td>
+                        <td class="align-middle text-right" th:id="'total_price_' + ${cartDetail.getAlbumId()}" th:data-price="${cartDetail.getQuantity()} * ${cartDetail.getPrice()}" th:text="${cartDetail.getQuantity()} * ${cartDetail.getPrice()} + '원'"></td>
+                    </tr>
+                </div>
+            </table>
+            <div>
+                <table class="table table-hover">
+                    <tr>
+                        <th>배송지</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="address" value="defaultaddress" checked> 사용자 정보에 등록된 주소
+                            <input type="radio" name="address" value="newaddress"> 새로운 배송지
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><input type="text"><input type="button" class="btn btn-default" value="우편번호 찾기"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" th:value="${session.user.getAddress()}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <table class="table table-hover">
+                    <tr>
+                        <th>결제수단</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="paymethod" value="creditcard" checked> 신용카드
+                            <input type="radio" name="paymethod" value="bank"> 무통장입금
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <table class="table table-hover">
+                    <tr>
+                        <th colspan="2">결제금액</th>
+                    </tr>
+                    <tr>
+                        <td>주문금액</td>
+                        <td>원</td>
+                    </tr>
+                    <tr>
+                        <td>배송비</td>
+                        <td>원</td>
+                    </tr>
+                    <tr>
+                        <td>결제금액</td>
+                        <td>원</td>
+                    </tr>
+                </table>
+            </div>
+            <div align="center">
+                <form action="/delivery/order/pay" method="post">
+                    <input type="button" class="btn btn-default btn-lg" value="뒤로가기">
+                    <input type="submit" class="btn btn-primary btn-lg" value="결제하기">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
