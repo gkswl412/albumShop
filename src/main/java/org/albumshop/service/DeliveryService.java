@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DeliveryDetailService {
+public class DeliveryService {
     @Autowired
     UserRepository userRepository;
     @Autowired

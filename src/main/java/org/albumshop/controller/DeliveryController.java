@@ -8,7 +8,7 @@ import org.albumshop.persistence.CartRepository;
 import org.albumshop.persistence.UserRepository;
 import org.albumshop.service.CartDetailService;
 import org.albumshop.service.CartService;
-import org.albumshop.service.DeliveryDetailService;
+import org.albumshop.service.DeliveryService;
 import org.albumshop.vo.CartDetailVO;
 import org.albumshop.vo.DeliveryDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class DeliveryController {
     CartDetailService cartDetailService;
 
     @Autowired
-    DeliveryDetailService deliveryDetailService;
+    DeliveryService deliveryService;
     @Autowired
     HttpSession session;
 
@@ -82,7 +82,7 @@ public class DeliveryController {
 
         String userId = user.getId();
 
-        List<DeliveryDetailVO> deliveryList = deliveryDetailService.getDeliveryList(userId);
+        List<DeliveryDetailVO> deliveryList = deliveryService.getDeliveryList(userId);
         model.addAttribute("deliverylist", deliveryList);
 
         return "delivery/list";

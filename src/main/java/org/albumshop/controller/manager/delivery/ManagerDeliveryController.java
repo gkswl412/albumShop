@@ -1,11 +1,9 @@
 package org.albumshop.controller.manager.delivery;
 
 
-import java.util.List;
 import lombok.extern.java.Log;
 import org.albumshop.domain.Delivery;
-import org.albumshop.domain.User;
-import org.albumshop.service.manager.DeliveryService;
+import org.albumshop.service.manager.Delivery1Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ManagerDeliveryController {
 
     @Autowired
-    DeliveryService deliveryService;
+    Delivery1Service delivery1Service;
 
     @GetMapping("/deliveryList")
     public void deliveryList(Model model){
@@ -29,7 +27,7 @@ public class ManagerDeliveryController {
 
     @GetMapping("/deliveryInfo")
     public void deliveryInfo(Long id, Model model){
-        Delivery delivery = deliveryService.readDelivery(1l);
+        Delivery delivery = delivery1Service.readDelivery(1l);
         model.addAttribute("delivery", delivery);
         log.info("DeliveryId called...");
     }
