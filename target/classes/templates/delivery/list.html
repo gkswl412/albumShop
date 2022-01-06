@@ -36,10 +36,10 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th class="text-center align-middle">주문번호</th>
-                        <th class="text-center align-middle">주문일시</th>
+                        <th class="text-center align-middle" th:width="80px">주문번호</th>
+                        <th class="text-center align-middle" th:width="120px">주문일시</th>
                         <th class="text-center align-middle">앨범명</th>
-                        <th class="text-center align-middle">배송상태</th>
+                        <th class="text-center align-middle" th:width="120px">배송상태</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@
                     </div>
                     <div th:unless="${deliverylist.size()} == 0">
                         <tr th:each="deliveryDetail:${deliverylist}">
-                            <td class="text-center align-middle" th:text="${deliveryDetail.deliveryId}"></td>
+                            <td class="text-center align-middle"><a th:href="@{/delivery/detail(deliveryId=${deliveryDetail.deliveryId})}" th:text="${deliveryDetail.deliveryId}"></a></td>
                             <td class="text-center align-middle" th:text="${deliveryDetail.deliveryRegDate}"></td>
                             <td class="text-center align-middle" th:text="${deliveryDetail.albumTitle}"></td>
                             <td class="text-center align-middle" th:text="${deliveryDetail.orderState}"></td>
