@@ -3,10 +3,12 @@ package org.albumshop.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.albumshop.domain.MyList;
@@ -14,6 +16,7 @@ import org.albumshop.domain.User;
 import org.albumshop.persistence.MyListRepository;
 import org.albumshop.persistence.ReviewRepository;
 import org.albumshop.persistence.UserRepository;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  
@@ -148,11 +152,31 @@ public class UserInfoController {
 		return "userInfo/MyPage";
 	}
 	
+	@PostMapping("/UserDeleteForm")
+	public String deleteform(Model model, String id) {
+		User user = uRepo.findById(id).get();
+		model.addAttribute("user", user);
+		return "/userInfo/WithDrawalPassCheck";
+	} 
+	
 	@PostMapping("/UserDelete")
-	public String delete(Model model, String id) {
-		
-		
-		return "redirect:/albumlist";
+	public String delete(HttpServletResponse response, Model model, String id, String pass) throws Exception {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		User user = uRepo.findById(id).get();
+		if(encoder.matches(pass, user.getPass()) == false) {
+			model.addAttribute("message", "비밀번호가 맞지 않습니다.");
+			return "/userInfo/WithDrawalPassCheck";
+		}else {
+			uRepo.deleteById(id);
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script language='javascript'>");
+			out.println("alert('이용해주셔서 감사합니다.'); location.href='/albumlist';");
+			out.println("</script>");
+			out.flush();
+			session.invalidate();
+			return "/albumlist";	
+		}
 	} 
 	
 	
@@ -180,27 +204,25 @@ public class UserInfoController {
 	
 	@GetMapping("/AlbumListMakeForm")
 	public String albumlistmakeform(Model model, String id) {
-		System.out.println(id);
 		User user = uRepo.findById(id).get();
 		model.addAttribute("user",user);
 		return "/userInfo/MakeMyListForm";
 	}
 	
 	@PostMapping("/AlbumListMake")
-	public String albumlistmake(Model model, String id, String titlename) {
-		System.out.println(id);
-		System.out.println(titlename);
+	@ResponseBody
+	public MyList albumlistmake(Model model, String id, String titlename) {
 		User user = uRepo.findById(id).get();
 		MyList mylist = MyList.builder().user(user).myListTitle(titlename).build();
 		mylistRepo.save(mylist);
-		return "redirect:/userInfo/MyPage"; 
+		return mylist; 
 	}
 	
 	@GetMapping("/MyListDelete")
-	public String mylistdelete(Model model, Long id) {
-		System.out.println(id);
+	@ResponseBody
+	public Long mylistdelete(Model model, Long id) {
 		mylistRepo.deleteById(id);
-		return "redirect:/userInfo/MyPage";
+		return id;
 	}
 	
 }
