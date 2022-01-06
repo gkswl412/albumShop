@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/manager/delivery/")
 @Log
 public class ManagerDeliveryController {
-/*
     @Autowired
     DeliveryService deliveryService;
 
     @GetMapping("/deliveryList")
     public void deliveryList(Model model){
-*/
-/*        List<Delivery> deliveryList = deliveryService.readAllDeliveries();
-        model.addAttribute("deliveryList", deliveryList);*//*
+        List<Delivery> deliveryList = deliveryService.readAllDeliveries();
+        model.addAttribute("deliveryList", deliveryList);
 
         log.info("DeliveryList called...");
     }
@@ -32,6 +30,5 @@ public class ManagerDeliveryController {
         model.addAttribute("delivery", delivery);
         log.info("DeliveryId called...");
     }
-*/
 
 }
