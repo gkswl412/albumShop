@@ -1,6 +1,9 @@
 package org.albumshop.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,9 +30,12 @@ public class MyListService {
 	@Autowired
 	HttpSession session;
 	
-	public List<MyList> getAllMyLists(){
+	public List<Object[]> getAllMyLists(Long albumId){
 		User user = (User) session.getAttribute("user");
-		return myListRepo.findByUser(user);
+		if(user==null) {
+			return new ArrayList<>();
+		}
+		return myListRepo.getAllMyList(albumId, user.getId());
 	}
 	
 	public MyList makeMyList(String myListTitle){

@@ -41,7 +41,7 @@ public class AlbumDetailController {
 		model.addAttribute("songs",songs);
 		
 		//마이리스트 정보 저장
-		List<MyList> myLists = myListService.getAllMyLists();
+		List<Object[]> myLists = myListService.getAllMyLists(albumId);
 		model.addAttribute("myLists",myLists);
 		return "albumDetail";
 	}
