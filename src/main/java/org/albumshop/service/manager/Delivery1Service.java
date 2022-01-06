@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class DeliveryService {
+public class Delivery1Service {
 
     @Autowired
     UserRepository userRepo;
