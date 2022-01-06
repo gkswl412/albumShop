@@ -8,7 +8,9 @@ import org.albumshop.persistence.CartRepository;
 import org.albumshop.persistence.UserRepository;
 import org.albumshop.service.CartDetailService;
 import org.albumshop.service.CartService;
+import org.albumshop.service.DeliveryDetailService;
 import org.albumshop.vo.CartDetailVO;
+import org.albumshop.vo.DeliveryDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +35,9 @@ public class DeliveryController {
     CartService cartService;
     @Autowired
     CartDetailService cartDetailService;
+
+    @Autowired
+    DeliveryDetailService deliveryDetailService;
     @Autowired
     HttpSession session;
 
@@ -65,5 +70,36 @@ public class DeliveryController {
         }
 
         return "delivery/orderSuccess";
+    }
+
+    @RequestMapping(value = "/delivery/list")
+    public String deliveryList(Model model) {
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) {
+            return "redirect:user/login";
+        }
+
+        String userId = user.getId();
+
+        List<DeliveryDetailVO> deliveryList = deliveryDetailService.getDeliveryList(userId);
+        model.addAttribute("deliverylist", deliveryList);
+
+        return "delivery/list";
+    }
+
+    @RequestMapping(value = "/delivery/list/{deliveryId}")
+    public String deliveryDetailList(Model model) {
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) {
+            return "redirect:user/login";
+        }
+
+        String userId = user.getId();
+
+
+
+        return "delivery/list/detail";
     }
 }
