@@ -16,7 +16,7 @@ public class MyListRestController {
 	@Autowired
 	MyListService myListService;
 	
-/*	@PostMapping("/insert-album/{albumId}/{myListId}")
+	@PostMapping("/insert-album/{albumId}/{myListId}")
 	public Album insertAlbum(@PathVariable Long albumId, @PathVariable Long myListId) {
 		return myListService.insertAlbum(albumId, myListId);
 	}
@@ -24,5 +24,5 @@ public class MyListRestController {
 	@DeleteMapping("/delete-album/{albumId}/{myListId}")
 	public Album deleteAlbum(@PathVariable Long albumId, @PathVariable Long myListId) {
 		return myListService.deleteAlbum(albumId, myListId);
-	}*/
+	}
 }
