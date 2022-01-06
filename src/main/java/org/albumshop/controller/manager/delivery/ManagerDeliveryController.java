@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Log
 public class ManagerDeliveryController {
 /*
-
     @Autowired
     DeliveryService deliveryService;
 
