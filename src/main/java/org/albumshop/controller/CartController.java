@@ -75,6 +75,27 @@ public class CartController {
         return "delivery/order";
     }*/
 
+    @PostMapping(value = "/cart/add/")
+    public String addCart(Model model) {
+        Long cartId = (Long) model.getAttribute("cartId");
+        Long albumId = (Long) model.getAttribute("albumId");
+        String userId = (String) model.getAttribute("userId");
+
+        Cart cart = cartRepository.findById(cartId).get();
+        if (cart == null) {
+            cart = cartService.createCart(userId);
+            cartId = cart.getId();
+        }
+        Album album = albumRepository.findById(albumId).get();
+
+        CartDetail cartDetail = CartDetail.createCartDetail(cart, album, 1);
+        cartService.addCart(cartDetail, userId);
+
+        return "cart/list";
+    }
+
+
+
     @PatchMapping(value = "/cart/insert/{cartId}/{albumId}")
     public @ResponseBody ResponseEntity insertCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, String userId) {
         Cart cart = cartRepository.findById(cartId).get();
