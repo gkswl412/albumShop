@@ -18,16 +18,12 @@ button{
 		}
 #c {
 display: -webkit-box; 
-display: -ms-flexbox; 
-display: box; 
 margin-top:1px; 
-max-height:100px; 
+max-height:150px; 
 overflow:hidden; 
-vertical-align:top; 
-text-overflow: ellipsis; 
 word-break:break-all; 
 -webkit-box-orient:vertical; 
--webkit-line-clamp:3;
+-webkit-line-clamp:4;
 }
 #message {color : red;}
 </style>
@@ -55,6 +51,7 @@ word-break:break-all;
 					<td colspan="2">E-mail : [[${session.user.email}]]</td>
 					<td>Phone : [[${session.user.phone}]]</td>
 				</tr>
+				
 				<tr height="150px">
 					<td colspan="2">Address : <br>[[${session.user.address}]]</td>
 					<td>Score : [[${session.user.score}]]</td>
@@ -62,7 +59,7 @@ word-break:break-all;
 			</table>
 			</div>
 			<div class="col-sm-5">
-			<button class="mycart">나의 장바구니</button><button class="myalbum">나의 앨범리스트</button>
+			<button class="btn btn-primary" onclick="location.href='/delivery/list'">주문/배송조회</button><button class="mycart">나의 장바구니</button><button class="myalbum">나의 앨범리스트</button>
 			<hr>
 			<div id="a1"></div>
 			</div>
@@ -112,7 +109,6 @@ word-break:break-all;
 				jsList.myalbumtitlelist(id);
 			});
 		});
-		
 		</script>
 	</th:block>
 </body>

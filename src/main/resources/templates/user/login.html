@@ -100,7 +100,9 @@ color: red;
                       data-bs-toggle="modal" data-bs-target="#myModal"
                        >아이디 찾기</button>
                         /
-               <button type="button" class="btn btn-link" onclick="location.href='/#'">비밀번호 찾기</button>
+              <button type="button" class="btn btn-link" 
+                      data-bs-toggle="modal" data-bs-target="#myModal2"
+                       >비밀번호 찾기</button>
                         /
            <button type="button" class="btn btn-link" onclick="location.href='/user/join'">회원가입</button>
                    
@@ -135,43 +137,141 @@ color: red;
       <div class="modal-footer">
         <button type="button" class="btn btn-danger"
 						data-dismiss="modal" id="check">확인</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
       </div>
 
     </div>
   </div>
 </div> 
+
+
+	<!-- The Modal -->
+<div class="modal" id="myModal2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">비밀번호 찾기</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+       
+		<label>아이디</label>
+            <input type="text"
+						class="form-control" id="id" name="id" value="" >										
+         <label>이메일</label>
+            <input type="text"
+						class="form-control" id="email2" name="email2" value="" >
+	
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger"
+						data-dismiss="modal" id="check2">확인</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+      </div>
+
+    </div>
+  </div>
+</div> 
+
+
+
+
+
+
+
+
+
+
+
 			</div>
 		</div>
 		</div>
 
 <th:block layout:fragment="script">
 <script>
-$("#check").click(function(){
-	var email = $('#email').val();	
-	var name = $('#name').val();
-	var data = {"email" : email, "name" : name};	
 	
-		$.ajax({
-			type : "post",
-			url : "/findid",
-			data : data,
-			success : function(result){
-				alert("아이디 찾기가 완료했습니다.\n\n회원의 아이디: " + result);
-						
+	   $("#check").click(function(){
+			var email = $("#email").val();
+			var name = $('#name').val();
+			var data = {"email" : email, "name" : name};	
+			
+			var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+
+				if(exptext.test(email)==false){
+
+				//이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우			
+
+				alert("이메일형식이 올바르지 않습니다.");
+
+			
+				}else{
+					
+					$.ajax({
+						type : "post",
+						url : "/findid",
+						data : data,
+						success : function(result){
+							alert(result);
+									
+							
+							 $("#myModal").modal("hide");
+							
+							 
+							} 
 				
-				 $("#myModal").modal("hide");
-				 $("#username").val(result);
-				 
-				} 
+				});
+					
+					
+				}
+	   });
 	
-	});
+	   
+	   
+	   
+	   $("#check2").click(function(){
+		   var id = $("#id").val();
+		   var email2  = $("#email2").val();
+			var data = {"id" : id, "email" : email2};
+			
+			var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+
+			if(exptext.test(email2)==false){
 
 
-});
+				//이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우			
 
+				alert("이메일형식이 올바르지 않습니다.");
 
+			
+				}else{
+					
+					$.ajax({
+						url :  "/findpw",
+						type : "post",
+						data :data,
 
+						success : function(result) {
+							alert(result);
+							 $("#myModal2").modal("hide");
+						},
+					});
+					
+					
+				}
+	   });   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
 </script>	
 	   
        

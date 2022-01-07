@@ -1,7 +1,5 @@
 package org.albumshop.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.albumshop.domain.*;
 import org.albumshop.persistence.AlbumRepository;
@@ -18,10 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.security.Principal;
 import java.util.List;
-import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -74,6 +71,68 @@ public class CartController {
 
         return "delivery/order";
     }*/
+
+    @RequestMapping(value = "/cart/add/")
+    public String addCart(Model model, HttpServletRequest httpServletRequest) {
+
+        Long cartId = Long.parseLong(httpServletRequest.getParameter("cartId"));
+        Long albumId = Long.parseLong(httpServletRequest.getParameter("albumId"));
+        String userId = httpServletRequest.getParameter("userId");
+
+        System.out.println(cartId);
+        System.out.println(albumId);
+        System.out.println(userId);
+
+        User user = userRepository.findById(userId).get();
+        System.out.println(user);
+
+        if (user == null) {
+            model.addAttribute("msg", "장바구니에 진입하려면 로그인하세요.");
+            return "redirect:user/login";
+        }
+/*        Long cartId = 19L;
+        Long albumId = 1L;*/
+        cartDetailRepository.insertIntoCartDetail(cartId, albumId);
+
+        /*Cart cart = cartRepository.findById(cartId).get();
+        if (cart == null) {
+            cart = cartService.createCart(userId);
+            cartId = cart.getId();
+        }
+        Album album = albumRepository.findById(albumId).get();
+
+        CartDetail cartDetail = CartDetail.createCartDetail(cart, album, 1);
+        cartService.addCart(cartDetail, userId);*/
+
+        return "cart/list";
+    }
+
+    @GetMapping(value = "/cart/insert/{userId}/{cartId}/{albumId}")
+    public String insertCart(@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, Model model, @PathVariable("userId") String userId) {
+        User user = userRepository.findById(userId).get();
+        System.out.println(user);
+
+        if (user == null) {
+            model.addAttribute("msg", "장바구니에 진입하려면 로그인하세요.");
+            return "redirect:user/login";
+        }
+
+        boolean addCartResult = cartDetailService.addCart(cartId, albumId);
+        if (addCartResult == true) {
+            List<CartDetailVO> cartDetailList = null;
+
+            if (user != null) {
+                cartDetailList = cartDetailService.getCartList(user);
+            }
+
+            model.addAttribute("cartlist", cartDetailList);
+            return "cart/list";
+        } else {
+            model.addAttribute("msg", "장바구니에 이미 담긴 앨범입니다.");
+            return "albumlist";
+        }
+
+    }
 
     @PatchMapping(value = "/cart/insert/{cartId}/{albumId}")
     public @ResponseBody ResponseEntity insertCartDetail (@PathVariable("cartId") Long cartId, @PathVariable("albumId") Long albumId, String userId) {

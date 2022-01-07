@@ -123,7 +123,7 @@ body {
 				</div>
 
 				<div class="form-group">
-					<label for="email">이메일</label> <input type="text"
+					<label for="email">이메일</label> <input type="email"
 						class="form-control" id="email" name="email" value=""> <span
 						class="emailCheck_1">가입 가능한 이메일입니다.</span> <span
 						class="emailCheck_2">이미 가입한 이메일입니다.</span>
@@ -153,6 +153,9 @@ body {
 					name="grade" value="Bronze" /> <label for="score"></label> <input
 					type="hidden" id="score" name="score" value="0" /> <input
 					type="hidden" name="urole" value="USER"/> 
+					<input
+					type="hidden" name="photo"  id ="photo" value="defaultProfile.png"/> 
+					
 					<div class="d-grid gap-3">
 				<button type="submit" class="btn btn-primary btn-block" id="btn">가입하기</button>
                  </div>

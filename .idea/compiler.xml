@@ -10,9 +10,6 @@
         <module name="albumShop" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="albumShop" target="9" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

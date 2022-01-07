@@ -9,6 +9,7 @@ tmp/
 *.bak
 *.swp
 *~.nib
+*.class
 local.properties
 .settings/
 .loadpath
@@ -60,3 +61,7 @@ local.properties
 .worksheet
 
 .application-oauth.properties
+
+
+target/*
+.idea/*

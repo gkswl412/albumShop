@@ -59,6 +59,18 @@ public class CartDetailService {
 
     }
 
+    public boolean addCart(Long cartId, Long albumId) {
+        // 중복 검사
+        Object cartId2 = cartDetailRepository.findByCartIdAndAlbumId2(cartId, albumId);
+        System.out.println("cart2 : " + cartId2);
+        if (cartId2 == null) {
+            cartDetailRepository.insertIntoCartDetail(cartId, albumId);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void deleteCartDetailAll(Long cartId) {
         Cart cart = cartRepository.findById(cartId).orElse(null);
         cartDetailRepository.deleteByCartId(cart.getId());

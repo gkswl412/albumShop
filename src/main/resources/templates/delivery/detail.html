@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/commonLayout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>주문 상세조회</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/js/common.js"></script>
+    <th:block layout:frgment="style">
+        <style>
+            a{text-decoration:none}
+            input{
+                width: auto;
+            }
+        </style>
+    </th:block>
+    <th:block layout:frgment="script">
+        <script th:inline="javascript">
+            var deliveryId = 0;
+            $(function () {
+                deliveryId = $('#deliveryId').val();
+               getOrderTotalPrice();
+            });
+
+            function getOrderTotalPrice() {
+                var orderTotalPrice = 0;
+                var deliveryFee = 3000;
+
+                $("td[id^='total_price_']").each(function (){
+                    var itemId = this.id.split('_')[2];
+                    var price = $('#total_price_' + itemId).attr("data-price");
+
+                    console.log(itemId);
+                    console.log(price);
+                    console.log(typeof price);
+                    orderTotalPrice += Number.parseInt(price);
+                    console.log(typeof orderTotalPrice);
+
+                });
+
+                var finalOrderTotalPrice = orderTotalPrice + deliveryFee;
+                $("#orderTotalPrice").html(finalOrderTotalPrice + '원 (배송비 ' + deliveryFee + '원 포함)');
+            };
+            function modifyOrder() {
+                var orderState = $('#orderState').val();
+                console.log(orderState);
+                if (orderState == '배송완료') {
+                    alert('배송완료된 주문은 변경하거나 취소할 수 없습니다.');
+                } else {
+
+                    location.href = '/delivery/modify?deliveryId=' + deliveryId;
+
+                }
+            }
+        </script>
+    </th:block>
+</head>
+<body>
+<div class="container mt-5" layout:fragment="content">
+    <h1>주문 상세조회</h1>
+    <div id="deliveryOrderDetail">
+        <h3>주문 앨범 정보</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" th:width="15px">#</th>
+                    <th class="text-center" th:width="80px">커버</th>
+                    <th class="text-center">앨범명</th>
+                    <th class="text-center" th:width="200px">아티스트</th>
+                    <th class="text-center" th:width="120px">단가</th>
+                    <th class="text-center" th:width="70px">수량</th>
+                    <th class="text-center" th:width="120px">합계</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="deliveryAlbum:${deliveryAlbmuList}">
+                    <td class="text-center align-middle" th:text="${deliveryAlbmuList.indexOf(deliveryAlbum)+1}"></td>
+                    <td><a th:href="@{/albumdetail(albumId=${deliveryAlbum.getAlbumId()})}" th:target="_blank"><img th:src="'../' + ${deliveryAlbum.getCover()}" th:width="60px" th:height="60px" ></a></td>
+                    <td class="align-middle"><a th:href="@{/albumdetail(albumId=${deliveryAlbum.getAlbumId()})}" th:target="_blank" th:text="${deliveryAlbum.getTitle()}"></a></td>
+                    <td class="align-middle" th:text="${deliveryAlbum.getArtistName()}"></td>
+                    <td class="align-middle text-right" th:id="'price_' + ${deliveryAlbum.getAlbumId()}" th:data-price="${deliveryAlbum.getPrice()}" th:text="${deliveryAlbum.getPrice()} + '원'"></td>
+                    <td class="align-middle text-right" th:id="'quantity_' + ${deliveryAlbum.getAlbumId()}" th:data-quantity="${deliveryAlbum.getOrderAmount()}" th:text="${deliveryAlbum.getOrderAmount()}"></td>
+                    <td class="align-middle text-right" th:id="'total_price_' + ${deliveryAlbum.getAlbumId()}" th:data-price="${deliveryAlbum.getOrderAmount()} * ${deliveryAlbum.getPrice()}" th:text="${deliveryAlbum.getOrderAmount()} * ${deliveryAlbum.getPrice()} + '원'"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="deliveryInfoDetail">
+        <h3>배송 및 결제정보</h3>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>주문자</td>
+                    <td th:text="${session.user.getName()}"></td>
+                </tr>
+                <tr>
+                    <td th:width="150px">주문 접수일시</td>
+                    <td th:text="${deliveryDetail.getDeliveryRegDate()}"></td>
+                </tr>
+                <tr>
+                    <td>입금 확인일시</td>
+                    <td th:text="${deliveryDetail.getDeliveryUpdateDate()}"></td>
+                </tr>
+                <tr>
+                    <td>주문상태<input type="hidden" id="orderState" th:value="${deliveryDetail.getOrderState()}"></td>
+                    <td th:text="${deliveryDetail.getOrderState()}"></td>
+                </tr>
+                <tr>
+                    <td>배송지</td>
+                    <td th:text="${deliveryDetail.getDestinationAddress()}"></td>
+                </tr>
+                <tr>
+                    <td>배송시 요청사항</td>
+                    <td th:text="${deliveryDetail.getDeliveryRequest()}"></td>
+                </tr>
+                <tr>
+                    <td>결제수단</td>
+                    <td>신용카드</td>
+                </tr>
+                <tr>
+                    <td>결제금액</td>
+                    <td><div id="orderTotalPrice"></div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="buttons" class="center-block">
+        <input type="hidden" id="deliveryId" th:value="${deliveryDetail.getId()}">
+        <input type="button" class="btn btn-default btn-lg" onclick="location.href='/delivery/list'" value="주문 목록보기">
+        <input type="button" class="btn btn-primary btn-lg" onclick="modifyOrder()" value="주문 수정/취소하기">
+    </div>
+</div>
+</body>
+</html>
