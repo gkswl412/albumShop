@@ -21,7 +21,7 @@
 	      		<img alt="${album.cover}" th:src="@{${album.cover}}" width=350px height=350px>
 	    	</div>
 	    	<div class="col-sm-4">
-	    		<div class="titleBox"><h1>[[${album.title}]]</h1></div>
+	    		<div class="titleBox"><h1 style="font-size: 30px; font-weight: lighter; color: #555555;">[[${album.title}]]</h1></div>
 		      	<table class="table">
 		    		<tr>
 		    			<th width=120>Artist</th>
@@ -55,7 +55,7 @@
 		    	</table>
 	    	</div>
 		    <div class="col-sm-4">
-		    	<h3>Track</h3>
+		    	<h3 style="font-size: 30px; font-weight: lighter; color: #555555;">Track</h3>
 			      	<ul id="track" class="list-group" style="position:relative; z-index:1">
 			      		<li class="list-group-item" th:each="song:${songs}" th:value="${song.playTime}">
 			      			<span th:text="${song.trackNum}"></span>
@@ -68,6 +68,15 @@
 	    
 		    <!-- Review Page -->
 		    <div class="col-sm-4" id="purchaseMenu" style="text-align:center">
+<<<<<<< HEAD
+				<form action="/cart/add" method="post">
+					<input type="text" th:value="comet" id="userId">
+					<input type="text" th:value="1" id="albumId">
+					<input type="text" th:value="19" id="cartId">
+					<input type="submit" class="btn btn-primary btn-lg" value="장바구니에 담기">
+				</form>
+
+=======
 				<form action="/cart/add" method="get">
 					<input type="text" th:value="comet" id="userId">
 					<input type="text" th:value="1" id="albumId">
@@ -75,6 +84,7 @@
 					<input type="submit" class="btn btn-primary btn-lg" value="장바구니에 담기">
 				</form>
 <!--
+>>>>>>> branch 'master' of https://github.com/gkswl412/albumShop.git
 				<button type="button" class="btn btn-secondary btn-lg">바로 구매</button>
 				<button type="button" class="btn btn-primary btn-lg" onclick="addCart()">장바구니에 담기</button>-->
 				<!--<input type="text" th:value="${session.user.id}" id="userId">-->
@@ -225,7 +235,7 @@
 				$(document).on('click','#reply_reply_create',function(){
 					replyManager.create($(this),[[${album.id}]],$(this).parent().parent().parent().parent().parent().parent().parent().parent().attr("id"),'reply_reply_create');
 				});
-				$(".checkbox").change(function(){
+				$(document).on('change','.checkbox',function(){
 					if($(this).is(":checked")){
 						myListManager.insertAlbum([[${album.id}]],$(this).val());
 					}else{
