@@ -9,6 +9,17 @@
   	<!-- style -->
 	<th:block layout:frgment="style">
 		<link th:href="@{'/css/albumDetailStyle.css'}" rel="stylesheet" />
+		<script th:inline="javascript">
+			var cartId;
+			var albumId;
+			var userId;
+
+			$(function (){
+				cartId = Number.parseInt($('#cartId').val());
+				albumId = Number.parseInt($('#albumId').val());
+				userId = $('#userId').val();
+			})
+		</script>
 	</th:block>
 </head>
 
@@ -66,19 +77,14 @@
 			      	</ul>
 		    </div>
 	    
-		    <!-- Review Page -->
+		    <!--장바구니 추가-->
 		    <div class="col-sm-4" id="purchaseMenu" style="text-align:center">
-				<form action="/cart/add" method="get">
-					<input type="text" th:value="comet" id="userId">
-					<input type="text" th:value="1" id="albumId">
-					<input type="text" th:value="19" id="cartId">
-					<input type="submit" class="btn btn-primary btn-lg" value="장바구니에 담기">
-				</form>
-<!--
-				<button type="button" class="btn btn-secondary btn-lg">바로 구매</button>
-				<button type="button" class="btn btn-primary btn-lg" onclick="addCart()">장바구니에 담기</button>-->
-				<!--<input type="text" th:value="${session.user.id}" id="userId">-->
+				<input type="hidden" th:value="${session.user.id}" id="userId">
+				<input type="hidden" th:value="${album.id}" id="albumId">
+				<input type="hidden" th:value="${cartId}" id="cartId">
+				<input type="button" class="btn btn-primary btn-lg" onclick="insertAlbum(cartId, albumId, userId)" value="장바구니에 담기">
 			</div>
+			<!-- Review Page -->
 			<div class="col-sm-8" id="reviewAndCatalog">
 				<!-- The Modal -->
 				<div class="modal" id="myModal">
