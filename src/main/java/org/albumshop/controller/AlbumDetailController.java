@@ -50,7 +50,13 @@ public class AlbumDetailController {
 
 		// CartId 저장
 		User user = (User) session.getAttribute("user");
-		String userId = user.getId();
+		String userId;
+		if (user == null) {
+			userId = "comet";
+		} else {
+			userId = user.getId();
+		}
+
 		Long cartId = cartService.cartIdFindByUserId(userId);
 		model.addAttribute("cartId", cartId);
 		return "albumDetail";
