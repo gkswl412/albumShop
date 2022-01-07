@@ -114,6 +114,7 @@
                     }
                 }).open();
             }
+
         </script>
     </th:block>
 </head>
@@ -162,7 +163,7 @@
                     </tbody>
                 </table>
             </div>
-
+            <form action="/delivery/order/pay" method="post">
             <div id="destination_address">
                 <h3>배송지</h3>
                 <table class="table">
@@ -178,7 +179,7 @@
                         <td><input class="form-control" type="text" id="zonecode" readonly><input type="button" class="btn btn-default" onclick="execution_daum_address()" value="우편번호 찾기"></td>
                     </tr>
                     <tr>
-                        <td><input class="form-control" type="text" id="addressdetail" th:value="${session.user.getAddress()}"></td>
+                        <td><input class="form-control" type="text" id="addressdetail" th:name="addressdetail" th:value="${session.user.getAddress()}"></td>
                     </tr>
                 </table>
             </div>
@@ -238,11 +239,10 @@
             </div>
 
             <div align="center">
-                <form action="/delivery/order/pay" method="post">
                     <input type="button" class="btn btn-default btn-lg" onclick="history.back();" value="뒤로가기">
                     <input type="submit" class="btn btn-primary btn-lg" value="결제하기">
-                </form>
             </div>
+            </form>
         </div>
     </div>
 </body>

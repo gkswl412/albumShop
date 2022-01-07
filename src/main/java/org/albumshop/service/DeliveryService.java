@@ -2,6 +2,7 @@ package org.albumshop.service;
 
 import org.albumshop.domain.*;
 import org.albumshop.persistence.*;
+import org.albumshop.vo.DeliveryAlbumVO;
 import org.albumshop.vo.DeliveryDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,15 +68,47 @@ public class DeliveryService {
                     .userId(userId)
                     .build();
 
-            System.out.println(deliveryDetailVO);
-
             deliveryDetailVOList.add(deliveryDetailVO);
         }
 
         return deliveryDetailVOList;
     }
 
-    public void getDeliveryDetail(String userId) {
+    public List<DeliveryAlbumVO> getDeliveryDetail(Long deliveryId) {
+        List<Object[]> deliveryAlbumTable = deliveryDetailRepository.findByDeliveryId(deliveryId);
+        List<DeliveryAlbumVO> deliveryAlbumList = new ArrayList<>();
 
+        for (Object[] obj : deliveryAlbumTable) {
+            Long albumId = Long.parseLong(String.valueOf(obj[0]));
+            String cover = String.valueOf(obj[1]);
+            int price = Integer.parseInt(String.valueOf(obj[2]));
+            String title = String.valueOf(obj[3]);
+            String artistName = String.valueOf(obj[4]);
+            int orderAmount = Integer.parseInt(String.valueOf(obj[5]));
+
+            DeliveryAlbumVO deliveryAlbumVO = DeliveryAlbumVO.builder()
+                    .albumId(albumId)
+                    .cover(cover)
+                    .price(price)
+                    .title(title)
+                    .artistName(artistName)
+                    .orderAmount(orderAmount)
+                    .build();
+
+            deliveryAlbumList.add(deliveryAlbumVO);
+        }
+
+        return deliveryAlbumList;
     }
+
+    public Delivery getDeliveryDetailById(Long deliveryId) {
+        Delivery deliveryDetail = deliveryRepository.findById(deliveryId).get();
+
+        return deliveryDetail;
+    }
+
+/*    public void deleteByDeliveryId(Long deliveryId) {
+        deliveryDetailRepository.deleteByDeliveryId(deliveryId);
+        deliveryRepository.deleteById(deliveryId);
+    }*/
 }
