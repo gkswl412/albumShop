@@ -143,12 +143,6 @@
 						success  : function(){
 							location.href = '/cart';
 							showDeleteAlert();
-						},
-						error : function(jqXHR){
-							if(jqXHR.status == '401'){
-								alert('로그인 후 이용해주세요');
-								location.href='/user/login';
-							}
 						}
 					});
 				}
@@ -163,13 +157,6 @@
 						cache   : false,
 						success  : function(){
 							location.href = '/cart';
-						},
-						error : function(jqXHR){
-
-							if(jqXHR.status == '401'){
-								alert('로그인 후 이용해주세요');
-								location.href='/user/login';
-							}
 						}
 					});
 					showDeleteAlert();
@@ -189,13 +176,6 @@
 					success  : function(){
 						console.log("cartItem count update success");
 						showQuantityUpdateAlert();
-					},
-					error : function(jqXHR){
-
-						if(jqXHR.status == '401'){
-							alert('로그인 후 이용해주세요');
-							location.href='/user/login';
-						}
 					}
 				});
 			}
@@ -205,8 +185,6 @@
 			function showDeleteAlert() {
 				$("#myDeleteAlert").show();
 			}
-			/* 마이리스트에 앨범 추가하기 */
-
 		</script>
 	</th:block>
 

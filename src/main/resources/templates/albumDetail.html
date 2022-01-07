@@ -17,7 +17,11 @@
 			$(function (){
 				cartId = Number.parseInt($('#cartId').val());
 				albumId = Number.parseInt($('#albumId').val());
-				userId = $('#userId').val();
+				if ($('#userId').val() == null) {
+					userId = 'comet';
+				} else {
+					userId = $('#userId1').val();
+				}
 			})
 		</script>
 	</th:block>
@@ -79,7 +83,12 @@
 	    
 		    <!--장바구니 추가-->
 		    <div class="col-sm-4" id="purchaseMenu" style="text-align:center">
-				<input type="hidden" th:value="${session.user.id}" id="userId">
+				<div th:if="${session} == null">
+					<input type="hidden" th:value="" id="userId">
+				</div>
+				<div th:unless="${session} != null">
+					<input type="hidden" th:value="${session.user.id}" id="userId1">
+				</div>
 				<input type="hidden" th:value="${album.id}" id="albumId">
 				<input type="hidden" th:value="${cartId}" id="cartId">
 				<input type="button" class="btn btn-primary btn-lg" onclick="insertAlbum(cartId, albumId, userId)" value="장바구니에 담기">
