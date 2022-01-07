@@ -106,4 +106,9 @@ public class DeliveryService {
 
         return deliveryDetail;
     }
+
+/*    public void deleteByDeliveryId(Long deliveryId) {
+        deliveryDetailRepository.deleteByDeliveryId(deliveryId);
+        deliveryRepository.deleteById(deliveryId);
+    }*/
 }

@@ -19,7 +19,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -64,9 +67,12 @@ public class DeliveryController {
     }
 
     @PostMapping(value = "/delivery/order/pay")
-    public String orderSuccess(Model model) {
+    public String orderSuccess(Model model, HttpServletRequest request) {
 
         User user = (User) session.getAttribute("user");
+
+        String address = (String) request.getAttribute("addressdetail");
+        System.out.println("address : " + address);
 
         if (user == null) {
             return "redirect:user/login";
@@ -110,4 +116,11 @@ public class DeliveryController {
 
         return "delivery/detail";
     }
+/*
+    @RequestMapping(value = "/delivery/delete")
+    public String deleteDelivery(@RequestParam("deliveryId") Long deliveryId) {
+        deliveryService.deleteByDeliveryId(deliveryId);
+
+        return "delivery/list";
+    }*/
 }

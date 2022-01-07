@@ -26,4 +26,5 @@ public interface DeliveryDetailRepository extends CrudRepository<DeliveryDetail,
     List<Object[]> findByDeliveryId(Long deliveryId);
 
 
+    //void deleteByDeliveryId(Long deliveryId);
 }

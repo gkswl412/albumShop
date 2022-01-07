@@ -5,7 +5,7 @@
       layout:decorate="~{/layout/commonLayout}">
 <head>
     <meta charset="UTF-8">
-    <title>주문 내역</title>
+    <title>주문/배송조회</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -17,6 +17,11 @@
             a{text-decoration:none}
             input{
                 width: auto;
+            }
+            .center-block {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
             }
         </style>
     </th:block>
@@ -59,6 +64,10 @@
                     </div>
                 </tbody>
             </table>
+        </div>
+        <div class="center-block">
+            <input type="button" class="btn btn-default" onclick="location.href='/userInfo/MyPage'" value="마이페이지">
+            <input type="button" class="btn btn-default" onclick="location.href='/cart'" value="장바구니">
         </div>
     </div>
 </body>
