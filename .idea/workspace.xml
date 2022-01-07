@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9f256330-cbe8-418c-a7b9-5ba7c5c43b75" name="Changes" comment="deliveryRepository test complete" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="21zPuB55CU9gAH5zccbomQviLZV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="extract.method.default.visibility" value="private" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../SpringBootProject" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hsy\OneDrive\Desktop\me\kosta\albumShop\src\main\resources\templates\manager" />
+      <recent name="C:\Users\hsy\OneDrive\Desktop\me\kosta\albumShop\src\main\resources\templates\manager\delivery" />
+      <recent name="C:\Users\hsy\OneDrive\Desktop\me\kosta\albumShop\src\main\resources\html\manager" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.AlbumShopApplication">
+    <configuration name="DeliveryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="albumShop" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.albumshop.manager.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.albumshop.manager" />
+      <option name="MAIN_CLASS_NAME" value="org.albumshop.manager.DeliveryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserTest.UserInsertTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="albumShop" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.albumshop.manager.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.albumshop.manager" />
+      <option name="MAIN_CLASS_NAME" value="org.albumshop.manager.UserTest" />
+      <option name="METHOD_NAME" value="UserInsertTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserTest.userDeleteByIdTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="albumShop" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.albumshop.manager.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.albumshop.manager" />
+      <option name="MAIN_CLASS_NAME" value="org.albumshop.manager.UserTest" />
+      <option name="METHOD_NAME" value="userDeleteByIdTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserTest.userFindAllTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="albumShop" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.albumshop.manager.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.albumshop.manager" />
+      <option name="MAIN_CLASS_NAME" value="org.albumshop.manager.UserTest" />
+      <option name="METHOD_NAME" value="userFindAllTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserTest.userFindByIdTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="albumShop" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.albumshop.manager.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.albumshop.manager" />
+      <option name="MAIN_CLASS_NAME" value="org.albumshop.manager.UserTest" />
+      <option name="METHOD_NAME" value="userFindByIdTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AlbumShopApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="albumShop" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.albumshop.AlbumShopApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.UserTest.userDeleteByIdTest" />
+        <item itemvalue="JUnit.UserTest.userFindByIdTest" />
+        <item itemvalue="JUnit.UserTest.userFindAllTest" />
+        <item itemvalue="JUnit.DeliveryTest" />
+        <item itemvalue="JUnit.UserTest.UserInsertTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9f256330-cbe8-418c-a7b9-5ba7c5c43b75" name="Changes" comment="" />
+      <created>1638941173074</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1638941173074</updated>
+      <workItem from="1638941177593" duration="3870000" />
+      <workItem from="1638955131996" duration="648000" />
+      <workItem from="1639009199927" duration="23197000" />
+      <workItem from="1639363141184" duration="53929000" />
+      <workItem from="1639640320973" duration="8206000" />
+      <workItem from="1639706401300" duration="9346000" />
+      <workItem from="1639968172571" duration="1814000" />
+      <workItem from="1639978991530" duration="31753000" />
+      <workItem from="1640135332359" duration="25557000" />
+      <workItem from="1640221332867" duration="17834000" />
+      <workItem from="1640304441686" duration="20310000" />
+      <workItem from="1640349953896" duration="10503000" />
+      <workItem from="1640428189507" duration="8520000" />
+      <workItem from="1640564535486" duration="6709000" />
+      <workItem from="1640673339943" duration="1868000" />
+      <workItem from="1640733134339" duration="52452000" />
+      <workItem from="1641457367174" duration="85000" />
+    </task>
+    <task id="LOCAL-00001" summary="test">
+      <created>1638942265271</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1638942265271</updated>
+    </task>
+    <task id="LOCAL-00002" summary="deliveryRepository test complete">
+      <created>1639463043387</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1639463043387</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="test" />
+    <MESSAGE value="deliveryRepository test complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="deliveryRepository test complete" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
