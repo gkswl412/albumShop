@@ -62,4 +62,4 @@ local.properties
 
 .application-oauth.properties
 
-target/
+target/*
