@@ -51,12 +51,6 @@ ul li span:nth-child(3) {
 	padding: 25px
 }
 
-h1, h3 {
-	font-size: 30px;
-	font-weight: lighter;
-	color: #555555;
-}
-
 h2, .table th {
 	color: #555555;
 	font-size: 18px;

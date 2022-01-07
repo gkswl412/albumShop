@@ -13,7 +13,7 @@
 	<!-- custom css -->
 	<th:block layout:frgment="style"></th:block>
 	<style>
-		a{text-decoration:none; font-weight:bolder}
+		a{text-decoration:none; font-size:17px}
 		a:hover{color:#1e5399}
 		#scroll{background-color:white;
 		width:100%;
@@ -36,12 +36,13 @@
 		}
 		#table1{
 		float:left;
-		margin-left:2%;
-		border-left:2px solid lightgray; 
-		border-right:2px solid lightgray;
+		margin-left:7%;
+		/* border-left:2px solid lightgray; 
+		border-right:2px solid lightgray; */
 		}
 		#table2{
-		float:right;}
+		float:right;
+		margin-right:7%;}
 	</style>
 </head>
 <body>
@@ -52,12 +53,11 @@ function scroll_follow( id ){
 	       $("#scroll").css('top',  position );});}
  scroll_follow( "#scroll" ); 
  </script> 
-<div id="scroll" style="position:absolute;top:0;z-index:2;">
+<div id="scroll" style="position:absolute; top:0;z-index:2; box-shadow: 1px 1px 4px rgb(0 0 0 / 20%); padding:7px">
 <form th:action="@{SearchResult}" method="get">
 <table id="table1">
 <tr>
 <td><a href="/albumlist">Main</a>&nbsp;</td>
-<td>Shop&nbsp;</td>
 <td><a href="/Genre">Genre</a></td>
 </tr>
 </table>
@@ -74,17 +74,20 @@ function scroll_follow( id ){
 			<option id="Lyrics">Lyrics</option>
 		</select>
 		<input id="text" type="text" name="searchKeyword" th:value="${searchKeyword}">
-		<button id="searchBtn">Search</button> 
+		<button id="searchBtn" style="border:0 solid white; background-color:white"><img src='/images/icon/search.png' width=25 height=25></button> 
 	</td>
 	<td>
 	<a href="/cart">Cart</a>
+	&nbsp;
 	</td>
 	<td th:if="${session.user == null}">
 	<a href="/user/login">Login</a>
+	&nbsp;
 	<a href="/user/join">JoinClub</a>
 	</td>
 	<td th:if="${session.user != null}">
 	<a id="logout" href="/logout">LogOut</a>
+	&nbsp;
 	<a href="/userInfo/MyPage">MyPage</a>
 	</td>
 	</tr>
