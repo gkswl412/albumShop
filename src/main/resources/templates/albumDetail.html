@@ -68,15 +68,15 @@
 	    
 		    <!-- Review Page -->
 		    <div class="col-sm-4" id="purchaseMenu" style="text-align:center">
-				<form action="/cart/add" method="post">
+				<form action="/cart/add" method="get">
 					<input type="text" th:value="comet" id="userId">
 					<input type="text" th:value="1" id="albumId">
 					<input type="text" th:value="19" id="cartId">
 					<input type="submit" class="btn btn-primary btn-lg" value="장바구니에 담기">
 				</form>
-
+<!--
 				<button type="button" class="btn btn-secondary btn-lg">바로 구매</button>
-				<button type="button" class="btn btn-primary btn-lg" onclick="addCart()">장바구니에 담기</button>
+				<button type="button" class="btn btn-primary btn-lg" onclick="addCart()">장바구니에 담기</button>-->
 				<!--<input type="text" th:value="${session.user.id}" id="userId">-->
 			</div>
 			<div class="col-sm-8" id="reviewAndCatalog">

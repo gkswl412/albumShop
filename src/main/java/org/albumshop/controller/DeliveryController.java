@@ -1,6 +1,7 @@
 package org.albumshop.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.albumshop.domain.Delivery;
 import org.albumshop.domain.User;
 import org.albumshop.persistence.AlbumRepository;
 import org.albumshop.persistence.CartDetailRepository;
@@ -10,13 +11,18 @@ import org.albumshop.service.CartDetailService;
 import org.albumshop.service.CartService;
 import org.albumshop.service.DeliveryService;
 import org.albumshop.vo.CartDetailVO;
+import org.albumshop.vo.DeliveryAlbumVO;
 import org.albumshop.vo.DeliveryDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -61,9 +67,12 @@ public class DeliveryController {
     }
 
     @PostMapping(value = "/delivery/order/pay")
-    public String orderSuccess(Model model) {
+    public String orderSuccess(Model model, HttpServletRequest request) {
 
         User user = (User) session.getAttribute("user");
+
+        String address = (String) request.getAttribute("addressdetail");
+        System.out.println("address : " + address);
 
         if (user == null) {
             return "redirect:user/login";
@@ -88,8 +97,8 @@ public class DeliveryController {
         return "delivery/list";
     }
 
-    @RequestMapping(value = "/delivery/list/{deliveryId}")
-    public String deliveryDetailList(Model model) {
+    @GetMapping(value = "/delivery/detail")
+    public String deliveryDetailList(Model model, Long deliveryId) {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
@@ -98,8 +107,20 @@ public class DeliveryController {
 
         String userId = user.getId();
 
+        List<DeliveryAlbumVO> deliveryAlbumList = deliveryService.getDeliveryDetail(deliveryId);
+        Delivery delivery = deliveryService.getDeliveryDetailById(deliveryId);
 
+        model.addAttribute("deliveryAlbmuList", deliveryAlbumList);
+        model.addAttribute("deliveryDetail", delivery);
+        model.addAttribute("userId", userId);
 
-        return "delivery/list/detail";
+        return "delivery/detail";
     }
+/*
+    @RequestMapping(value = "/delivery/delete")
+    public String deleteDelivery(@RequestParam("deliveryId") Long deliveryId) {
+        deliveryService.deleteByDeliveryId(deliveryId);
+
+        return "delivery/list";
+    }*/
 }
