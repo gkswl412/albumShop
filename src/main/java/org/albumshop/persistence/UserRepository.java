@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.albumshop.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -17,10 +18,12 @@ public interface UserRepository extends CrudRepository<User, String>{
 	Optional<User> findByEmail(String email);
 	Optional<User> findByPhone(String phone);
 	Optional<User> findById(String id);
+	Optional<User> findByIdAndEmail(String id,String email);
 	Optional<User> findByNameAndEmail(String name , String email);
 	
-	
-	
+//	@Modifying
+//	@Query("UPDATE User u SET u.pass = ?1 WHERE u.id = ?2")
+//    int updatePwd(String pass, String id);
 	
     Page<User> findAll(Pageable paging);
 
