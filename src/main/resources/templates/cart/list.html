@@ -7,8 +7,6 @@
 <head>
 
 <meta charset="UTF-8">
-<!--	<meta name="_csrf" th:content="${_csrf.token}"/>
-	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
 <title>장바구니</title>
 	<link rel="stylesheet"
 		  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
@@ -16,12 +14,15 @@
 	<script
 			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script src="/js/common.js"></script>
+
 	<th:block layout:frgment="style">
 		<style>
 			a{text-decoration:none}
 		</style>
 	</th:block>
 	<th:block layout:frgment="script">
+		<!-- myList CRUD Module import -->
+		<script th:inline="javascript" th:src="@{'/js/myListCRUDModule.js'}"></script>
 		<script th:inline="javascript">
 			var cartId;
 			var totalOrderPrice = 0;
@@ -37,6 +38,25 @@
 					getMileage();
 				});
 				getCartTotalPrice(); // Cart 안에 담겨 있는 앨범의 총수량 / 총금액
+
+				// 마이리스트에 앨범 추가하기
+				/* addMyList 버튼 클릭시 myList 추가 폼 가져오기 */
+				$("#addMyList").on('click', function(){
+					$(this).parent().html("이름<br><input id='myListTitle' style='width:248px; border:1px solid white; border-bottom:1px solid black' placeholder='리스트 이름 입력'></input><br><br><button id='makeMyList' style='color:#065FD4; background-color:white; border:1px solid white; float:right'>만들기</button>");
+				});
+				/* 새로운 마이리스트 만들기 버튼 클릭시 이벤트 */
+				$(document).on('click','#makeMyList',function(){
+					myListManager.makeMyList($(this));
+				});
+				$(".checkbox").change(function(){
+					if($(this).is(":checked")){
+						myListManager.insertAlbum($('input[name=itemChk]'),$(this).val());
+						console.log('insert 완료');
+					}else{
+						myListManager.deleteAlbum($('#albumId'),$(this).val());
+						console.log('delete 완료');
+					}
+				});
 			});
 
 			function checkAll(){
@@ -116,23 +136,16 @@
 					$.ajax({
 						url      : url,
 						type     : "DELETE",
-											/*beforeSend : function(xhr){
-                                                /!* 데이터를 전송하기 전에 헤더에 csrf값을 설정 *!/
-                                                xhr.setRequestHeader(header, token);
-                                            },*/
 						dataType : "json",
 						cache   : false,
-						success  : function(result, status){
+						success  : function(){
 							location.href = '/cart';
 							showDeleteAlert();
 						},
-						error : function(jqXHR, status, error){
-
+						error : function(jqXHR){
 							if(jqXHR.status == '401'){
 								alert('로그인 후 이용해주세요');
 								location.href='/user/login';
-							} else{
-								//alert(jqXHR.responseJSON.message);
 							}
 						}
 					});
@@ -144,22 +157,16 @@
 					$.ajax({
 						url      : url,
 						type     : "DELETE",
-											/*beforeSend : function(xhr){
-                                                /!* 데이터를 전송하기 전에 헤더에 csrf값을 설정 *!/
-                                                xhr.setRequestHeader(header, token);
-                                            },*/
 						dataType : "json",
 						cache   : false,
-						success  : function(result, status){
+						success  : function(){
 							location.href = '/cart';
 						},
-						error : function(jqXHR, status, error){
+						error : function(jqXHR){
 
 							if(jqXHR.status == '401'){
 								alert('로그인 후 이용해주세요');
 								location.href='/user/login';
-							} else{
-								//alert(jqXHR.responseJSON.message);
 							}
 						}
 					});
@@ -170,31 +177,22 @@
 
 			}
 			function updateCartAlbumCount(cartId, albumId, count) {
-/*				var token = $("meta[name='_csrf']").attr("content");
-                var header = $("meta[name='_csrf_header']").attr("content");*/
-
 				var url = "/cart/update/" + cartId + "/" + albumId + "?count=" + count;
 
 				$.ajax({
 					url      : url,
 					type     : "PATCH",
-										/*beforeSend : function(xhr){
-                                            /!* 데이터를 전송하기 전에 헤더에 csrf값을 설정 *!/
-                                            xhr.setRequestHeader(header, token);
-                                        },*/
 					dataType : "json",
 					cache   : false,
-					success  : function(result, status){
+					success  : function(){
 						console.log("cartItem count update success");
 						showQuantityUpdateAlert();
 					},
-					error : function(jqXHR, status, error){
+					error : function(jqXHR){
 
 						if(jqXHR.status == '401'){
 							alert('로그인 후 이용해주세요');
 							location.href='/user/login';
-						} else{
-							//alert(jqXHR.responseJSON.message);
 						}
 					}
 				});
@@ -205,9 +203,8 @@
 			function showDeleteAlert() {
 				$("#myDeleteAlert").show();
 			}
-			function addMyList() {
+			/* 마이리스트에 앨범 추가하기 */
 
-			}
 		</script>
 	</th:block>
 
@@ -245,7 +242,7 @@
 			</div>
 			<div th:unless="${cartlist.size()} == 0">
 				<tr th:each="cartDetail:${cartlist}">
-					<td class="text-center align-middle"><input type="checkbox" name="itemChk" th:value="${cartDetail.getAlbumId()}"> </td>
+					<td class="text-center align-middle"><input type="checkbox" name="itemChk" th:id="'albumId_' + ${cartDetail.getAlbumId()}" th:value="${cartDetail.getAlbumId()}"> </td>
 					<td class="text-center align-middle" th:text="${cartlist.indexOf(cartDetail)+1}"></td>
 					<td><a th:href="@{/albumdetail(albumId=${cartDetail.getAlbumId()})}" th:target="_blank"><img th:src="${cartDetail.getCover()}" th:width="60px" th:height="60px" ></a></td>
 					<td class="align-middle"><a th:href="@{/albumdetail(albumId=${cartDetail.getAlbumId()})}" th:target="_blank" th:text="${cartDetail.getAlbumTitle()}"></a></td>
@@ -258,10 +255,12 @@
 			</div>
 			<tr>
 				<td colspan="5">
-					<div>
+					<div class="inline-block" id="BtnCollection">
 						<button type="button" class="btn btn-danger btn-xs" id="deleteAll" onclick="deleteCartAlbumAll()">전체삭제</button>
+						<button type="button" class="btn btn-primary btn-xs" value="off" name="boxing" data-bs-toggle="modal" data-bs-target="#myModal">마이리스트에 담기</button>
+						<div id="btnClickResult"></div>
 					</div>
-					<div id="reviewAndCatalog">
+					<div class="inline-block" id="reviewAndCatalog">
 						<!-- The Modal -->
 						<div class="modal" id="myModal">
 							<div class="modal-dialog">
@@ -274,6 +273,25 @@
 
 									<!-- Modal body -->
 									<div style='padding:10px' class="modal-body">
+										<h5>1. 마이리스트에 담을 앨범을 선택하세요.</h5>
+										<table>
+											<div th:if="${cartlist.size()} == 0">
+												<tr>
+													<td colspan="4"><div>장바구니가 비어있습니다.</div></td>
+												</tr>
+											</div>
+											<div th:unless="${cartlist.size()} == 0">
+												<tr th:each="cartDetail:${cartlist}">
+													<td class="text-center align-middle"><input type="radio" name="itemChk" th:id="'checked_albumId_' + ${cartDetail.getAlbumId()}" th:value="${cartDetail.getAlbumId()}"> </td>
+													<td><a th:href="@{/albumdetail(albumId=${cartDetail.getAlbumId()})}" th:target="_blank"><img th:src="${cartDetail.getCover()}" th:width="60px" th:height="60px" ></a></td>
+													<td class="align-middle"><a th:href="@{/albumdetail(albumId=${cartDetail.getAlbumId()})}" th:target="_blank" th:text="${cartDetail.getAlbumTitle()}"></a></td>
+													<td class="align-middle" th:text="${cartDetail.getArtistName()}"></td>
+												</tr>
+											</div>
+										</table>
+										<hr>
+
+										<h5>2. 담고자 하는 마이리스트를 선택하세요.</h5>
 										<ul th:if=${session.user!=null} style='list-style:none; padding:0; margin:0'>
 											<li th:each="mylist:${session.user.mylists}">
 												<input type='checkbox' th:value="${mylist.id}">&nbsp;[[${mylist.myListTitle}]]</input>
@@ -288,10 +306,7 @@
 								</div>
 							</div>
 						</div>
-						<div id="BtnCollection">
-							<button type="button" class="btn btn-primary btn-xs" value="off" name="boxing" data-bs-toggle="modal" data-bs-target="#myModal">마이리스트에 담기</button>
-							<div id="btnClickResult"></div>
-						</div>
+
 					</div>
 				</td>
 				<td><b>총수량 / 총금액</b></td>

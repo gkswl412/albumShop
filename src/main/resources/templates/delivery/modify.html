@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/commonLayout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>주문 수정</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/js/common.js"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <th:block layout:frgment="style">
+        <style>
+            a{text-decoration:none}
+            input{
+                width: auto;
+            }
+        </style>
+    </th:block>
+    <th:block layout:frgment="script">
+        <script th:inline="javascript">
+            $(function () {
+                var deli_text = $('#deli_text').val();
+                console.log(deli_text);
+               getOrderTotalPrice();
+               $('#delivery_request_text').val(deli_text);
+               $('#delivery_request_select').val(deli_text);
+            });
+
+            function getOrderTotalPrice() {
+                var orderTotalPrice = 0;
+                var deliveryFee = 3000;
+
+                $("td[id^='total_price_']").each(function (){
+                    var itemId = this.id.split('_')[2];
+                    var price = $('#total_price_' + itemId).attr("data-price");
+
+                    console.log(itemId);
+                    console.log(price);
+                    console.log(typeof price);
+                    orderTotalPrice += Number.parseInt(price);
+                    console.log(typeof orderTotalPrice);
+
+                });
+
+                var finalOrderTotalPrice = orderTotalPrice + deliveryFee;
+                $("#orderTotalPrice").html(finalOrderTotalPrice + '원 (배송비 ' + deliveryFee + '원 포함)');
+            };
+
+            /* 다음 주소 연동 */
+            function execution_daum_address(){
+                new daum.Postcode({
+                    oncomplete: function(data) {
+                                                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                                                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                                                var addr = ''; // 주소 변수
+                                                var extraAddr = ''; // 참고항목 변수
+
+                                                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                                                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                                                    addr = data.roadAddress;
+                                                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                                                    addr = data.jibunAddress;
+                                                }
+
+                                                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                                                if(data.userSelectedType === 'R'){
+                                                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                                                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                                                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                                                        extraAddr += data.bname;
+                                                    }
+                                                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                                                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                                                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                                                    }
+                                                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                                                    if(extraAddr !== ''){
+                                                        extraAddr = ' (' + extraAddr + ')';
+                                                    }
+                                                    // 주소변수 문자열과 참고항목 문자열 합치기
+                                                    addr += extraAddr;
+
+                                                } else {
+                                                    document.getElementById("sample6_extraAddress").value = '';
+                                                }
+
+                        $("#zonecode").val(data.zonecode);
+                        //$("[name=memberAddr1]").val(data.zonecode);    // 대체가능
+                        $("#addr2").val(addr);
+                        //$("[name=memberAddr2]").val(addr);            // 대체가능
+                        // 커서를 상세주소 필드로 이동한다.
+                        // 상세주소 입력란 disabled 속성 변경 및 커서를 상세주소 필드로 이동한다.
+                        $("#zonecode").attr("readonly",true);
+                        $("#addressdetail").focus();
+                    }
+                }).open();
+            }
+
+            function delivery_request_change(e) {
+                var value = e.value;
+
+                $('#delivery_request_text').val(value);
+            }
+
+            function modifySubmit() {
+                confirm('주문 상세내용을 수정하시겠습니까?');
+            }
+
+            function orderCancelSubmit() {
+                confirm('주문을 취소하시겠습니까?');
+            }
+        </script>
+    </th:block>
+</head>
+<body>
+<div class="container mt-5" layout:fragment="content">
+    <h1>주문 수정</h1>
+    <div id="deliveryOrderDetail">
+        <h3>주문 앨범 정보</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-center" th:width="15px">#</th>
+                    <th class="text-center" th:width="80px">커버</th>
+                    <th class="text-center">앨범명</th>
+                    <th class="text-center" th:width="200px">아티스트</th>
+                    <th class="text-center" th:width="120px">단가</th>
+                    <th class="text-center" th:width="70px">수량</th>
+                    <th class="text-center" th:width="120px">합계</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="deliveryAlbum:${deliveryAlbmuList}">
+                    <td class="text-center align-middle" th:text="${deliveryAlbmuList.indexOf(deliveryAlbum)+1}"></td>
+                    <td><a th:href="@{/albumdetail(albumId=${deliveryAlbum.getAlbumId()})}" th:target="_blank"><img th:src="'../' + ${deliveryAlbum.getCover()}" th:width="60px" th:height="60px" ></a></td>
+                    <td class="align-middle"><a th:href="@{/albumdetail(albumId=${deliveryAlbum.getAlbumId()})}" th:target="_blank" th:text="${deliveryAlbum.getTitle()}"></a></td>
+                    <td class="align-middle" th:text="${deliveryAlbum.getArtistName()}"></td>
+                    <td class="align-middle text-right" th:id="'price_' + ${deliveryAlbum.getAlbumId()}" th:data-price="${deliveryAlbum.getPrice()}" th:text="${deliveryAlbum.getPrice()} + '원'"></td>
+                    <td class="align-middle text-right" th:id="'quantity_' + ${deliveryAlbum.getAlbumId()}" th:data-quantity="${deliveryAlbum.getOrderAmount()}" th:text="${deliveryAlbum.getOrderAmount()}"></td>
+                    <td class="align-middle text-right" th:id="'total_price_' + ${deliveryAlbum.getAlbumId()}" th:data-price="${deliveryAlbum.getOrderAmount()} * ${deliveryAlbum.getPrice()}" th:text="${deliveryAlbum.getOrderAmount()} * ${deliveryAlbum.getPrice()} + '원'"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="deliveryInfoDetail">
+        <h3>배송 및 결제정보</h3>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>주문자</td>
+                    <td th:text="${session.user.getName()}"></td>
+                </tr>
+                <tr>
+                    <td th:width="150px">주문 접수일시</td>
+                    <td th:text="${deliveryDetail.getDeliveryRegDate()}"></td>
+                </tr>
+                <tr>
+                    <td>입금 확인일시</td>
+                    <td th:text="${deliveryDetail.getDeliveryUpdateDate()}"></td>
+                </tr>
+                <tr>
+                    <td>주문상태</td>
+                    <td th:text="${deliveryDetail.getOrderState()}"></td>
+                </tr>
+                <tr>
+                    <td rowspan="3">배송지</td>
+                    <td><input class="form-control" type="text" id="zonecode" readonly><input type="button" class="btn btn-default" onclick="execution_daum_address()" value="우편번호 찾기"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" class="form-control" id="addr2" th:value="${deliveryDetail.getDestinationAddress()}"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" class="form-control" id="addressdetail" placeholder="상세 주소"></td>
+                </tr>
+                <tr>
+                    <td>배송시 요청사항</td>
+                    <td>
+                        <input type="hidden" id="deli_text" th:value="${deliveryDetail.getDeliveryRequest()}">
+                        <select class="form-control" name="delivery_request_select" id="delivery_request_select" onchange="delivery_request_change(this)">
+                            <option value="" selected>직접 입력</option>
+                            <option value="부재시 경비실에 맡겨주세요.">부재시 경비실에 맡겨주세요.</option>
+                            <option value="부재시 연락주세요.">부재시 연락주세요.</option>
+                            <option value="배송 전 연락주세요.">배송 전 연락주세요.</option>
+                            <option value="파손의 위험이 있으니 배송시 주의해주세요.">파손의 위험이 있으니 배송시 주의해주세요.</option>
+                        </select>
+                        <input class="form-control" type="text" id="delivery_request_text" th:value="${deliveryDetail.getDeliveryRequest()}">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>결제수단</td>
+                    <td>신용카드</td>
+                </tr>
+                <tr>
+                    <td>결제금액</td>
+                    <td><div id="orderTotalPrice"></div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="buttons" class="center-block">
+        <input type="button" class="btn btn-default btn-lg" onclick="location.href='/delivery/list'" value="주문 목록보기">
+        <input type="button" class="btn btn-primary btn-lg" onclick="modifySubmit()" value="주문 수정하기">
+        <input type="button" class="btn btn-danger btn-lg" onclick="orderCancelSubmit()" value="주문 취소하기">
+    </div>
+</div>
+</body>
+</html>
