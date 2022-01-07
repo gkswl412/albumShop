@@ -25,8 +25,6 @@ public class ReviewController {
 	
 	@GetMapping("/writeReviewForm")
 	public String getWriteReviewForm(Model model, Long albumId, String job) {
-		System.out.println(job);
-		System.out.println(albumId);
 		User user = (User) session.getAttribute("user");
 		Album album = Album.builder().id(albumId).build();
 		Review review = new Review();

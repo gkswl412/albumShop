@@ -167,14 +167,14 @@ public class UserInfoController {
 			model.addAttribute("message", "비밀번호가 맞지 않습니다.");
 			return "/userInfo/WithDrawalPassCheck";
 		}else {
-			uRepo.deleteById(id);
+			/* uRepo.deleteById(id); */
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script language='javascript'>");
 			out.println("alert('이용해주셔서 감사합니다.'); location.href='/albumlist';");
 			out.println("</script>");
 			out.flush();
-			session.invalidate();
+			/* session.invalidate(); */
 			return "/albumlist";	
 		}
 	} 
