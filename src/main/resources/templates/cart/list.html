@@ -48,12 +48,14 @@
 				$(document).on('click','#makeMyList',function(){
 					myListManager.makeMyList($(this));
 				});
-				$(".checkbox").change(function(){
+				$('input:checkbox[id^=albumId_]').change(function(){
 					if($(this).is(":checked")){
-						myListManager.insertAlbum($('input[name=itemChk]'),$(this).val());
+						var checkedAlbumId = $('input:checkbox[id^=albumId_]').val();
+						console.log(checkedAlbumId);
+						myListManager.insertAlbum(checkedAlbumId,$(this).val());
 						console.log('insert 완료');
 					}else{
-						myListManager.deleteAlbum($('#albumId'),$(this).val());
+						myListManager.deleteAlbum($('input:checkbox[id^=albumId_]').val(),$(this).val());
 						console.log('delete 완료');
 					}
 				});

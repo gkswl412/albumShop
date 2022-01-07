@@ -7,7 +7,9 @@ import javax.servlet.http.HttpSession;
 import org.albumshop.domain.Album;
 import org.albumshop.domain.MyList;
 import org.albumshop.domain.Song;
+import org.albumshop.domain.User;
 import org.albumshop.service.AlbumService;
+import org.albumshop.service.CartService;
 import org.albumshop.service.MyListService;
 import org.albumshop.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class AlbumDetailController {
 	private HttpSession session;
 	@Autowired
 	private MyListService myListService;
+	@Autowired
+	private CartService cartService;
 	
 	@GetMapping(value="albumdetail")
 	public String albumDetail(Model model, Long albumId) {
@@ -43,6 +47,12 @@ public class AlbumDetailController {
 		//마이리스트 정보 저장
 		List<Object[]> myLists = myListService.getAllMyLists(albumId);
 		model.addAttribute("myLists",myLists);
+
+		// CartId 저장
+		User user = (User) session.getAttribute("user");
+		String userId = user.getId();
+		Long cartId = cartService.cartIdFindByUserId(userId);
+		model.addAttribute("cartId", cartId);
 		return "albumDetail";
 	}
 	
