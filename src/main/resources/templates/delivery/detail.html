@@ -23,7 +23,9 @@
     </th:block>
     <th:block layout:frgment="script">
         <script th:inline="javascript">
+            var deliveryId = 0;
             $(function () {
+                deliveryId = $('#deliveryId').val();
                getOrderTotalPrice();
             });
 
@@ -46,6 +48,17 @@
                 var finalOrderTotalPrice = orderTotalPrice + deliveryFee;
                 $("#orderTotalPrice").html(finalOrderTotalPrice + '원 (배송비 ' + deliveryFee + '원 포함)');
             };
+            function modifyOrder() {
+                var orderState = $('#orderState').val();
+                console.log(orderState);
+                if (orderState == '배송완료') {
+                    alert('배송완료된 주문은 변경하거나 취소할 수 없습니다.');
+                } else {
+
+                    location.href = '/delivery/modify?deliveryId=' + deliveryId;
+
+                }
+            }
         </script>
     </th:block>
 </head>
@@ -96,7 +109,7 @@
                     <td th:text="${deliveryDetail.getDeliveryUpdateDate()}"></td>
                 </tr>
                 <tr>
-                    <td>주문상태</td>
+                    <td>주문상태<input type="hidden" id="orderState" th:value="${deliveryDetail.getOrderState()}"></td>
                     <td th:text="${deliveryDetail.getOrderState()}"></td>
                 </tr>
                 <tr>
@@ -119,9 +132,9 @@
         </table>
     </div>
     <div id="buttons" class="center-block">
+        <input type="hidden" id="deliveryId" th:value="${deliveryDetail.getId()}">
         <input type="button" class="btn btn-default btn-lg" onclick="location.href='/delivery/list'" value="주문 목록보기">
-        <input type="button" class="btn btn-default btn-lg" value="주문 수정하기">
-        <input type="button" class="btn btn-default btn-lg"  value="주문 취소하기">
+        <input type="button" class="btn btn-primary btn-lg" onclick="modifyOrder()" value="주문 수정/취소하기">
     </div>
 </div>
 </body>

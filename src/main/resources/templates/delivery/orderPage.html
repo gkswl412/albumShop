@@ -69,7 +69,7 @@
             function execution_daum_address(){
                 new daum.Postcode({
                     oncomplete: function(data) {
-/*                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
                         // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                         var addr = ''; // 주소 변수
                         var extraAddr = ''; // 참고항목 변수
@@ -101,20 +101,31 @@
 
                         } else {
                             document.getElementById("sample6_extraAddress").value = '';
-                        }*/
+                        }
 
-                        $("#zonecode").val(data.zonecode);/*
+                        $("#zonecode").val(data.zonecode);
                         //$("[name=memberAddr1]").val(data.zonecode);    // 대체가능
-                        $("#addr2").val(addr);
+                        $("#addressdetail").val(addr);
                         //$("[name=memberAddr2]").val(addr);            // 대체가능
                         // 커서를 상세주소 필드로 이동한다.
-                        // 상세주소 입력란 disabled 속성 변경 및 커서를 상세주소 필드로 이동한다.*/
+                        // 상세주소 입력란 disabled 속성 변경 및 커서를 상세주소 필드로 이동한다.
                         $("#zonecode").attr("readonly",true);
-                        $("#addressdetail").focus();
+                        $("#addressdetail2").focus();
                     }
                 }).open();
             }
 
+            function toggleAddress() {
+                if ($('#newaddress').is(":checked") == true) {
+                    $('#zonecode').val('');
+                    $('#addressdetail').val('');
+                    $('#addressdetail2').val('');
+                } else if ($('#defaultaddress').is(":checked") == true) {
+                    var userAddress = $('#useraddress').val();
+                    $('#addressdetail').val(userAddress);
+                }
+
+            }
         </script>
     </th:block>
 </head>
@@ -170,16 +181,20 @@
                     <tr>
                         <td>
                             <div class="radio">
-                                <label><input type="radio" name="address" value="defaultaddress" checked> 사용자 정보에 등록된 주소 </label>
-                                <label><input type="radio" name="address" value="newaddress"> 새로운 배송지 </label>
+                                <label><input type="radio" name="address" id="defaultaddress" value="defaultaddress" onclick="toggleAddress()" checked> 사용자 정보에 등록된 주소 </label>
+                                <label><input type="radio" name="address" id="newaddress" value="newaddress" onclick="toggleAddress()"> 새로운 배송지 </label>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td><input class="form-control" type="text" id="zonecode" readonly><input type="button" class="btn btn-default" onclick="execution_daum_address()" value="우편번호 찾기"></td>
+                        <td><input class="form-control" type="text" id="zonecode" onclick="execution_daum_address()" readonly><input type="button" class="btn btn-default" onclick="execution_daum_address()" value="우편번호 찾기"></td>
                     </tr>
                     <tr>
-                        <td><input class="form-control" type="text" id="addressdetail" th:name="addressdetail" th:value="${session.user.getAddress()}"></td>
+                        <td><input class="form-control" type="text" id="addressdetail" th:name="addressdetail" th:value="${session.user.getAddress()}"><input
+                                type="hidden" id="useraddress" th:value="${session.user.getAddress()}"></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" class="form-control" id="addressdetail2" placeholder="상세 주소"></td>
                     </tr>
                 </table>
             </div>
@@ -213,7 +228,7 @@
                         <td>
                             <div class="radio">
                                 <label><input type="radio" name="paymethod" value="creditcard" checked> 신용카드 </label>
-                                <label><input type="radio" name="paymethod" value="bank"> 무통장입금 </label>
+                                <label><input type="radio" name="paymethod" value="bank" disabled> 무통장입금 </label>
                             </div>
                         </td>
                     </tr>

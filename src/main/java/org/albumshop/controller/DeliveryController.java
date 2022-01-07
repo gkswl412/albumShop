@@ -52,7 +52,7 @@ public class DeliveryController {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            return "redirect:user/login";
+            return "redirect:/user/login";
         }
 
         System.out.println(user.getId());
@@ -75,7 +75,7 @@ public class DeliveryController {
         System.out.println("address : " + address);
 
         if (user == null) {
-            return "redirect:user/login";
+            return "redirect:/user/login";
         }
 
         return "delivery/orderSuccess";
@@ -86,7 +86,7 @@ public class DeliveryController {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            return "redirect:user/login";
+            return "redirect:/user/login";
         }
 
         String userId = user.getId();
@@ -102,7 +102,7 @@ public class DeliveryController {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            return "redirect:user/login";
+            return "redirect:/user/login";
         }
 
         String userId = user.getId();
@@ -115,6 +115,26 @@ public class DeliveryController {
         model.addAttribute("userId", userId);
 
         return "delivery/detail";
+    }
+
+    @GetMapping(value = "/delivery/modify")
+    public String deliveryDetailModify(Model model, Long deliveryId) {
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) {
+            return "redirect:/user/login";
+        }
+
+        String userId = user.getId();
+
+        List<DeliveryAlbumVO> deliveryAlbumList = deliveryService.getDeliveryDetail(deliveryId);
+        Delivery delivery = deliveryService.getDeliveryDetailById(deliveryId);
+
+        model.addAttribute("deliveryAlbmuList", deliveryAlbumList);
+        model.addAttribute("deliveryDetail", delivery);
+        model.addAttribute("userId", userId);
+
+        return "delivery/modify";
     }
 /*
     @RequestMapping(value = "/delivery/delete")
