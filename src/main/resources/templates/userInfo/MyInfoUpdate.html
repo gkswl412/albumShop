@@ -12,6 +12,36 @@
 <title>[[${session.user.id}]]님의 수정 페이지</title>
 <th:block layout:frgment="style">
 <style>
+.emailCheck_1 {
+	color: green;
+	display: none;
+}
+
+.emailCheck_2 {
+	color: red;
+	display: none;
+}
+
+.id_input_re_1 {
+	color: green;
+	display: none;
+}
+
+.id_input_re_2 {
+	color: red;
+	display: none;
+}
+
+.nickCheck_1 {
+	color: green;
+	display: none;
+}
+
+.nickCheck_2 {
+	color: red;
+	display: none;
+}
+
 #addr1 {
 		width:40%; 
 		display:inline;
@@ -37,7 +67,9 @@
 			<img th:alt="${session.user.photo}" th:src="|/images/userProfile/${session.user.photo}|" width="210px" height="210px">
 			</td>
 			</tr>
-			</table>
+			</table><br>
+			<button class="photochange">사진 등록</button><br>
+				<div id="here3"></div><br>
 				<div class="form-group">
 					<label for="name">이름</label> 
 					<input type="text" class="form-control" id="name" name="name" th:value="${session.user.name}" required>
@@ -81,8 +113,7 @@
 					<span class="nickCheck_2">이미 존재하는 닉네임입니다.</span>
 				</div><br>
 				
-				<button class="photochange">사진 등록</button><br>
-				<div id="here3"></div><br>
+				
 				
 				<label for="grade"></label> 
 				<input type="hidden" id="grade"	name="grade" value="Bronze" /> 
@@ -93,14 +124,13 @@
 			
 			<button id="btnupdate" type="submit" class="btn btn-warning">수정하기</button>
 			<button id="btndelete" type="submit" class="btn btn-danger">탈퇴하기</button>
+			<br>
+			<div id="a6"></div>
 			<!-- user info togoUpdate  -->
 			<form id="update" action="/UserUpdate" method="post"></form>
-			
 			<!-- user info togoDelete  -->
-			<form id="delete" action="/UserDelete" method="post"></form>
-			
-			
-		</div>
+			<form id="delete" action="/UserDeleteForm" method="post"></form>
+			</div>
 	</div>
 
 <th:block layout:fragment="script">
@@ -196,7 +226,6 @@ $('#nickName').on("propertychange change keyup paste input", function(){
 		}
 	}); 	
 });
-
 var form1 = $("#update");
 $('#btnupdate').click(function(e){
 	var id = [[${session.user.id}]];
@@ -207,26 +236,36 @@ $('#btnupdate').click(function(e){
 	var birth = $("#birth").val();
 	var gender = $("#gender").val();
 	e.preventDefault();
-	form1.find($("input")).remove();
-	form1.append("<input type='hidden' name='id' value='" + id + "'>" );
-	form1.append("<input type='hidden' name='name' value='" + name + "'>" );
-	form1.append("<input type='hidden' name='nickName' value='" + nickName + "'>" );
-	form1.append("<input type='hidden' name='email' value='" + email + "'>" );
-	form1.append("<input type='hidden' name='phone' value='" + phone + "'>" );
-	form1.append("<input type='hidden' name='birth' value='" + birth + "'>" );
-	form1.append("<input type='hidden' name='gender' value='" + gender + "'>" );
-	form1.submit();
+	if(nickName==''){
+		alert("NickName을 입력 바랍니다.");
+	}else if(name==""){
+		alert("Name을 입력 바랍니다.");
+	}else if(email==""){
+		alert("Email을 입력 바랍니다.");
+	}else if(phone==""){
+		alert("Phone을 입력 바랍니다.");
+	}else{
+		form1.find($("input")).remove();
+		form1.append("<input type='hidden' name='id' value='" + id + "'>" );
+		form1.append("<input type='hidden' name='name' value='" + name + "'>" );
+		form1.append("<input type='hidden' name='nickName' value='" + nickName + "'>" );
+		form1.append("<input type='hidden' name='email' value='" + email + "'>" );
+		form1.append("<input type='hidden' name='phone' value='" + phone + "'>" );
+		form1.append("<input type='hidden' name='birth' value='" + birth + "'>" );
+		form1.append("<input type='hidden' name='gender' value='" + gender + "'>" );
+		form1.submit();	
+	}
 });
 
 var form2 = $("#delete");
-$('#btndelete').click(function(e){
+$("#btndelete").click(function(e){
 	var id = [[${session.user.id}]];
+	console.log(id);
 	e.preventDefault();
 	form2.find($("input")).remove();
 	form2.append("<input type='hidden' name='id' value='" + id + "'>" );
-	form2.submit();
+	form2.submit();	
 });
-
 
 $(document).ready(function(e){
 	$(".pwchange").on('click', function(){
@@ -248,6 +287,13 @@ $(document).ready(function(e){
 		var photo = [[${session.user.photo}]];
 		jsList.photochangeform(id,photo);
 	});
+	
+	$("#btndelete").on('click',function(){
+		var id = [[${session.user.id}]];
+		jsList.passcheck(id);
+	});
+	
+	
 });
 </script>
 </th:block>

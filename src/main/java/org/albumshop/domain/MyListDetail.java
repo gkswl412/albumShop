@@ -6,6 +6,9 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,5 +27,6 @@ import lombok.ToString;
 public class MyListDetail {
 	
 	@EmbeddedId
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private MultiIdMyListAlbum multiId;
 }

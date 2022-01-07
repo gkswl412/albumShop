@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.albumshop.domain.Album;
 import org.albumshop.domain.Review;
+import org.albumshop.service.MyListService;
 import org.albumshop.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,6 +75,5 @@ public class ReviewRestController {
 			@PathVariable("job") String job){
 		return reviewService.checkEmpathyTable(userId, albumId, job);
 	}
-	
-	
+
 }

@@ -18,22 +18,6 @@ var btnManager = (function(){
 		return result;
 	};
 	
-	var clickMakeMyList = function(self){
-		if(self.parent().children("#myListTitle").val() <= 0){
-			alert("리스트 이름은 필수 입력 사항 입니다.");
-		}else{
-			$.ajax({
-				url:"/makeMyList",
-				type:"post",
-				data:{
-					"myListTitle":self.parent().children("#myListTitle").val()
-				}
-			}).done(function(data){
-				self.parent().parent().children("div").eq(1).children("ul").append("<li>차</li>");
-			});
-		}
-	}
-	
 	var clickAdd = function(albumId){
 		if(check(albumId)==true){
 			alert("이미 작성한 리뷰가 있습니다!! 하나의 앨범에 하나의 리뷰만 작성할 수 있습니다.");
@@ -210,7 +194,6 @@ var btnManager = (function(){
 	};
 	
 	return {
-		clickMakeMyList:clickMakeMyList,
 		clickAdd:clickAdd,
 		clickUpdate:clickUpdate,
 		clickDelete:clickDelete,

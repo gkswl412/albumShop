@@ -6,11 +6,15 @@ import org.albumshop.persistence.AlbumRepository;
 import org.albumshop.persistence.CartDetailRepository;
 import org.albumshop.persistence.CartRepository;
 import org.albumshop.persistence.UserRepository;
+import org.albumshop.vo.CartDetailVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -111,6 +115,19 @@ public class CartService {
                 .cart(cart).album(album).build();
         CartDetail cartDetail = cartDetailRepository.findById(multiIdCartAlbum).orElse(null);
         cartDetailRepository.delete(cartDetail);
+    }
+
+    public void orderCartDetail1(Long cartId, List<Long> albumIds) {
+        Cart cart = cartRepository.findById(cartId).orElse(null);
+        ArrayList<Album> albums = new ArrayList<>();
+
+        IntStream.rangeClosed(0, albumIds.size()-1).forEach(i -> {
+            Album album = albumRepository.findById(albumIds.get(i)).orElse(null);
+            albums.add(album);
+        });
+
+        ArrayList<CartDetailVO> cartDetails = new ArrayList<>();
+
     }
 
 

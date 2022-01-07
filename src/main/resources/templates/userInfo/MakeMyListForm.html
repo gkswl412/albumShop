@@ -15,7 +15,11 @@ $(function(){
 	$("#creatalbumtitle").on('click',function(){
 		var id = "[[${user.id}]]";
 		var titlename = $("#titlename").val();
-		jsList.listmake(id,titlename);
+		if(titlename==''){
+			alert("Title를 입렵 바랍니다.")
+		}else{
+			jsList.listmake(id,titlename);	
+		}
 	});
 });
 </script>

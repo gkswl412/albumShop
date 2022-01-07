@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.albumshop.domain.Album;
+import org.albumshop.domain.MyList;
 import org.albumshop.domain.Song;
 import org.albumshop.service.AlbumService;
 import org.albumshop.service.MyListService;
@@ -39,14 +40,15 @@ public class AlbumDetailController {
 		List<Song> songs = albumService.getSongsOfAlbum(album);
 		model.addAttribute("songs",songs);
 		
+		//마이리스트 정보 저장
+		List<Object[]> myLists = myListService.getAllMyLists(albumId);
+		model.addAttribute("myLists",myLists);
 		return "albumDetail";
 	}
 	
 	@PostMapping(value="makeMyList")
 	@ResponseBody
-	public String  makeMyList(String myListTitle) {
-		myListService.makeMyList(myListTitle);
-		return myListTitle;
+	public MyList makeMyList(String myListTitle){
+		return myListService.makeMyList(myListTitle);
 	}
-
 }

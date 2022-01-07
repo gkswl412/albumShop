@@ -30,7 +30,21 @@ public class AlbumDetailTest {
 	@Autowired
 	MyListRepository mylistRepo;
 	
-	@Test
+	//@Test
+	public void test3() {
+		mylistRepo.getAllMyList(3L,"zzzz").forEach(item->{
+			System.out.println(Arrays.toString(item));
+		});
+	}
+	
+	//@Test
+	public void test2() {
+		mylistRepo.getMyListId(3L).forEach(i->{
+			System.out.println(i);
+		});
+	}
+	
+	//@Test
 	public void test() {
 		userRepo.findById("zzzz").ifPresent(user->{
 			MyList mylist = MyList.builder().user(user).myListTitle("만들어져라").build();

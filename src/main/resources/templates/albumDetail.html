@@ -21,7 +21,7 @@
 	      		<img alt="${album.cover}" th:src="@{${album.cover}}" width=350px height=350px>
 	    	</div>
 	    	<div class="col-sm-4">
-	    		<div class="titleBox"><h1>[[${album.title}]]</h1></div>
+	    		<div class="titleBox"><h1 style="font-size: 30px; font-weight: lighter; color: #555555;">[[${album.title}]]</h1></div>
 		      	<table class="table">
 		    		<tr>
 		    			<th width=120>Artist</th>
@@ -55,7 +55,7 @@
 		    	</table>
 	    	</div>
 		    <div class="col-sm-4">
-		    	<h3>Track</h3>
+		    	<h3 style="font-size: 30px; font-weight: lighter; color: #555555;">Track</h3>
 			      	<ul id="track" class="list-group" style="position:relative; z-index:1">
 			      		<li class="list-group-item" th:each="song:${songs}" th:value="${song.playTime}">
 			      			<span th:text="${song.trackNum}"></span>
@@ -68,10 +68,16 @@
 	    
 		    <!-- Review Page -->
 		    <div class="col-sm-4" id="purchaseMenu" style="text-align:center">
+				<form action="/cart/add" method="get">
+					<input type="text" th:value="comet" id="userId">
+					<input type="text" th:value="1" id="albumId">
+					<input type="text" th:value="19" id="cartId">
+					<input type="submit" class="btn btn-primary btn-lg" value="장바구니에 담기">
+				</form>
+<!--
 				<button type="button" class="btn btn-secondary btn-lg">바로 구매</button>
-				<button type="button" class="btn btn-primary btn-lg" onclick="addCart()">장바구니에 담기</button>
+				<button type="button" class="btn btn-primary btn-lg" onclick="addCart()">장바구니에 담기</button>-->
 				<!--<input type="text" th:value="${session.user.id}" id="userId">-->
-				<input type="hidden" th:value="${cartId}" id="cartId">
 			</div>
 			<div class="col-sm-8" id="reviewAndCatalog">
 				<!-- The Modal -->
@@ -85,10 +91,11 @@
 							</div>
 
 							<!-- Modal body -->
-							<div style='padding:10px' class="modal-body">
-								<ul th:if=${session.user!=null} style='list-style:none; padding:0; margin:0'>
-									<li th:each="mylist:${session.user.mylists}">
-										<input type='checkbox' th:value="${mylist.id}">&nbsp;[[${mylist.myListTitle}]]</input>
+							<div class="modal-body">
+								<ul style="list-style:none; padding:0; margin:0">
+									<li th:each="mylist:${myLists}">
+										<span style="display:inline" th:if=${mylist[2]=='true'}><input class='checkbox' type='checkbox' th:value=${mylist[0]} checked>&nbsp;[[${mylist[1]}]]</span>
+										<span style="display:inline" th:if=${mylist[2]!='true'}><input class='checkbox' type='checkbox' th:value=${mylist[0]}>&nbsp;[[${mylist[1]}]]</span>
 									</li>
 								</ul>
 							</div>
@@ -126,6 +133,8 @@
 		<script th:inline="javascript" th:src="@{'/js/reviewCRUDModule.js'}"></script>
 		<!-- reply CRUD Module import -->
 		<script th:inline="javascript" th:src="@{'/js/replyCRUDModule.js'}"></script>
+		<!-- myList CRUD Module import -->
+		<script th:inline="javascript" th:src="@{'/js/myListCRUDModule.js'}"></script>
 		<!-- albumDetail Page관련 함수 import -->
 		<script th:inline="javascript" th:src="@{'/js/albumDetailPageFunctionCollection.js'}"></script>
 		<!-- albumDetail Page Btn Module import -->
@@ -165,7 +174,7 @@
 				});
 				/* 새로운 마이리스트 만들기 버튼 클릭시 이벤트 */
 				$(document).on('click','#makeMyList',function(){
-					btnManager.clickMakeMyList($(this));
+					myListManager.makeMyList($(this));
 				});
 		
 				/* 리뷰 공감, 비공감 실시간 표현을 위한 ajax코드를 담고있는 콜백함수, 파라메터로 review id와 job정보를 가진다. */
@@ -215,6 +224,13 @@
 				/* reply_reply create */
 				$(document).on('click','#reply_reply_create',function(){
 					replyManager.create($(this),[[${album.id}]],$(this).parent().parent().parent().parent().parent().parent().parent().parent().attr("id"),'reply_reply_create');
+				});
+				$(document).on('change','.checkbox',function(){
+					if($(this).is(":checked")){
+						myListManager.insertAlbum([[${album.id}]],$(this).val());
+					}else{
+						myListManager.deleteAlbum([[${album.id}]],$(this).val());
+					}
 				});
 			});
 		</script>

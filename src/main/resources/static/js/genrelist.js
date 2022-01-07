@@ -135,22 +135,22 @@ var jsList = (function() {
 	"id":id,
 	"titlename":titlename
 	}
-	}).done(function(form){
-	$("#a5").html("");
+	}).done(function(mylist){
+	$("#a1").children("table").children("tbody").append("<tr value='"+ mylist.id +"'><td><button class='mylist'>"+ mylist.myListTitle +"</button></td>"+
+			"<td><button class='mylistdelete' value='"+ mylist.id +"'>삭제</button></td></tr>");
 	});
 	};
 	
-	var mylistdelete = function(id){
+	var mylistdelete = function(id,self){
 	$.ajax({
 	url:"/MyListDelete",
 	type:"GET",
 	data:{"id":id}
-	}).done(function(form){
-	$("#a1").html("")
-	})
+	}).done(function(id){
+		self.parent().parent().remove();
+	});
 	};
-	
-	
+		
 	return{
 	clicklist: clicklist,
 	passcheckform: passcheckform,
@@ -164,7 +164,6 @@ var jsList = (function() {
 	listmakeform:listmakeform,
 	listmake:listmake,
 	mylistdelete:mylistdelete
-	
 	}
 	
 })();

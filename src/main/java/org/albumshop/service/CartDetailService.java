@@ -23,7 +23,6 @@ public class CartDetailService {
 
     public List<CartDetailVO> getCartList(User user) {
         List<Object[]> cartDetailObjList;
-        //User user = userRepository.findById(userId).orElse(null);
         Cart cart = cartRepository.findByUserId(user.getId());
         if (cart == null) {
             return null;
