@@ -30,4 +30,9 @@ public interface CartDetailRepository extends CrudRepository<CartDetail, MultiId
     @Modifying
     @Query(value = "delete from cart_detail where cart_id = ?1", nativeQuery = true)
     void deleteByCartId(Long cartId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "insert into cart_detail values (1, ?1, ?2)", nativeQuery = true)
+    void insertIntoCartDetail(Long cartId, Long albumId);
 }
