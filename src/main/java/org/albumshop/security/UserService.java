@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import org.albumshop.domain.Cart;
 import org.albumshop.domain.User;
 import org.albumshop.persistence.CartRepository;
 import org.albumshop.persistence.UserRepository;
@@ -42,6 +43,10 @@ public class UserService implements UserDetailsService{
 		      user.setPass(pass);
 			  //cartRepository.save(user);
 		System.out.println("암호화된 pass:" + pass);
+
+		Cart cart = Cart.createCart(user);
+		cartRepository.save(cart);
+		System.out.println("cart Saved");
 
 		return urepo.save(user);
 	}

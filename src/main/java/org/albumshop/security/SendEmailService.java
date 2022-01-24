@@ -27,11 +27,11 @@ public class SendEmailService {
 		// Mail Server 설정
 		String charSet = "utf-8";
 		String hostSMTP = "smtp.gmail.com"; // 네이버 이용시 smtp.naver.com
-		String hostSMTPid = "ghjs7511@gmail.com";
-		String hostSMTPpwd = "ghjs@4528";
+		String hostSMTPid = "구글아이디";
+		String hostSMTPpwd = "구글비밀번호";
 
 		// 보내는 사람 EMail, 제목, 내용
-		String fromEmail = "ghjs7511@gmail.com";
+		String fromEmail = "이메일";
 		String fromName = "AlbumShop";
 		String subject = "";
 		String msg = "";
