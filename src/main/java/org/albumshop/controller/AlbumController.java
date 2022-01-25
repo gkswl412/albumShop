@@ -40,8 +40,6 @@ public class AlbumController {
 	SongRepository sRepo;
 	@Autowired
 	ReviewRepository reRepo;
-	
-	
 
 	@RequestMapping("/albumlist")
 	public String test(Long id, Model model) {
